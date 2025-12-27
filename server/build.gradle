@@ -35,3 +35,16 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+tasks.named('bootBuildImage') {
+	builder = 'paketobuildpacks/builder-noble-java-tiny:latest'
+	imageName = "${project.group}/${project.name}:${project.version}"
+
+	docker {
+		builderRegistry {
+			// Use token auth to bypass username/password validation
+            // because otherwise error about `username` not set
+			token = ''
+		}
+	}
+}
