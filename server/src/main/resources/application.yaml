@@ -1,3 +1,21 @@
 spring:
-  application:
-    name: six-degrees-app
+    application:
+        name: six-degrees-app
+    security:
+        user:
+            name: admin
+            password: admin
+    docker:
+        compose:
+            lifecycle-management: start_only
+    threads:
+        virtual:
+            enabled: true
+logging:
+    level:
+        org.kidoni: debug
+tmdb:
+    api:
+        url: "https://api.themoviedb.org/"
+        api-key: ${TMDB_API_TOKEN}
+        access-token: ${TMDB_ACCESS_TOKEN}
