@@ -7,7 +7,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.StringJoiner;
-import org.kidoni.sixdegrees.tmdb.client.ApiClient;
+import org.kidoni.sixdegrees.tmdb.client.ApiClientUtil;
 
 @JsonPropertyOrder({
     MovieDetailsProductionCountries.JSON_PROPERTY_ISO31661,
@@ -152,12 +152,12 @@ public class MovieDetailsProductionCountries {
 
         // add `iso_3166_1` to the URL query string
         if (getIso31661() != null) {
-            joiner.add(String.format("%siso_3166_1%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getIso31661()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%siso_3166_1%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getIso31661()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `name` to the URL query string
         if (getName() != null) {
-            joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         return joiner.toString();

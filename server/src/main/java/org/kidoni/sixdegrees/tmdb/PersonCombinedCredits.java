@@ -9,13 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
-import org.kidoni.sixdegrees.tmdb.client.ApiClient;
+import org.kidoni.sixdegrees.tmdb.client.ApiClientUtil;
+import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
 
 @JsonPropertyOrder({
     PersonCombinedCredits.JSON_PROPERTY_CAST,
     PersonCombinedCredits.JSON_PROPERTY_CREW,
     PersonCombinedCredits.JSON_PROPERTY_ID
 })
+@Node
 public class PersonCombinedCredits {
     public static final String JSON_PROPERTY_CAST = "cast";
     @jakarta.annotation.Nullable
@@ -26,7 +29,7 @@ public class PersonCombinedCredits {
     private List<PersonCombinedCreditsCrew> crew = new ArrayList<>();
 
     public static final String JSON_PROPERTY_ID = "id";
-    @jakarta.annotation.Nullable
+    @Id
     private Integer id = 0;
 
     public PersonCombinedCredits() {
@@ -222,7 +225,7 @@ public class PersonCombinedCredits {
 
         // add `id` to the URL query string
         if (getId() != null) {
-            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         return joiner.toString();

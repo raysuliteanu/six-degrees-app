@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
-import org.kidoni.sixdegrees.tmdb.client.ApiClient;
+import org.kidoni.sixdegrees.tmdb.client.ApiClientUtil;
 
 @JsonPropertyOrder({
     Person.JSON_PROPERTY_ADULT,
@@ -387,42 +387,42 @@ public class Person {
 
         // add `adult` to the URL query string
         if (getAdult() != null) {
-            joiner.add(String.format("%sadult%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAdult()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sadult%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getAdult()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `gender` to the URL query string
         if (getGender() != null) {
-            joiner.add(String.format("%sgender%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getGender()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sgender%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getGender()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `id` to the URL query string
         if (getId() != null) {
-            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `known_for_department` to the URL query string
         if (getKnownForDepartment() != null) {
-            joiner.add(String.format("%sknown_for_department%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getKnownForDepartment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sknown_for_department%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getKnownForDepartment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `name` to the URL query string
         if (getName() != null) {
-            joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `original_name` to the URL query string
         if (getOriginalName() != null) {
-            joiner.add(String.format("%soriginal_name%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOriginalName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%soriginal_name%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getOriginalName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `popularity` to the URL query string
         if (getPopularity() != null) {
-            joiner.add(String.format("%spopularity%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPopularity()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%spopularity%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getPopularity()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `profile_path` to the URL query string
         if (getProfilePath() != null) {
-            joiner.add(String.format("%sprofile_path%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProfilePath()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sprofile_path%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getProfilePath()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `known_for` to the URL query string

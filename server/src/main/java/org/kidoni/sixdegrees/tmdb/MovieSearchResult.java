@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
-import org.kidoni.sixdegrees.tmdb.client.ApiClient;
+import org.kidoni.sixdegrees.tmdb.client.ApiClientUtil;
 
 @JsonPropertyOrder({
     MovieSearchResult.JSON_PROPERTY_PAGE,
@@ -226,7 +226,7 @@ public class MovieSearchResult {
 
         // add `page` to the URL query string
         if (getPage() != null) {
-            joiner.add(String.format("%spage%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%spage%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getPage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `results` to the URL query string
@@ -241,12 +241,12 @@ public class MovieSearchResult {
 
         // add `total_pages` to the URL query string
         if (getTotalPages() != null) {
-            joiner.add(String.format("%stotal_pages%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTotalPages()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%stotal_pages%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getTotalPages()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `total_results` to the URL query string
         if (getTotalResults() != null) {
-            joiner.add(String.format("%stotal_results%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTotalResults()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%stotal_results%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getTotalResults()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         return joiner.toString();
