@@ -12,20 +12,19 @@ import java.util.StringJoiner;
 import org.kidoni.sixdegrees.tmdb.client.ApiClient;
 
 @JsonPropertyOrder({
-    PersonSearchResult.JSON_PROPERTY_PAGE,
-    PersonSearchResult.JSON_PROPERTY_RESULTS,
-    PersonSearchResult.JSON_PROPERTY_TOTAL_PAGES,
-    PersonSearchResult.JSON_PROPERTY_TOTAL_RESULTS
+    MovieSearchResult.JSON_PROPERTY_PAGE,
+    MovieSearchResult.JSON_PROPERTY_RESULTS,
+    MovieSearchResult.JSON_PROPERTY_TOTAL_PAGES,
+    MovieSearchResult.JSON_PROPERTY_TOTAL_RESULTS
 })
-public class PersonSearchResult {
-
+public class MovieSearchResult {
     public static final String JSON_PROPERTY_PAGE = "page";
     @jakarta.annotation.Nullable
     private Integer page = 0;
 
     public static final String JSON_PROPERTY_RESULTS = "results";
     @jakarta.annotation.Nullable
-    private List<Person> results = new ArrayList<>();
+    private List<Movie> results = new ArrayList<>();
 
     public static final String JSON_PROPERTY_TOTAL_PAGES = "total_pages";
     @jakarta.annotation.Nullable
@@ -35,10 +34,10 @@ public class PersonSearchResult {
     @jakarta.annotation.Nullable
     private Integer totalResults = 0;
 
-    public PersonSearchResult() {
+    public MovieSearchResult() {
     }
 
-    public PersonSearchResult page(@jakarta.annotation.Nullable Integer page) {
+    public MovieSearchResult page(@jakarta.annotation.Nullable Integer page) {
         this.page = page;
         return this;
     }
@@ -63,12 +62,12 @@ public class PersonSearchResult {
     }
 
 
-    public PersonSearchResult results(@jakarta.annotation.Nullable List<Person> results) {
+    public MovieSearchResult results(@jakarta.annotation.Nullable List<Movie> results) {
         this.results = results;
         return this;
     }
 
-    public PersonSearchResult addResultsItem(Person resultsItem) {
+    public MovieSearchResult addResultsItem(Movie resultsItem) {
         if (this.results == null) {
             this.results = new ArrayList<>();
         }
@@ -84,19 +83,19 @@ public class PersonSearchResult {
     @jakarta.annotation.Nullable
     @JsonProperty(JSON_PROPERTY_RESULTS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public List<Person> getResults() {
+    public List<Movie> getResults() {
         return results;
     }
 
 
     @JsonProperty(JSON_PROPERTY_RESULTS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setResults(@jakarta.annotation.Nullable List<Person> results) {
+    public void setResults(@jakarta.annotation.Nullable List<Movie> results) {
         this.results = results;
     }
 
 
-    public PersonSearchResult totalPages(@jakarta.annotation.Nullable Integer totalPages) {
+    public MovieSearchResult totalPages(@jakarta.annotation.Nullable Integer totalPages) {
         this.totalPages = totalPages;
         return this;
     }
@@ -121,7 +120,7 @@ public class PersonSearchResult {
     }
 
 
-    public PersonSearchResult totalResults(@jakarta.annotation.Nullable Integer totalResults) {
+    public MovieSearchResult totalResults(@jakarta.annotation.Nullable Integer totalResults) {
         this.totalResults = totalResults;
         return this;
     }
@@ -145,6 +144,10 @@ public class PersonSearchResult {
         this.totalResults = totalResults;
     }
 
+
+    /**
+     * Return true if this search_movie_200_response object is equal to o.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -153,11 +156,11 @@ public class PersonSearchResult {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        PersonSearchResult personSearchResult = (PersonSearchResult) o;
-        return Objects.equals(this.page, personSearchResult.page) &&
-            Objects.equals(this.results, personSearchResult.results) &&
-            Objects.equals(this.totalPages, personSearchResult.totalPages) &&
-            Objects.equals(this.totalResults, personSearchResult.totalResults);
+        MovieSearchResult searchMovie200Response = (MovieSearchResult) o;
+        return Objects.equals(this.page, searchMovie200Response.page) &&
+            Objects.equals(this.results, searchMovie200Response.results) &&
+            Objects.equals(this.totalPages, searchMovie200Response.totalPages) &&
+            Objects.equals(this.totalResults, searchMovie200Response.totalResults);
     }
 
     @Override
@@ -168,7 +171,7 @@ public class PersonSearchResult {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class PersonSearchResult {\n");
+        sb.append("class SearchMovie200Response {\n");
         sb.append("    page: ").append(toIndentedString(page)).append("\n");
         sb.append("    results: ").append(toIndentedString(results)).append("\n");
         sb.append("    totalPages: ").append(toIndentedString(totalPages)).append("\n");
@@ -231,7 +234,7 @@ public class PersonSearchResult {
             for (int i = 0; i < getResults().size(); i++) {
                 if (getResults().get(i) != null) {
                     joiner.add(getResults().get(i).toUrlQueryString(String.format("%sresults%s%s", prefix, suffix,
-                        "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+                        suffix.isEmpty() ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
                 }
             }
         }

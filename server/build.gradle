@@ -134,15 +134,3 @@ tasks.register('fixGeneratedModels') {
         }
     }
 }
-
-sourceSets {
-    main {
-        java {
-            srcDir "${layout.buildDirectory.get()}/generated/openapi/src/main/java"
-        }
-    }
-}
-
-tasks.named('compileJava') {
-    dependsOn tasks.fixGeneratedModels
-}
