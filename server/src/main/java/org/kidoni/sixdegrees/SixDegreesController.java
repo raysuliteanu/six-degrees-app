@@ -1,8 +1,8 @@
 package org.kidoni.sixdegrees;
 
-import org.kidoni.sixdegrees.tmdb.Person;
-import org.kidoni.sixdegrees.tmdb.PersonSearchResult;
 import org.kidoni.sixdegrees.tmdb.TmdbClient;
+import org.kidoni.sixdegrees.tmdb.model.PersonDetails200Response;
+import org.kidoni.sixdegrees.tmdb.model.SearchPerson200Response;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,12 +17,12 @@ public class SixDegreesController {
     }
 
     @GetMapping(path = "/search/person/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PersonSearchResult personSearch(@PathVariable final String name) {
+    public SearchPerson200Response personSearch(@PathVariable final String name) {
         return  tmdbClient.personSearch(name);
     }
 
     @GetMapping(path = "/person/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person findPerson(@PathVariable final int id) {
+    public PersonDetails200Response findPerson(@PathVariable final int id) {
         return  tmdbClient.findPersonById(id);
     }
 }

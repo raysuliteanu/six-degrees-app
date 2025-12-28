@@ -1,6 +1,8 @@
 package org.kidoni.sixdegrees.tmdb;
 
 import java.util.List;
+import org.kidoni.sixdegrees.tmdb.model.PersonDetails200Response;
+import org.kidoni.sixdegrees.tmdb.model.SearchPerson200Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -27,7 +29,7 @@ public class DefaultTmdbClient implements TmdbClient {
     }
 
     @Override
-    public PersonSearchResult personSearch(String name) {
+    public SearchPerson200Response personSearch(String name) {
         LOG.debug("Finding person with name {}", name);
         return restClient.method(HttpMethod.GET)
                 .uri((uriBuilder -> uriBuilder
@@ -36,15 +38,15 @@ public class DefaultTmdbClient implements TmdbClient {
                         .build()))
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .body(PersonSearchResult.class);
+                .body(SearchPerson200Response.class);
     }
 
     @Override
-    public Person findPersonById(int id) {
+    public PersonDetails200Response findPersonById(Integer id){
         return restClient.method(HttpMethod.GET)
                 .uri(PERSON_DETAIL_PATH + id)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .body(Person.class);
+                .body(PersonDetails200Response.class);
     }
 }

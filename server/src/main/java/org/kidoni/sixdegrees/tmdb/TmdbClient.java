@@ -1,7 +1,9 @@
 package org.kidoni.sixdegrees.tmdb;
 
-public interface TmdbClient {
-    PersonSearchResult personSearch(String name);
+import org.kidoni.sixdegrees.tmdb.model.PersonDetails200Response;
+import org.kidoni.sixdegrees.tmdb.model.SearchPerson200Response;
 
-    Person findPersonById(int id);
+public interface TmdbClient {
+    SearchPerson200Response personSearch(String name);
+    PersonDetails200Response findPersonById(Integer id);
 }
