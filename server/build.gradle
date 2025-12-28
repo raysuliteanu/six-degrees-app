@@ -81,7 +81,7 @@ openApiGenerate {
     generateApiTests = false
     generateModelTests = false
     generateApiDocumentation = false
-    generateModelDocumentation = true
+    generateModelDocumentation = false
     additionalProperties = [
         removeEnumValuePrefix: 'false'
     ]
