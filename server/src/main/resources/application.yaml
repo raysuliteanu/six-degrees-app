@@ -8,6 +8,7 @@ spring:
     docker:
         compose:
             lifecycle-management: start_only
+            file: compose-dev.yaml
     threads:
         virtual:
             enabled: true
@@ -15,7 +16,7 @@ spring:
         neo4j:
             database: tmdb-database
 neo4j:
-    uri: bolt://localhost:7687
+    uri: ${NEO4J_URI}
     authentication:
         username: ${NEO4J_USERNAME}
         password: ${NEO4J_PASSWORD}
