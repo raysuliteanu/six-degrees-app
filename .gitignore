@@ -38,3 +38,6 @@ out/
 
 .env
 CLAUDE.md
+tmdb-api.json
+tmdb_api.yaml
+notes.md

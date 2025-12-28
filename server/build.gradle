@@ -1,50 +1,139 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '4.0.1'
-	id 'io.spring.dependency-management' version '1.1.7'
-	id 'org.graalvm.buildtools.native' version '0.11.3'
+    id 'java'
+    id 'org.springframework.boot' version '4.0.1'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.graalvm.buildtools.native' version '0.11.3'
+    id 'org.openapi.generator' version '7.10.0'
 }
 
 group = 'org.kidoni'
 version = '0.0.1-SNAPSHOT'
-description = 'Demo project for Spring Boot'
+description = 'Six degrees of separation backend'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(25)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
     implementation 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // OpenAPI Generator dependencies
+    implementation 'jakarta.annotation:jakarta.annotation-api'
+    implementation 'jakarta.validation:jakarta.validation-api'
+
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
-	testImplementation 'org.springframework.boot:spring-boot-starter-actuator-test'
-	testImplementation 'org.springframework.boot:spring-boot-starter-security-test'
-	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+    testImplementation 'org.springframework.boot:spring-boot-starter-actuator-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-security-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 tasks.named('bootBuildImage') {
-	builder = 'paketobuildpacks/builder-noble-java-tiny:latest'
-	imageName = "${project.group}/${project.name}:${project.version}"
+    builder = 'paketobuildpacks/builder-noble-java-tiny:latest'
+    imageName = "${project.group}/${project.name}:${project.version}"
 
-	docker {
-		builderRegistry {
-			// Use token auth to bypass username/password validation
+    docker {
+        builderRegistry {
+            // Use token auth to bypass username/password validation
             // because otherwise error about `username` not set
-			token = ''
-		}
-	}
+            token = ''
+        }
+    }
+}
+
+openApiGenerate {
+    generatorName = 'java'
+    library = 'native'
+    inputSpec = "${projectDir}/tmdb-api.json"
+    outputDir = "${layout.buildDirectory.get()}/generated/openapi"
+    apiPackage = 'org.kidoni.sixdegrees.tmdb.api'
+    modelPackage = 'org.kidoni.sixdegrees.tmdb.model'
+    invokerPackage = 'org.kidoni.sixdegrees.tmdb.client'
+    configOptions = [
+        useJakartaEe           : 'true',
+        dateLibrary            : 'java8',
+        serializationLibrary   : 'jackson',
+        openApiNullable        : 'false',
+        hideGenerationTimestamp: 'true'
+    ]
+    // Only generate models, not API clients (we'll use our custom RestClient)
+    globalProperties = [
+        models: '',
+        apis  : 'false'
+    ]
+    typeMappings = [
+        set: 'Set'
+    ]
+    generateApiTests = false
+    generateModelTests = false
+    generateApiDocumentation = false
+    generateModelDocumentation = true
+    additionalProperties = [
+        removeEnumValuePrefix: 'false'
+    ]
+    // Skip models with known OpenAPI spec bugs
+    openapiNormalizer = [
+        'KEEP_ONLY_FIRST_TAG_IN_OPERATION': 'true'
+    ]
+}
+
+tasks.register('unzipTmdbOpenApiSpec') {
+    def gzipFile = file("${projectDir}/tmdb-api.json.gz")
+    def outputFile = file("${projectDir}/tmdb-api.json")
+
+    // Only run if output is missing or input is newer
+    inputs.file(gzipFile)
+    outputs.file(outputFile)
+
+    onlyIf {
+        !outputFile.exists() || gzipFile.lastModified() > outputFile.lastModified()
+    }
+
+    doLast {
+        ant.gunzip(src: gzipFile, dest: outputFile)
+        logger.lifecycle("Extracted ${gzipFile.name} to ${outputFile.name}")
+    }
+}
+
+// Make openApiGenerate depend on this if the spec comes from gzip
+tasks.named('openApiGenerate') {
+    dependsOn tasks.unzipTmdbOpenApiSpec
+}
+
+// Workaround for TMDB spec bug: TvSeasonDetails200Response has duplicate 'id' fields
+tasks.register('fixGeneratedModels') {
+    dependsOn tasks.openApiGenerate
+    def buildDir = layout.buildDirectory
+    doLast {
+        def file = new File(buildDir.get().asFile, "generated/openapi/src/main/java/org/kidoni/sixdegrees/tmdb/model/TvSeasonDetails200Response.java")
+        if (file.exists()) {
+            file.delete()
+        }
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir "${layout.buildDirectory.get()}/generated/openapi/src/main/java"
+        }
+    }
+}
+
+tasks.named('compileJava') {
+    dependsOn tasks.fixGeneratedModels
 }
