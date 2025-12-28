@@ -1,5 +1,10 @@
 package org.kidoni.sixdegrees.tmdb;
 
+import org.kidoni.sixdegrees.tmdb.model.MovieDetails;
+import org.kidoni.sixdegrees.tmdb.model.MovieSearchResult;
+import org.kidoni.sixdegrees.tmdb.model.PersonCombinedCredits;
+import org.kidoni.sixdegrees.tmdb.model.PersonDetails;
+import org.kidoni.sixdegrees.tmdb.model.PersonSearchResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;

@@ -1,4 +1,4 @@
-package org.kidoni.sixdegrees.tmdb;
+package org.kidoni.sixdegrees.tmdb.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
-import org.kidoni.sixdegrees.tmdb.client.ApiClientUtil;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
@@ -926,22 +925,22 @@ public class MovieDetails {
 
         // add `adult` to the URL query string
         if (getAdult() != null) {
-            joiner.add(String.format("%sadult%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getAdult()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sadult%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getAdult()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `backdrop_path` to the URL query string
         if (getBackdropPath() != null) {
-            joiner.add(String.format("%sbackdrop_path%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getBackdropPath()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sbackdrop_path%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getBackdropPath()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `belongs_to_collection` to the URL query string
         if (getBelongsToCollection() != null) {
-            joiner.add(String.format("%sbelongs_to_collection%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getBelongsToCollection()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sbelongs_to_collection%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getBelongsToCollection()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `budget` to the URL query string
         if (getBudget() != null) {
-            joiner.add(String.format("%sbudget%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getBudget()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sbudget%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getBudget()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `genres` to the URL query string
@@ -956,42 +955,42 @@ public class MovieDetails {
 
         // add `homepage` to the URL query string
         if (getHomepage() != null) {
-            joiner.add(String.format("%shomepage%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getHomepage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%shomepage%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getHomepage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `id` to the URL query string
         if (getId() != null) {
-            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `imdb_id` to the URL query string
         if (getImdbId() != null) {
-            joiner.add(String.format("%simdb_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getImdbId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%simdb_id%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getImdbId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `original_language` to the URL query string
         if (getOriginalLanguage() != null) {
-            joiner.add(String.format("%soriginal_language%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getOriginalLanguage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%soriginal_language%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getOriginalLanguage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `original_title` to the URL query string
         if (getOriginalTitle() != null) {
-            joiner.add(String.format("%soriginal_title%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getOriginalTitle()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%soriginal_title%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getOriginalTitle()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `overview` to the URL query string
         if (getOverview() != null) {
-            joiner.add(String.format("%soverview%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getOverview()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%soverview%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getOverview()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `popularity` to the URL query string
         if (getPopularity() != null) {
-            joiner.add(String.format("%spopularity%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getPopularity()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%spopularity%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getPopularity()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `poster_path` to the URL query string
         if (getPosterPath() != null) {
-            joiner.add(String.format("%sposter_path%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getPosterPath()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sposter_path%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getPosterPath()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `production_companies` to the URL query string
@@ -1016,17 +1015,17 @@ public class MovieDetails {
 
         // add `release_date` to the URL query string
         if (getReleaseDate() != null) {
-            joiner.add(String.format("%srelease_date%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getReleaseDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%srelease_date%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getReleaseDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `revenue` to the URL query string
         if (getRevenue() != null) {
-            joiner.add(String.format("%srevenue%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getRevenue()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%srevenue%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getRevenue()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `runtime` to the URL query string
         if (getRuntime() != null) {
-            joiner.add(String.format("%sruntime%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getRuntime()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sruntime%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getRuntime()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `spoken_languages` to the URL query string
@@ -1041,32 +1040,32 @@ public class MovieDetails {
 
         // add `status` to the URL query string
         if (getStatus() != null) {
-            joiner.add(String.format("%sstatus%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sstatus%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `tagline` to the URL query string
         if (getTagline() != null) {
-            joiner.add(String.format("%stagline%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getTagline()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%stagline%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getTagline()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `title` to the URL query string
         if (getTitle() != null) {
-            joiner.add(String.format("%stitle%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getTitle()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%stitle%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getTitle()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `video` to the URL query string
         if (getVideo() != null) {
-            joiner.add(String.format("%svideo%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getVideo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%svideo%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getVideo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `vote_average` to the URL query string
         if (getVoteAverage() != null) {
-            joiner.add(String.format("%svote_average%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getVoteAverage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%svote_average%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getVoteAverage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `vote_count` to the URL query string
         if (getVoteCount() != null) {
-            joiner.add(String.format("%svote_count%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getVoteCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%svote_count%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getVoteCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         return joiner.toString();

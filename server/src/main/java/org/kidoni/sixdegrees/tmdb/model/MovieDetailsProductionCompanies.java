@@ -1,4 +1,4 @@
-package org.kidoni.sixdegrees.tmdb;
+package org.kidoni.sixdegrees.tmdb.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,7 +7,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.StringJoiner;
-import org.kidoni.sixdegrees.tmdb.client.ApiClientUtil;
 
 @JsonPropertyOrder({
     MovieDetailsProductionCompanies.JSON_PROPERTY_ID,
@@ -216,22 +215,22 @@ public class MovieDetailsProductionCompanies {
 
         // add `id` to the URL query string
         if (getId() != null) {
-            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `logo_path` to the URL query string
         if (getLogoPath() != null) {
-            joiner.add(String.format("%slogo_path%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getLogoPath()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%slogo_path%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getLogoPath()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `name` to the URL query string
         if (getName() != null) {
-            joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `origin_country` to the URL query string
         if (getOriginCountry() != null) {
-            joiner.add(String.format("%sorigin_country%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getOriginCountry()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sorigin_country%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getOriginCountry()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         return joiner.toString();

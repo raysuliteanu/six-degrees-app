@@ -1,4 +1,4 @@
-package org.kidoni.sixdegrees.tmdb;
+package org.kidoni.sixdegrees.tmdb.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,7 +7,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.StringJoiner;
-import org.kidoni.sixdegrees.tmdb.client.ApiClientUtil;
 
 @JsonPropertyOrder({
     MovieDetailsSpokenLanguages.JSON_PROPERTY_ENGLISH_NAME,
@@ -184,17 +183,17 @@ public class MovieDetailsSpokenLanguages {
 
         // add `english_name` to the URL query string
         if (getEnglishName() != null) {
-            joiner.add(String.format("%senglish_name%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getEnglishName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%senglish_name%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getEnglishName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `iso_639_1` to the URL query string
         if (getIso6391() != null) {
-            joiner.add(String.format("%siso_639_1%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getIso6391()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%siso_639_1%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getIso6391()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `name` to the URL query string
         if (getName() != null) {
-            joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         return joiner.toString();

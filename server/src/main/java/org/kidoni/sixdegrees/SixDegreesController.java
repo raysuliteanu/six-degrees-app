@@ -1,10 +1,10 @@
 package org.kidoni.sixdegrees;
 
-import org.kidoni.sixdegrees.tmdb.MovieDetails;
-import org.kidoni.sixdegrees.tmdb.MovieSearchResult;
-import org.kidoni.sixdegrees.tmdb.PersonCombinedCredits;
-import org.kidoni.sixdegrees.tmdb.PersonDetails;
-import org.kidoni.sixdegrees.tmdb.PersonSearchResult;
+import org.kidoni.sixdegrees.tmdb.model.MovieDetails;
+import org.kidoni.sixdegrees.tmdb.model.MovieSearchResult;
+import org.kidoni.sixdegrees.tmdb.model.PersonCombinedCredits;
+import org.kidoni.sixdegrees.tmdb.model.PersonDetails;
+import org.kidoni.sixdegrees.tmdb.model.PersonSearchResult;
 import org.kidoni.sixdegrees.tmdb.TmdbClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;

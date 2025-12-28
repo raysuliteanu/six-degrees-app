@@ -1,4 +1,4 @@
-package org.kidoni.sixdegrees.tmdb;
+package org.kidoni.sixdegrees.tmdb.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,50 +7,49 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.StringJoiner;
-import org.kidoni.sixdegrees.tmdb.client.ApiClientUtil;
 
 @JsonPropertyOrder({
-    MovieDetailsGenres.JSON_PROPERTY_ID,
-    MovieDetailsGenres.JSON_PROPERTY_NAME
+    MovieDetailsProductionCountries.JSON_PROPERTY_ISO31661,
+    MovieDetailsProductionCountries.JSON_PROPERTY_NAME
 })
-public class MovieDetailsGenres {
-    public static final String JSON_PROPERTY_ID = "id";
+public class MovieDetailsProductionCountries {
+    public static final String JSON_PROPERTY_ISO31661 = "iso_3166_1";
     @jakarta.annotation.Nullable
-    private Integer id = 0;
+    private String iso31661;
 
     public static final String JSON_PROPERTY_NAME = "name";
     @jakarta.annotation.Nullable
     private String name;
 
-    public MovieDetailsGenres() {
+    public MovieDetailsProductionCountries() {
     }
 
-    public MovieDetailsGenres id(@jakarta.annotation.Nullable Integer id) {
-        this.id = id;
+    public MovieDetailsProductionCountries iso31661(@jakarta.annotation.Nullable String iso31661) {
+        this.iso31661 = iso31661;
         return this;
     }
 
     /**
-     * Get id
+     * Get iso31661
      *
-     * @return id
+     * @return iso31661
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_ID)
+    @JsonProperty(JSON_PROPERTY_ISO31661)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public Integer getId() {
-        return id;
+    public String getIso31661() {
+        return iso31661;
     }
 
 
-    @JsonProperty(JSON_PROPERTY_ID)
+    @JsonProperty(JSON_PROPERTY_ISO31661)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setId(@jakarta.annotation.Nullable Integer id) {
-        this.id = id;
+    public void setIso31661(@jakarta.annotation.Nullable String iso31661) {
+        this.iso31661 = iso31661;
     }
 
 
-    public MovieDetailsGenres name(@jakarta.annotation.Nullable String name) {
+    public MovieDetailsProductionCountries name(@jakarta.annotation.Nullable String name) {
         this.name = name;
         return this;
     }
@@ -76,7 +75,7 @@ public class MovieDetailsGenres {
 
 
     /**
-     * Return true if this movie_details_200_response_genres_inner object is equal to o.
+     * Return true if this movie_details_200_response_production_countries_inner object is equal to o.
      */
     @Override
     public boolean equals(Object o) {
@@ -86,21 +85,21 @@ public class MovieDetailsGenres {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        MovieDetailsGenres movieDetails200ResponseGenresInner = (MovieDetailsGenres) o;
-        return Objects.equals(this.id, movieDetails200ResponseGenresInner.id) &&
-            Objects.equals(this.name, movieDetails200ResponseGenresInner.name);
+        MovieDetailsProductionCountries movieDetails200ResponseProductionCountriesInner = (MovieDetailsProductionCountries) o;
+        return Objects.equals(this.iso31661, movieDetails200ResponseProductionCountriesInner.iso31661) &&
+            Objects.equals(this.name, movieDetails200ResponseProductionCountriesInner.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(iso31661, name);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class MovieDetails200ResponseGenresInner {\n");
-        sb.append("    id: ").append(toIndentedString(id)).append("\n");
+        sb.append("class MovieDetails200ResponseProductionCountriesInner {\n");
+        sb.append("    iso31661: ").append(toIndentedString(iso31661)).append("\n");
         sb.append("    name: ").append(toIndentedString(name)).append("\n");
         sb.append("}");
         return sb.toString();
@@ -150,14 +149,14 @@ public class MovieDetailsGenres {
 
         StringJoiner joiner = new StringJoiner("&");
 
-        // add `id` to the URL query string
-        if (getId() != null) {
-            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        // add `iso_3166_1` to the URL query string
+        if (getIso31661() != null) {
+            joiner.add(String.format("%siso_3166_1%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getIso31661()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `name` to the URL query string
         if (getName() != null) {
-            joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         return joiner.toString();

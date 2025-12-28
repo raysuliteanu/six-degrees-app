@@ -11,7 +11,7 @@
  */
 
 
-package org.kidoni.sixdegrees.tmdb;
+package org.kidoni.sixdegrees.tmdb.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
-import org.kidoni.sixdegrees.tmdb.client.ApiClientUtil;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
@@ -566,7 +565,7 @@ public class PersonDetails {
 
         // add `adult` to the URL query string
         if (getAdult() != null) {
-            joiner.add(String.format("%sadult%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getAdult()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sadult%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getAdult()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `also_known_as` to the URL query string
@@ -574,68 +573,68 @@ public class PersonDetails {
             for (int i = 0; i < getAlsoKnownAs().size(); i++) {
                 joiner.add(String.format("%salso_known_as%s%s=%s", prefix, suffix,
                     "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-                    URLEncoder.encode(ApiClientUtil.valueToString(getAlsoKnownAs().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+                    URLEncoder.encode(ModelUtil.valueToString(getAlsoKnownAs().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
             }
         }
 
         // add `biography` to the URL query string
         if (getBiography() != null) {
-            joiner.add(String.format("%sbiography%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getBiography()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sbiography%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getBiography()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `birthday` to the URL query string
         if (getBirthday() != null) {
-            joiner.add(String.format("%sbirthday%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getBirthday()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sbirthday%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getBirthday()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `deathday` to the URL query string
         if (getDeathday() != null) {
-            joiner.add(String.format("%sdeathday%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getDeathday()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sdeathday%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getDeathday()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `gender` to the URL query string
         if (getGender() != null) {
-            joiner.add(String.format("%sgender%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getGender()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sgender%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getGender()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `homepage` to the URL query string
         if (getHomepage() != null) {
-            joiner.add(String.format("%shomepage%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getHomepage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%shomepage%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getHomepage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `id` to the URL query string
         if (getId() != null) {
-            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `imdb_id` to the URL query string
         if (getImdbId() != null) {
-            joiner.add(String.format("%simdb_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getImdbId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%simdb_id%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getImdbId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `known_for_department` to the URL query string
         if (getKnownForDepartment() != null) {
-            joiner.add(String.format("%sknown_for_department%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getKnownForDepartment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sknown_for_department%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getKnownForDepartment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `name` to the URL query string
         if (getName() != null) {
-            joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `place_of_birth` to the URL query string
         if (getPlaceOfBirth() != null) {
-            joiner.add(String.format("%splace_of_birth%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getPlaceOfBirth()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%splace_of_birth%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getPlaceOfBirth()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `popularity` to the URL query string
         if (getPopularity() != null) {
-            joiner.add(String.format("%spopularity%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getPopularity()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%spopularity%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getPopularity()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `profile_path` to the URL query string
         if (getProfilePath() != null) {
-            joiner.add(String.format("%sprofile_path%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getProfilePath()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sprofile_path%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getProfilePath()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         return joiner.toString();

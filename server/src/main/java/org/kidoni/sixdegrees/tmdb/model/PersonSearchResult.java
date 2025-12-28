@@ -1,4 +1,4 @@
-package org.kidoni.sixdegrees.tmdb;
+package org.kidoni.sixdegrees.tmdb.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
-import org.kidoni.sixdegrees.tmdb.client.ApiClientUtil;
 
 @JsonPropertyOrder({
     PersonSearchResult.JSON_PROPERTY_PAGE,
@@ -223,7 +222,7 @@ public class PersonSearchResult {
 
         // add `page` to the URL query string
         if (getPage() != null) {
-            joiner.add(String.format("%spage%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getPage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%spage%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getPage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `results` to the URL query string
@@ -238,12 +237,12 @@ public class PersonSearchResult {
 
         // add `total_pages` to the URL query string
         if (getTotalPages() != null) {
-            joiner.add(String.format("%stotal_pages%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getTotalPages()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%stotal_pages%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getTotalPages()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `total_results` to the URL query string
         if (getTotalResults() != null) {
-            joiner.add(String.format("%stotal_results%s=%s", prefix, suffix, URLEncoder.encode(ApiClientUtil.valueToString(getTotalResults()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%stotal_results%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getTotalResults()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         return joiner.toString();
