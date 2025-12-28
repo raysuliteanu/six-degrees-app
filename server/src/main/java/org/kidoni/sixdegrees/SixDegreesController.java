@@ -16,8 +16,13 @@ public class SixDegreesController {
         this.tmdbClient = tmdbClient;
     }
 
-    @GetMapping(path = "/person/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PersonSearchResult getPerson(@PathVariable final String name) {
-        return  tmdbClient.findPerson(name);
+    @GetMapping(path = "/search/person/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public PersonSearchResult personSearch(@PathVariable final String name) {
+        return  tmdbClient.personSearch(name);
+    }
+
+    @GetMapping(path = "/person/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Person findPerson(@PathVariable final int id) {
+        return  tmdbClient.findPersonById(id);
     }
 }
