@@ -26,9 +26,6 @@ import java.util.StringJoiner;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
-/**
- * PersonDetails200Response
- */
 @JsonPropertyOrder({
     PersonDetails.JSON_PROPERTY_ADULT,
     PersonDetails.JSON_PROPERTY_ALSO_KNOWN_AS,
@@ -65,7 +62,7 @@ public class PersonDetails {
 
     public static final String JSON_PROPERTY_DEATHDAY = "deathday";
     @jakarta.annotation.Nullable
-    private Object deathday = null;
+    private String deathday = null;
 
     public static final String JSON_PROPERTY_GENDER = "gender";
     @jakarta.annotation.Nullable
@@ -73,7 +70,7 @@ public class PersonDetails {
 
     public static final String JSON_PROPERTY_HOMEPAGE = "homepage";
     @jakarta.annotation.Nullable
-    private Object homepage = null;
+    private String homepage = null;
 
     public static final String JSON_PROPERTY_ID = "id";
     @Id
@@ -214,7 +211,7 @@ public class PersonDetails {
     }
 
 
-    public PersonDetails deathday(@jakarta.annotation.Nullable Object deathday) {
+    public PersonDetails deathday(@jakarta.annotation.Nullable String deathday) {
         this.deathday = deathday;
         return this;
     }
@@ -227,14 +224,14 @@ public class PersonDetails {
     @jakarta.annotation.Nullable
     @JsonProperty(JSON_PROPERTY_DEATHDAY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public Object getDeathday() {
+    public String getDeathday() {
         return deathday;
     }
 
 
     @JsonProperty(JSON_PROPERTY_DEATHDAY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setDeathday(@jakarta.annotation.Nullable Object deathday) {
+    public void setDeathday(@jakarta.annotation.Nullable String deathday) {
         this.deathday = deathday;
     }
 
@@ -264,7 +261,7 @@ public class PersonDetails {
     }
 
 
-    public PersonDetails homepage(@jakarta.annotation.Nullable Object homepage) {
+    public PersonDetails homepage(@jakarta.annotation.Nullable String homepage) {
         this.homepage = homepage;
         return this;
     }
@@ -277,14 +274,14 @@ public class PersonDetails {
     @jakarta.annotation.Nullable
     @JsonProperty(JSON_PROPERTY_HOMEPAGE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public Object getHomepage() {
+    public String getHomepage() {
         return homepage;
     }
 
 
     @JsonProperty(JSON_PROPERTY_HOMEPAGE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setHomepage(@jakarta.annotation.Nullable Object homepage) {
+    public void setHomepage(@jakarta.annotation.Nullable String homepage) {
         this.homepage = homepage;
     }
 
@@ -463,10 +460,6 @@ public class PersonDetails {
         this.profilePath = profilePath;
     }
 
-
-    /**
-     * Return true if this person_details_200_response object is equal to o.
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -475,21 +468,21 @@ public class PersonDetails {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        PersonDetails personDetails200Response = (PersonDetails) o;
-        return Objects.equals(this.adult, personDetails200Response.adult) &&
-            Objects.equals(this.alsoKnownAs, personDetails200Response.alsoKnownAs) &&
-            Objects.equals(this.biography, personDetails200Response.biography) &&
-            Objects.equals(this.birthday, personDetails200Response.birthday) &&
-            Objects.equals(this.deathday, personDetails200Response.deathday) &&
-            Objects.equals(this.gender, personDetails200Response.gender) &&
-            Objects.equals(this.homepage, personDetails200Response.homepage) &&
-            Objects.equals(this.id, personDetails200Response.id) &&
-            Objects.equals(this.imdbId, personDetails200Response.imdbId) &&
-            Objects.equals(this.knownForDepartment, personDetails200Response.knownForDepartment) &&
-            Objects.equals(this.name, personDetails200Response.name) &&
-            Objects.equals(this.placeOfBirth, personDetails200Response.placeOfBirth) &&
-            Objects.equals(this.popularity, personDetails200Response.popularity) &&
-            Objects.equals(this.profilePath, personDetails200Response.profilePath);
+        PersonDetails personDetails = (PersonDetails) o;
+        return Objects.equals(this.adult, personDetails.adult) &&
+            Objects.equals(this.alsoKnownAs, personDetails.alsoKnownAs) &&
+            Objects.equals(this.biography, personDetails.biography) &&
+            Objects.equals(this.birthday, personDetails.birthday) &&
+            Objects.equals(this.deathday, personDetails.deathday) &&
+            Objects.equals(this.gender, personDetails.gender) &&
+            Objects.equals(this.homepage, personDetails.homepage) &&
+            Objects.equals(this.id, personDetails.id) &&
+            Objects.equals(this.imdbId, personDetails.imdbId) &&
+            Objects.equals(this.knownForDepartment, personDetails.knownForDepartment) &&
+            Objects.equals(this.name, personDetails.name) &&
+            Objects.equals(this.placeOfBirth, personDetails.placeOfBirth) &&
+            Objects.equals(this.popularity, personDetails.popularity) &&
+            Objects.equals(this.profilePath, personDetails.profilePath);
     }
 
     @Override
@@ -500,7 +493,7 @@ public class PersonDetails {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class PersonDetails200Response {\n");
+        sb.append("class PersonDetails {\n");
         sb.append("    adult: ").append(toIndentedString(adult)).append("\n");
         sb.append("    alsoKnownAs: ").append(toIndentedString(alsoKnownAs)).append("\n");
         sb.append("    biography: ").append(toIndentedString(biography)).append("\n");

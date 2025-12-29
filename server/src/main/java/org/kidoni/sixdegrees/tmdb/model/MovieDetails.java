@@ -52,7 +52,7 @@ public class MovieDetails {
 
     public static final String JSON_PROPERTY_BELONGS_TO_COLLECTION = "belongs_to_collection";
     @jakarta.annotation.Nullable
-    private Object belongsToCollection = null;
+    private String belongsToCollection = null;
 
     public static final String JSON_PROPERTY_BUDGET = "budget";
     @jakarta.annotation.Nullable
@@ -195,7 +195,7 @@ public class MovieDetails {
     }
 
 
-    public MovieDetails belongsToCollection(@jakarta.annotation.Nullable Object belongsToCollection) {
+    public MovieDetails belongsToCollection(@jakarta.annotation.Nullable String belongsToCollection) {
         this.belongsToCollection = belongsToCollection;
         return this;
     }
@@ -208,14 +208,14 @@ public class MovieDetails {
     @jakarta.annotation.Nullable
     @JsonProperty(JSON_PROPERTY_BELONGS_TO_COLLECTION)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public Object getBelongsToCollection() {
+    public String getBelongsToCollection() {
         return belongsToCollection;
     }
 
 
     @JsonProperty(JSON_PROPERTY_BELONGS_TO_COLLECTION)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setBelongsToCollection(@jakarta.annotation.Nullable Object belongsToCollection) {
+    public void setBelongsToCollection(@jakarta.annotation.Nullable String belongsToCollection) {
         this.belongsToCollection = belongsToCollection;
     }
 
@@ -801,10 +801,6 @@ public class MovieDetails {
         this.voteCount = voteCount;
     }
 
-
-    /**
-     * Return true if this movie_details_200_response object is equal to o.
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -813,32 +809,32 @@ public class MovieDetails {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        MovieDetails movieDetails200Response = (MovieDetails) o;
-        return Objects.equals(this.adult, movieDetails200Response.adult) &&
-            Objects.equals(this.backdropPath, movieDetails200Response.backdropPath) &&
-            Objects.equals(this.belongsToCollection, movieDetails200Response.belongsToCollection) &&
-            Objects.equals(this.budget, movieDetails200Response.budget) &&
-            Objects.equals(this.genres, movieDetails200Response.genres) &&
-            Objects.equals(this.homepage, movieDetails200Response.homepage) &&
-            Objects.equals(this.id, movieDetails200Response.id) &&
-            Objects.equals(this.imdbId, movieDetails200Response.imdbId) &&
-            Objects.equals(this.originalLanguage, movieDetails200Response.originalLanguage) &&
-            Objects.equals(this.originalTitle, movieDetails200Response.originalTitle) &&
-            Objects.equals(this.overview, movieDetails200Response.overview) &&
-            Objects.equals(this.popularity, movieDetails200Response.popularity) &&
-            Objects.equals(this.posterPath, movieDetails200Response.posterPath) &&
-            Objects.equals(this.productionCompanies, movieDetails200Response.productionCompanies) &&
-            Objects.equals(this.productionCountries, movieDetails200Response.productionCountries) &&
-            Objects.equals(this.releaseDate, movieDetails200Response.releaseDate) &&
-            Objects.equals(this.revenue, movieDetails200Response.revenue) &&
-            Objects.equals(this.runtime, movieDetails200Response.runtime) &&
-            Objects.equals(this.spokenLanguages, movieDetails200Response.spokenLanguages) &&
-            Objects.equals(this.status, movieDetails200Response.status) &&
-            Objects.equals(this.tagline, movieDetails200Response.tagline) &&
-            Objects.equals(this.title, movieDetails200Response.title) &&
-            Objects.equals(this.video, movieDetails200Response.video) &&
-            Objects.equals(this.voteAverage, movieDetails200Response.voteAverage) &&
-            Objects.equals(this.voteCount, movieDetails200Response.voteCount);
+        MovieDetails movieDetails = (MovieDetails) o;
+        return Objects.equals(this.adult, movieDetails.adult) &&
+            Objects.equals(this.backdropPath, movieDetails.backdropPath) &&
+            Objects.equals(this.belongsToCollection, movieDetails.belongsToCollection) &&
+            Objects.equals(this.budget, movieDetails.budget) &&
+            Objects.equals(this.genres, movieDetails.genres) &&
+            Objects.equals(this.homepage, movieDetails.homepage) &&
+            Objects.equals(this.id, movieDetails.id) &&
+            Objects.equals(this.imdbId, movieDetails.imdbId) &&
+            Objects.equals(this.originalLanguage, movieDetails.originalLanguage) &&
+            Objects.equals(this.originalTitle, movieDetails.originalTitle) &&
+            Objects.equals(this.overview, movieDetails.overview) &&
+            Objects.equals(this.popularity, movieDetails.popularity) &&
+            Objects.equals(this.posterPath, movieDetails.posterPath) &&
+            Objects.equals(this.productionCompanies, movieDetails.productionCompanies) &&
+            Objects.equals(this.productionCountries, movieDetails.productionCountries) &&
+            Objects.equals(this.releaseDate, movieDetails.releaseDate) &&
+            Objects.equals(this.revenue, movieDetails.revenue) &&
+            Objects.equals(this.runtime, movieDetails.runtime) &&
+            Objects.equals(this.spokenLanguages, movieDetails.spokenLanguages) &&
+            Objects.equals(this.status, movieDetails.status) &&
+            Objects.equals(this.tagline, movieDetails.tagline) &&
+            Objects.equals(this.title, movieDetails.title) &&
+            Objects.equals(this.video, movieDetails.video) &&
+            Objects.equals(this.voteAverage, movieDetails.voteAverage) &&
+            Objects.equals(this.voteCount, movieDetails.voteCount);
     }
 
     @Override
@@ -849,7 +845,7 @@ public class MovieDetails {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class MovieDetails200Response {\n");
+        sb.append("class MovieDetails {\n");
         sb.append("    adult: ").append(toIndentedString(adult)).append("\n");
         sb.append("    backdropPath: ").append(toIndentedString(backdropPath)).append("\n");
         sb.append("    belongsToCollection: ").append(toIndentedString(belongsToCollection)).append("\n");

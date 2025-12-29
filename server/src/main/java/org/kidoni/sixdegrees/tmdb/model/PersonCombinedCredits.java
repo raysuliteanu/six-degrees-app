@@ -124,10 +124,6 @@ public class PersonCombinedCredits {
         this.id = id;
     }
 
-
-    /**
-     * Return true if this person_combined_credits_200_response object is equal to o.
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -136,10 +132,10 @@ public class PersonCombinedCredits {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        PersonCombinedCredits personCombinedCredits200Response = (PersonCombinedCredits) o;
-        return Objects.equals(this.cast, personCombinedCredits200Response.cast) &&
-            Objects.equals(this.crew, personCombinedCredits200Response.crew) &&
-            Objects.equals(this.id, personCombinedCredits200Response.id);
+        PersonCombinedCredits combinedCredits = (PersonCombinedCredits) o;
+        return Objects.equals(this.cast, combinedCredits.cast) &&
+            Objects.equals(this.crew, combinedCredits.crew) &&
+            Objects.equals(this.id, combinedCredits.id);
     }
 
     @Override
@@ -150,7 +146,7 @@ public class PersonCombinedCredits {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class PersonCombinedCredits200Response {\n");
+        sb.append("class PersonCombinedCredits {\n");
         sb.append("    cast: ").append(toIndentedString(cast)).append("\n");
         sb.append("    crew: ").append(toIndentedString(crew)).append("\n");
         sb.append("    id: ").append(toIndentedString(id)).append("\n");
