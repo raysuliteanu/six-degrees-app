@@ -24,7 +24,6 @@ logging:
 tmdb:
     api:
         url: "https://api.themoviedb.org/"
-        api-key: ${TMDB_API_TOKEN}
         access-token: ${TMDB_ACCESS_TOKEN}
 management:
     endpoints:

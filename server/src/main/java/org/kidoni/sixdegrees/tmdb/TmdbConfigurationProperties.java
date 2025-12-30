@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "tmdb.api")
 public class TmdbConfigurationProperties {
     String url;
-    String apiKey;
     String accessToken;
 
     public String getAccessToken() {
@@ -16,14 +15,6 @@ public class TmdbConfigurationProperties {
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
-    }
-
-    public String getApiKey() {
-        return apiKey;
-    }
-
-    public void setApiKey(String apiKey) {
-        this.apiKey = apiKey;
     }
 
     public String getUrl() {
