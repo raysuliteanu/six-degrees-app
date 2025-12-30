@@ -12,9 +12,6 @@ spring:
     threads:
         virtual:
             enabled: true
-    data:
-        neo4j:
-            # database: tmdb-database  # Using default 'neo4j' database (Community Edition only supports one DB)
 neo4j:
     uri: ${NEO4J_URI}
     authentication:
@@ -23,8 +20,14 @@ neo4j:
 logging:
     level:
         org.kidoni: debug
+        org.springframework.data.neo4j.cypher.unrecognized: error
 tmdb:
     api:
         url: "https://api.themoviedb.org/"
         api-key: ${TMDB_API_TOKEN}
         access-token: ${TMDB_ACCESS_TOKEN}
+management:
+    endpoints:
+        web:
+            exposure:
+                include: '*'
