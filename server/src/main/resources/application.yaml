@@ -14,7 +14,7 @@ spring:
             enabled: true
     data:
         neo4j:
-            database: tmdb-database
+            # database: tmdb-database  # Using default 'neo4j' database (Community Edition only supports one DB)
 neo4j:
     uri: ${NEO4J_URI}
     authentication:

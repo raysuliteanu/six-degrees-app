@@ -8,13 +8,18 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
+
 @JsonPropertyOrder({
-    MovieDetailsGenres.JSON_PROPERTY_ID,
-    MovieDetailsGenres.JSON_PROPERTY_NAME
+        MovieDetailsGenres.JSON_PROPERTY_ID,
+        MovieDetailsGenres.JSON_PROPERTY_NAME
 })
+@Node
 public class MovieDetailsGenres {
     public static final String JSON_PROPERTY_ID = "id";
     @jakarta.annotation.Nullable
+    @Id
     private Integer id = 0;
 
     public static final String JSON_PROPERTY_NAME = "name";
@@ -41,13 +46,11 @@ public class MovieDetailsGenres {
         return id;
     }
 
-
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setId(@jakarta.annotation.Nullable Integer id) {
         this.id = id;
     }
-
 
     public MovieDetailsGenres name(@jakarta.annotation.Nullable String name) {
         this.name = name;
@@ -66,16 +69,15 @@ public class MovieDetailsGenres {
         return name;
     }
 
-
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setName(@jakarta.annotation.Nullable String name) {
         this.name = name;
     }
 
-
     /**
-     * Return true if this movie_details_200_response_genres_inner object is equal to o.
+     * Return true if this movie_details_200_response_genres_inner object is equal
+     * to o.
      */
     @Override
     public boolean equals(Object o) {
@@ -87,7 +89,7 @@ public class MovieDetailsGenres {
         }
         MovieDetailsGenres movieDetails200ResponseGenresInner = (MovieDetailsGenres) o;
         return Objects.equals(this.id, movieDetails200ResponseGenresInner.id) &&
-            Objects.equals(this.name, movieDetails200ResponseGenresInner.name);
+                Objects.equals(this.name, movieDetails200ResponseGenresInner.name);
     }
 
     @Override
@@ -138,8 +140,7 @@ public class MovieDetailsGenres {
         if (prefix == null) {
             // style=form, explode=true, e.g. /pet?name=cat&type=manx
             prefix = "";
-        }
-        else {
+        } else {
             // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
             prefix = prefix + "[";
             suffix = "]";
@@ -151,12 +152,14 @@ public class MovieDetailsGenres {
 
         // add `id` to the URL query string
         if (getId() != null) {
-            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder
+                    .encode(ModelUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `name` to the URL query string
         if (getName() != null) {
-            joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder
+                    .encode(ModelUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         return joiner.toString();

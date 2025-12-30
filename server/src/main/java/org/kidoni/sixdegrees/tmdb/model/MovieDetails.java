@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
@@ -52,7 +53,8 @@ public class MovieDetails {
 
     public static final String JSON_PROPERTY_BELONGS_TO_COLLECTION = "belongs_to_collection";
     @jakarta.annotation.Nullable
-    private String belongsToCollection = null;
+    @Transient
+    private MovieCollection belongsToCollection = null;
 
     public static final String JSON_PROPERTY_BUDGET = "budget";
     @jakarta.annotation.Nullable
@@ -60,6 +62,7 @@ public class MovieDetails {
 
     public static final String JSON_PROPERTY_GENRES = "genres";
     @jakarta.annotation.Nullable
+    @Transient
     private List<MovieDetailsGenres> genres = new ArrayList<>();
 
     public static final String JSON_PROPERTY_HOMEPAGE = "homepage";
@@ -96,10 +99,12 @@ public class MovieDetails {
 
     public static final String JSON_PROPERTY_PRODUCTION_COMPANIES = "production_companies";
     @jakarta.annotation.Nullable
+    @Transient
     private List<MovieDetailsProductionCompanies> productionCompanies = new ArrayList<>();
 
     public static final String JSON_PROPERTY_PRODUCTION_COUNTRIES = "production_countries";
     @jakarta.annotation.Nullable
+    @Transient
     private List<MovieDetailsProductionCountries> productionCountries = new ArrayList<>();
 
     public static final String JSON_PROPERTY_RELEASE_DATE = "release_date";
@@ -116,6 +121,7 @@ public class MovieDetails {
 
     public static final String JSON_PROPERTY_SPOKEN_LANGUAGES = "spoken_languages";
     @jakarta.annotation.Nullable
+    @Transient
     private List<MovieDetailsSpokenLanguages> spokenLanguages = new ArrayList<>();
 
     public static final String JSON_PROPERTY_STATUS = "status";
@@ -195,7 +201,7 @@ public class MovieDetails {
     }
 
 
-    public MovieDetails belongsToCollection(@jakarta.annotation.Nullable String belongsToCollection) {
+    public MovieDetails belongsToCollection(@jakarta.annotation.Nullable MovieCollection belongsToCollection) {
         this.belongsToCollection = belongsToCollection;
         return this;
     }
@@ -208,14 +214,14 @@ public class MovieDetails {
     @jakarta.annotation.Nullable
     @JsonProperty(JSON_PROPERTY_BELONGS_TO_COLLECTION)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public String getBelongsToCollection() {
+    public MovieCollection getBelongsToCollection() {
         return belongsToCollection;
     }
 
 
     @JsonProperty(JSON_PROPERTY_BELONGS_TO_COLLECTION)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setBelongsToCollection(@jakarta.annotation.Nullable String belongsToCollection) {
+    public void setBelongsToCollection(@jakarta.annotation.Nullable MovieCollection belongsToCollection) {
         this.belongsToCollection = belongsToCollection;
     }
 
@@ -930,9 +936,8 @@ public class MovieDetails {
         }
 
         // add `belongs_to_collection` to the URL query string
-        if (getBelongsToCollection() != null) {
-            joiner.add(String.format("%sbelongs_to_collection%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getBelongsToCollection()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
+        // Note: belongs_to_collection is a complex object, skip for URL encoding
+        // (it's only used in API responses, not requests)
 
         // add `budget` to the URL query string
         if (getBudget() != null) {

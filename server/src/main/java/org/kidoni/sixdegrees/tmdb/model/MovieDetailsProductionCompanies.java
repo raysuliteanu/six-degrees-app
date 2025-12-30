@@ -8,15 +8,20 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
+
 @JsonPropertyOrder({
-    MovieDetailsProductionCompanies.JSON_PROPERTY_ID,
-    MovieDetailsProductionCompanies.JSON_PROPERTY_LOGO_PATH,
-    MovieDetailsProductionCompanies.JSON_PROPERTY_NAME,
-    MovieDetailsProductionCompanies.JSON_PROPERTY_ORIGIN_COUNTRY
+        MovieDetailsProductionCompanies.JSON_PROPERTY_ID,
+        MovieDetailsProductionCompanies.JSON_PROPERTY_LOGO_PATH,
+        MovieDetailsProductionCompanies.JSON_PROPERTY_NAME,
+        MovieDetailsProductionCompanies.JSON_PROPERTY_ORIGIN_COUNTRY
 })
+@Node
 public class MovieDetailsProductionCompanies {
     public static final String JSON_PROPERTY_ID = "id";
     @jakarta.annotation.Nullable
+    @Id
     private Integer id = 0;
 
     public static final String JSON_PROPERTY_LOGO_PATH = "logo_path";
@@ -51,13 +56,11 @@ public class MovieDetailsProductionCompanies {
         return id;
     }
 
-
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setId(@jakarta.annotation.Nullable Integer id) {
         this.id = id;
     }
-
 
     public MovieDetailsProductionCompanies logoPath(@jakarta.annotation.Nullable String logoPath) {
         this.logoPath = logoPath;
@@ -76,13 +79,11 @@ public class MovieDetailsProductionCompanies {
         return logoPath;
     }
 
-
     @JsonProperty(JSON_PROPERTY_LOGO_PATH)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setLogoPath(@jakarta.annotation.Nullable String logoPath) {
         this.logoPath = logoPath;
     }
-
 
     public MovieDetailsProductionCompanies name(@jakarta.annotation.Nullable String name) {
         this.name = name;
@@ -101,13 +102,11 @@ public class MovieDetailsProductionCompanies {
         return name;
     }
 
-
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setName(@jakarta.annotation.Nullable String name) {
         this.name = name;
     }
-
 
     public MovieDetailsProductionCompanies originCountry(@jakarta.annotation.Nullable String originCountry) {
         this.originCountry = originCountry;
@@ -126,16 +125,15 @@ public class MovieDetailsProductionCompanies {
         return originCountry;
     }
 
-
     @JsonProperty(JSON_PROPERTY_ORIGIN_COUNTRY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setOriginCountry(@jakarta.annotation.Nullable String originCountry) {
         this.originCountry = originCountry;
     }
 
-
     /**
-     * Return true if this movie_details_200_response_production_companies_inner object is equal to o.
+     * Return true if this movie_details_200_response_production_companies_inner
+     * object is equal to o.
      */
     @Override
     public boolean equals(Object o) {
@@ -147,9 +145,9 @@ public class MovieDetailsProductionCompanies {
         }
         MovieDetailsProductionCompanies movieDetails200ResponseProductionCompaniesInner = (MovieDetailsProductionCompanies) o;
         return Objects.equals(this.id, movieDetails200ResponseProductionCompaniesInner.id) &&
-            Objects.equals(this.logoPath, movieDetails200ResponseProductionCompaniesInner.logoPath) &&
-            Objects.equals(this.name, movieDetails200ResponseProductionCompaniesInner.name) &&
-            Objects.equals(this.originCountry, movieDetails200ResponseProductionCompaniesInner.originCountry);
+                Objects.equals(this.logoPath, movieDetails200ResponseProductionCompaniesInner.logoPath) &&
+                Objects.equals(this.name, movieDetails200ResponseProductionCompaniesInner.name) &&
+                Objects.equals(this.originCountry, movieDetails200ResponseProductionCompaniesInner.originCountry);
     }
 
     @Override
@@ -202,8 +200,7 @@ public class MovieDetailsProductionCompanies {
         if (prefix == null) {
             // style=form, explode=true, e.g. /pet?name=cat&type=manx
             prefix = "";
-        }
-        else {
+        } else {
             // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
             prefix = prefix + "[";
             suffix = "]";
@@ -215,22 +212,27 @@ public class MovieDetailsProductionCompanies {
 
         // add `id` to the URL query string
         if (getId() != null) {
-            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder
+                    .encode(ModelUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `logo_path` to the URL query string
         if (getLogoPath() != null) {
-            joiner.add(String.format("%slogo_path%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getLogoPath()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%slogo_path%s=%s", prefix, suffix, URLEncoder
+                    .encode(ModelUtil.valueToString(getLogoPath()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `name` to the URL query string
         if (getName() != null) {
-            joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder
+                    .encode(ModelUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `origin_country` to the URL query string
         if (getOriginCountry() != null) {
-            joiner.add(String.format("%sorigin_country%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getOriginCountry()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sorigin_country%s=%s", prefix, suffix,
+                    URLEncoder.encode(ModelUtil.valueToString(getOriginCountry()), StandardCharsets.UTF_8)
+                            .replaceAll("\\+", "%20")));
         }
 
         return joiner.toString();

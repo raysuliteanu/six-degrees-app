@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
@@ -21,10 +22,12 @@ import org.springframework.data.neo4j.core.schema.Node;
 public class PersonCombinedCredits {
     public static final String JSON_PROPERTY_CAST = "cast";
     @jakarta.annotation.Nullable
+    @Transient
     private List<PersonCombinedCreditsCast> cast = new ArrayList<>();
 
     public static final String JSON_PROPERTY_CREW = "crew";
     @jakarta.annotation.Nullable
+    @Transient
     private List<PersonCombinedCreditsCrew> crew = new ArrayList<>();
 
     public static final String JSON_PROPERTY_ID = "id";

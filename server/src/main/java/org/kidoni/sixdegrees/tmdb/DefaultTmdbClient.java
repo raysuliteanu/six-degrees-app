@@ -26,62 +26,65 @@ public class DefaultTmdbClient implements TmdbClient {
     public DefaultTmdbClient(final TmdbConfigurationProperties tmdbConfigurationProperties) {
         LOG.debug("Initializing TmdbClient: URL {}", tmdbConfigurationProperties.getUrl());
         this.restClient = RestClient.builder()
-            .baseUrl(tmdbConfigurationProperties.getUrl())
-            .requestFactory(new JdkClientHttpRequestFactory())
-            .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + tmdbConfigurationProperties.getAccessToken())
-            .build();
+                .baseUrl(tmdbConfigurationProperties.getUrl())
+                .requestFactory(new JdkClientHttpRequestFactory())
+                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + tmdbConfigurationProperties.getAccessToken())
+                .build();
     }
 
     @Override
     public PersonSearchResult searchPersonByName(String name) {
         LOG.debug("Finding people with name {}", name);
         return restClient.method(HttpMethod.GET)
-            .uri((uriBuilder -> uriBuilder
-                .path(SEARCH_PERSON_PATH)
-                .queryParam("query", name)
-                .build()))
-            .accept(MediaType.APPLICATION_JSON)
-            .retrieve()
-            .body(PersonSearchResult.class);
+                .uri((uriBuilder -> uriBuilder
+                        .path(SEARCH_PERSON_PATH)
+                        .queryParam("query", name)
+                        .build()))
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(PersonSearchResult.class);
     }
 
     @Override
     public PersonDetails findPersonById(Integer id) {
+        LOG.debug("fetching person by id {}", id);
         return restClient.method(HttpMethod.GET)
-            .uri(PERSON_DETAIL_PATH + id)
-            .accept(MediaType.APPLICATION_JSON)
-            .retrieve()
-            .body(PersonDetails.class);
+                .uri(PERSON_DETAIL_PATH + id)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(PersonDetails.class);
     }
 
     @Override
     public PersonCombinedCredits getPersonCombinedCredits(final Integer id) {
+        LOG.debug("fetching credits for person by id {}", id);
         return restClient.method(HttpMethod.GET)
-            .uri(PERSON_DETAIL_PATH + id + "/combined_credits")
-            .accept(MediaType.APPLICATION_JSON)
-            .retrieve()
-            .body(PersonCombinedCredits.class);
+                .uri(PERSON_DETAIL_PATH + id + "/combined_credits")
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(PersonCombinedCredits.class);
     }
 
     @Override
     public MovieSearchResult searchMovieByName(final String name) {
         LOG.debug("Finding movies with name {}", name);
         return restClient.method(HttpMethod.GET)
-            .uri((uriBuilder -> uriBuilder
-                .path(SEARCH_MOVIE_PATH)
-                .queryParam("query", name)
-                .build()))
-            .accept(MediaType.APPLICATION_JSON)
-            .retrieve()
-            .body(MovieSearchResult.class);
+                .uri((uriBuilder -> uriBuilder
+                        .path(SEARCH_MOVIE_PATH)
+                        .queryParam("query", name)
+                        .build()))
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(MovieSearchResult.class);
     }
 
     @Override
     public MovieDetails findMovieById(final Integer id) {
+        LOG.debug("fetching movie by id {}", id);
         return restClient.method(HttpMethod.GET)
-            .uri(MOVIE_DETAIL_PATH + id)
-            .accept(MediaType.APPLICATION_JSON)
-            .retrieve()
-            .body(MovieDetails.class);
+                .uri(MOVIE_DETAIL_PATH + id)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(MovieDetails.class);
     }
 }

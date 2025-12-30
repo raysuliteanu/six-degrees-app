@@ -36,6 +36,9 @@ out/
 ### VS Code ###
 .vscode/
 
+### Neovim ###
+.metals/
+
 .env
 CLAUDE.md
 tmdb-api.json

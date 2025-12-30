@@ -11,26 +11,30 @@ import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
+
 @JsonPropertyOrder({
-    PersonCombinedCreditsCrew.JSON_PROPERTY_ADULT,
-    PersonCombinedCreditsCrew.JSON_PROPERTY_BACKDROP_PATH,
-    PersonCombinedCreditsCrew.JSON_PROPERTY_GENRE_IDS,
-    PersonCombinedCreditsCrew.JSON_PROPERTY_ID,
-    PersonCombinedCreditsCrew.JSON_PROPERTY_ORIGINAL_LANGUAGE,
-    PersonCombinedCreditsCrew.JSON_PROPERTY_ORIGINAL_TITLE,
-    PersonCombinedCreditsCrew.JSON_PROPERTY_OVERVIEW,
-    PersonCombinedCreditsCrew.JSON_PROPERTY_POPULARITY,
-    PersonCombinedCreditsCrew.JSON_PROPERTY_POSTER_PATH,
-    PersonCombinedCreditsCrew.JSON_PROPERTY_RELEASE_DATE,
-    PersonCombinedCreditsCrew.JSON_PROPERTY_TITLE,
-    PersonCombinedCreditsCrew.JSON_PROPERTY_VIDEO,
-    PersonCombinedCreditsCrew.JSON_PROPERTY_VOTE_AVERAGE,
-    PersonCombinedCreditsCrew.JSON_PROPERTY_VOTE_COUNT,
-    PersonCombinedCreditsCrew.JSON_PROPERTY_CREDIT_ID,
-    PersonCombinedCreditsCrew.JSON_PROPERTY_DEPARTMENT,
-    PersonCombinedCreditsCrew.JSON_PROPERTY_JOB,
-    PersonCombinedCreditsCrew.JSON_PROPERTY_MEDIA_TYPE
+        PersonCombinedCreditsCrew.JSON_PROPERTY_ADULT,
+        PersonCombinedCreditsCrew.JSON_PROPERTY_BACKDROP_PATH,
+        PersonCombinedCreditsCrew.JSON_PROPERTY_GENRE_IDS,
+        PersonCombinedCreditsCrew.JSON_PROPERTY_ID,
+        PersonCombinedCreditsCrew.JSON_PROPERTY_ORIGINAL_LANGUAGE,
+        PersonCombinedCreditsCrew.JSON_PROPERTY_ORIGINAL_TITLE,
+        PersonCombinedCreditsCrew.JSON_PROPERTY_OVERVIEW,
+        PersonCombinedCreditsCrew.JSON_PROPERTY_POPULARITY,
+        PersonCombinedCreditsCrew.JSON_PROPERTY_POSTER_PATH,
+        PersonCombinedCreditsCrew.JSON_PROPERTY_RELEASE_DATE,
+        PersonCombinedCreditsCrew.JSON_PROPERTY_TITLE,
+        PersonCombinedCreditsCrew.JSON_PROPERTY_VIDEO,
+        PersonCombinedCreditsCrew.JSON_PROPERTY_VOTE_AVERAGE,
+        PersonCombinedCreditsCrew.JSON_PROPERTY_VOTE_COUNT,
+        PersonCombinedCreditsCrew.JSON_PROPERTY_CREDIT_ID,
+        PersonCombinedCreditsCrew.JSON_PROPERTY_DEPARTMENT,
+        PersonCombinedCreditsCrew.JSON_PROPERTY_JOB,
+        PersonCombinedCreditsCrew.JSON_PROPERTY_MEDIA_TYPE
 })
+@Node
 public class PersonCombinedCreditsCrew {
     public static final String JSON_PROPERTY_ADULT = "adult";
     @jakarta.annotation.Nullable
@@ -46,6 +50,7 @@ public class PersonCombinedCreditsCrew {
 
     public static final String JSON_PROPERTY_ID = "id";
     @jakarta.annotation.Nullable
+    @Id
     private Integer id = 0;
 
     public static final String JSON_PROPERTY_ORIGINAL_LANGUAGE = "original_language";
@@ -124,13 +129,11 @@ public class PersonCombinedCreditsCrew {
         return adult;
     }
 
-
     @JsonProperty(JSON_PROPERTY_ADULT)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setAdult(@jakarta.annotation.Nullable Boolean adult) {
         this.adult = adult;
     }
-
 
     public PersonCombinedCreditsCrew backdropPath(@jakarta.annotation.Nullable String backdropPath) {
         this.backdropPath = backdropPath;
@@ -149,13 +152,11 @@ public class PersonCombinedCreditsCrew {
         return backdropPath;
     }
 
-
     @JsonProperty(JSON_PROPERTY_BACKDROP_PATH)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setBackdropPath(@jakarta.annotation.Nullable String backdropPath) {
         this.backdropPath = backdropPath;
     }
-
 
     public PersonCombinedCreditsCrew genreIds(@jakarta.annotation.Nullable List<Integer> genreIds) {
         this.genreIds = genreIds;
@@ -182,13 +183,11 @@ public class PersonCombinedCreditsCrew {
         return genreIds;
     }
 
-
     @JsonProperty(JSON_PROPERTY_GENRE_IDS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setGenreIds(@jakarta.annotation.Nullable List<Integer> genreIds) {
         this.genreIds = genreIds;
     }
-
 
     public PersonCombinedCreditsCrew id(@jakarta.annotation.Nullable Integer id) {
         this.id = id;
@@ -207,13 +206,11 @@ public class PersonCombinedCreditsCrew {
         return id;
     }
 
-
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setId(@jakarta.annotation.Nullable Integer id) {
         this.id = id;
     }
-
 
     public PersonCombinedCreditsCrew originalLanguage(@jakarta.annotation.Nullable String originalLanguage) {
         this.originalLanguage = originalLanguage;
@@ -232,13 +229,11 @@ public class PersonCombinedCreditsCrew {
         return originalLanguage;
     }
 
-
     @JsonProperty(JSON_PROPERTY_ORIGINAL_LANGUAGE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setOriginalLanguage(@jakarta.annotation.Nullable String originalLanguage) {
         this.originalLanguage = originalLanguage;
     }
-
 
     public PersonCombinedCreditsCrew originalTitle(@jakarta.annotation.Nullable String originalTitle) {
         this.originalTitle = originalTitle;
@@ -257,13 +252,11 @@ public class PersonCombinedCreditsCrew {
         return originalTitle;
     }
 
-
     @JsonProperty(JSON_PROPERTY_ORIGINAL_TITLE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setOriginalTitle(@jakarta.annotation.Nullable String originalTitle) {
         this.originalTitle = originalTitle;
     }
-
 
     public PersonCombinedCreditsCrew overview(@jakarta.annotation.Nullable String overview) {
         this.overview = overview;
@@ -282,13 +275,11 @@ public class PersonCombinedCreditsCrew {
         return overview;
     }
 
-
     @JsonProperty(JSON_PROPERTY_OVERVIEW)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setOverview(@jakarta.annotation.Nullable String overview) {
         this.overview = overview;
     }
-
 
     public PersonCombinedCreditsCrew popularity(@jakarta.annotation.Nullable BigDecimal popularity) {
         this.popularity = popularity;
@@ -307,13 +298,11 @@ public class PersonCombinedCreditsCrew {
         return popularity;
     }
 
-
     @JsonProperty(JSON_PROPERTY_POPULARITY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setPopularity(@jakarta.annotation.Nullable BigDecimal popularity) {
         this.popularity = popularity;
     }
-
 
     public PersonCombinedCreditsCrew posterPath(@jakarta.annotation.Nullable String posterPath) {
         this.posterPath = posterPath;
@@ -332,13 +321,11 @@ public class PersonCombinedCreditsCrew {
         return posterPath;
     }
 
-
     @JsonProperty(JSON_PROPERTY_POSTER_PATH)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setPosterPath(@jakarta.annotation.Nullable String posterPath) {
         this.posterPath = posterPath;
     }
-
 
     public PersonCombinedCreditsCrew releaseDate(@jakarta.annotation.Nullable String releaseDate) {
         this.releaseDate = releaseDate;
@@ -357,13 +344,11 @@ public class PersonCombinedCreditsCrew {
         return releaseDate;
     }
 
-
     @JsonProperty(JSON_PROPERTY_RELEASE_DATE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setReleaseDate(@jakarta.annotation.Nullable String releaseDate) {
         this.releaseDate = releaseDate;
     }
-
 
     public PersonCombinedCreditsCrew title(@jakarta.annotation.Nullable String title) {
         this.title = title;
@@ -382,13 +367,11 @@ public class PersonCombinedCreditsCrew {
         return title;
     }
 
-
     @JsonProperty(JSON_PROPERTY_TITLE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setTitle(@jakarta.annotation.Nullable String title) {
         this.title = title;
     }
-
 
     public PersonCombinedCreditsCrew video(@jakarta.annotation.Nullable Boolean video) {
         this.video = video;
@@ -407,13 +390,11 @@ public class PersonCombinedCreditsCrew {
         return video;
     }
 
-
     @JsonProperty(JSON_PROPERTY_VIDEO)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setVideo(@jakarta.annotation.Nullable Boolean video) {
         this.video = video;
     }
-
 
     public PersonCombinedCreditsCrew voteAverage(@jakarta.annotation.Nullable BigDecimal voteAverage) {
         this.voteAverage = voteAverage;
@@ -432,13 +413,11 @@ public class PersonCombinedCreditsCrew {
         return voteAverage;
     }
 
-
     @JsonProperty(JSON_PROPERTY_VOTE_AVERAGE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setVoteAverage(@jakarta.annotation.Nullable BigDecimal voteAverage) {
         this.voteAverage = voteAverage;
     }
-
 
     public PersonCombinedCreditsCrew voteCount(@jakarta.annotation.Nullable Integer voteCount) {
         this.voteCount = voteCount;
@@ -457,13 +436,11 @@ public class PersonCombinedCreditsCrew {
         return voteCount;
     }
 
-
     @JsonProperty(JSON_PROPERTY_VOTE_COUNT)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setVoteCount(@jakarta.annotation.Nullable Integer voteCount) {
         this.voteCount = voteCount;
     }
-
 
     public PersonCombinedCreditsCrew creditId(@jakarta.annotation.Nullable String creditId) {
         this.creditId = creditId;
@@ -482,13 +459,11 @@ public class PersonCombinedCreditsCrew {
         return creditId;
     }
 
-
     @JsonProperty(JSON_PROPERTY_CREDIT_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setCreditId(@jakarta.annotation.Nullable String creditId) {
         this.creditId = creditId;
     }
-
 
     public PersonCombinedCreditsCrew department(@jakarta.annotation.Nullable String department) {
         this.department = department;
@@ -507,13 +482,11 @@ public class PersonCombinedCreditsCrew {
         return department;
     }
 
-
     @JsonProperty(JSON_PROPERTY_DEPARTMENT)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setDepartment(@jakarta.annotation.Nullable String department) {
         this.department = department;
     }
-
 
     public PersonCombinedCreditsCrew job(@jakarta.annotation.Nullable String job) {
         this.job = job;
@@ -532,13 +505,11 @@ public class PersonCombinedCreditsCrew {
         return job;
     }
 
-
     @JsonProperty(JSON_PROPERTY_JOB)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setJob(@jakarta.annotation.Nullable String job) {
         this.job = job;
     }
-
 
     public PersonCombinedCreditsCrew mediaType(@jakarta.annotation.Nullable String mediaType) {
         this.mediaType = mediaType;
@@ -557,16 +528,15 @@ public class PersonCombinedCreditsCrew {
         return mediaType;
     }
 
-
     @JsonProperty(JSON_PROPERTY_MEDIA_TYPE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setMediaType(@jakarta.annotation.Nullable String mediaType) {
         this.mediaType = mediaType;
     }
 
-
     /**
-     * Return true if this person_combined_credits_200_response_crew_inner object is equal to o.
+     * Return true if this person_combined_credits_200_response_crew_inner object is
+     * equal to o.
      */
     @Override
     public boolean equals(Object o) {
@@ -578,28 +548,29 @@ public class PersonCombinedCreditsCrew {
         }
         PersonCombinedCreditsCrew personCombinedCredits200ResponseCrewInner = (PersonCombinedCreditsCrew) o;
         return Objects.equals(this.adult, personCombinedCredits200ResponseCrewInner.adult) &&
-            Objects.equals(this.backdropPath, personCombinedCredits200ResponseCrewInner.backdropPath) &&
-            Objects.equals(this.genreIds, personCombinedCredits200ResponseCrewInner.genreIds) &&
-            Objects.equals(this.id, personCombinedCredits200ResponseCrewInner.id) &&
-            Objects.equals(this.originalLanguage, personCombinedCredits200ResponseCrewInner.originalLanguage) &&
-            Objects.equals(this.originalTitle, personCombinedCredits200ResponseCrewInner.originalTitle) &&
-            Objects.equals(this.overview, personCombinedCredits200ResponseCrewInner.overview) &&
-            Objects.equals(this.popularity, personCombinedCredits200ResponseCrewInner.popularity) &&
-            Objects.equals(this.posterPath, personCombinedCredits200ResponseCrewInner.posterPath) &&
-            Objects.equals(this.releaseDate, personCombinedCredits200ResponseCrewInner.releaseDate) &&
-            Objects.equals(this.title, personCombinedCredits200ResponseCrewInner.title) &&
-            Objects.equals(this.video, personCombinedCredits200ResponseCrewInner.video) &&
-            Objects.equals(this.voteAverage, personCombinedCredits200ResponseCrewInner.voteAverage) &&
-            Objects.equals(this.voteCount, personCombinedCredits200ResponseCrewInner.voteCount) &&
-            Objects.equals(this.creditId, personCombinedCredits200ResponseCrewInner.creditId) &&
-            Objects.equals(this.department, personCombinedCredits200ResponseCrewInner.department) &&
-            Objects.equals(this.job, personCombinedCredits200ResponseCrewInner.job) &&
-            Objects.equals(this.mediaType, personCombinedCredits200ResponseCrewInner.mediaType);
+                Objects.equals(this.backdropPath, personCombinedCredits200ResponseCrewInner.backdropPath) &&
+                Objects.equals(this.genreIds, personCombinedCredits200ResponseCrewInner.genreIds) &&
+                Objects.equals(this.id, personCombinedCredits200ResponseCrewInner.id) &&
+                Objects.equals(this.originalLanguage, personCombinedCredits200ResponseCrewInner.originalLanguage) &&
+                Objects.equals(this.originalTitle, personCombinedCredits200ResponseCrewInner.originalTitle) &&
+                Objects.equals(this.overview, personCombinedCredits200ResponseCrewInner.overview) &&
+                Objects.equals(this.popularity, personCombinedCredits200ResponseCrewInner.popularity) &&
+                Objects.equals(this.posterPath, personCombinedCredits200ResponseCrewInner.posterPath) &&
+                Objects.equals(this.releaseDate, personCombinedCredits200ResponseCrewInner.releaseDate) &&
+                Objects.equals(this.title, personCombinedCredits200ResponseCrewInner.title) &&
+                Objects.equals(this.video, personCombinedCredits200ResponseCrewInner.video) &&
+                Objects.equals(this.voteAverage, personCombinedCredits200ResponseCrewInner.voteAverage) &&
+                Objects.equals(this.voteCount, personCombinedCredits200ResponseCrewInner.voteCount) &&
+                Objects.equals(this.creditId, personCombinedCredits200ResponseCrewInner.creditId) &&
+                Objects.equals(this.department, personCombinedCredits200ResponseCrewInner.department) &&
+                Objects.equals(this.job, personCombinedCredits200ResponseCrewInner.job) &&
+                Objects.equals(this.mediaType, personCombinedCredits200ResponseCrewInner.mediaType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(adult, backdropPath, genreIds, id, originalLanguage, originalTitle, overview, popularity, posterPath, releaseDate, title, video, voteAverage, voteCount, creditId, department, job, mediaType);
+        return Objects.hash(adult, backdropPath, genreIds, id, originalLanguage, originalTitle, overview, popularity,
+                posterPath, releaseDate, title, video, voteAverage, voteCount, creditId, department, job, mediaType);
     }
 
     @Override
@@ -661,8 +632,7 @@ public class PersonCombinedCreditsCrew {
         if (prefix == null) {
             // style=form, explode=true, e.g. /pet?name=cat&type=manx
             prefix = "";
-        }
-        else {
+        } else {
             // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
             prefix = prefix + "[";
             suffix = "]";
@@ -674,96 +644,122 @@ public class PersonCombinedCreditsCrew {
 
         // add `adult` to the URL query string
         if (getAdult() != null) {
-            joiner.add(String.format("%sadult%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getAdult()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sadult%s=%s", prefix, suffix, URLEncoder
+                    .encode(ModelUtil.valueToString(getAdult()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `backdrop_path` to the URL query string
         if (getBackdropPath() != null) {
-            joiner.add(String.format("%sbackdrop_path%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getBackdropPath()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sbackdrop_path%s=%s", prefix, suffix,
+                    URLEncoder.encode(ModelUtil.valueToString(getBackdropPath()), StandardCharsets.UTF_8)
+                            .replaceAll("\\+", "%20")));
         }
 
         // add `genre_ids` to the URL query string
         if (getGenreIds() != null) {
             for (int i = 0; i < getGenreIds().size(); i++) {
                 joiner.add(String.format("%sgenre_ids%s%s=%s", prefix, suffix,
-                    "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-                    URLEncoder.encode(ModelUtil.valueToString(getGenreIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+                        "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+                        URLEncoder.encode(ModelUtil.valueToString(getGenreIds().get(i)), StandardCharsets.UTF_8)
+                                .replaceAll("\\+", "%20")));
             }
         }
 
         // add `id` to the URL query string
         if (getId() != null) {
-            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder
+                    .encode(ModelUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `original_language` to the URL query string
         if (getOriginalLanguage() != null) {
-            joiner.add(String.format("%soriginal_language%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getOriginalLanguage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%soriginal_language%s=%s", prefix, suffix,
+                    URLEncoder.encode(ModelUtil.valueToString(getOriginalLanguage()), StandardCharsets.UTF_8)
+                            .replaceAll("\\+", "%20")));
         }
 
         // add `original_title` to the URL query string
         if (getOriginalTitle() != null) {
-            joiner.add(String.format("%soriginal_title%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getOriginalTitle()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%soriginal_title%s=%s", prefix, suffix,
+                    URLEncoder.encode(ModelUtil.valueToString(getOriginalTitle()), StandardCharsets.UTF_8)
+                            .replaceAll("\\+", "%20")));
         }
 
         // add `overview` to the URL query string
         if (getOverview() != null) {
-            joiner.add(String.format("%soverview%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getOverview()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%soverview%s=%s", prefix, suffix, URLEncoder
+                    .encode(ModelUtil.valueToString(getOverview()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `popularity` to the URL query string
         if (getPopularity() != null) {
-            joiner.add(String.format("%spopularity%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getPopularity()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%spopularity%s=%s", prefix, suffix,
+                    URLEncoder.encode(ModelUtil.valueToString(getPopularity()), StandardCharsets.UTF_8)
+                            .replaceAll("\\+", "%20")));
         }
 
         // add `poster_path` to the URL query string
         if (getPosterPath() != null) {
-            joiner.add(String.format("%sposter_path%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getPosterPath()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sposter_path%s=%s", prefix, suffix,
+                    URLEncoder.encode(ModelUtil.valueToString(getPosterPath()), StandardCharsets.UTF_8)
+                            .replaceAll("\\+", "%20")));
         }
 
         // add `release_date` to the URL query string
         if (getReleaseDate() != null) {
-            joiner.add(String.format("%srelease_date%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getReleaseDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%srelease_date%s=%s", prefix, suffix,
+                    URLEncoder.encode(ModelUtil.valueToString(getReleaseDate()), StandardCharsets.UTF_8)
+                            .replaceAll("\\+", "%20")));
         }
 
         // add `title` to the URL query string
         if (getTitle() != null) {
-            joiner.add(String.format("%stitle%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getTitle()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%stitle%s=%s", prefix, suffix, URLEncoder
+                    .encode(ModelUtil.valueToString(getTitle()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `video` to the URL query string
         if (getVideo() != null) {
-            joiner.add(String.format("%svideo%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getVideo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%svideo%s=%s", prefix, suffix, URLEncoder
+                    .encode(ModelUtil.valueToString(getVideo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `vote_average` to the URL query string
         if (getVoteAverage() != null) {
-            joiner.add(String.format("%svote_average%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getVoteAverage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%svote_average%s=%s", prefix, suffix,
+                    URLEncoder.encode(ModelUtil.valueToString(getVoteAverage()), StandardCharsets.UTF_8)
+                            .replaceAll("\\+", "%20")));
         }
 
         // add `vote_count` to the URL query string
         if (getVoteCount() != null) {
-            joiner.add(String.format("%svote_count%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getVoteCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%svote_count%s=%s", prefix, suffix, URLEncoder
+                    .encode(ModelUtil.valueToString(getVoteCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `credit_id` to the URL query string
         if (getCreditId() != null) {
-            joiner.add(String.format("%scredit_id%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getCreditId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%scredit_id%s=%s", prefix, suffix, URLEncoder
+                    .encode(ModelUtil.valueToString(getCreditId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `department` to the URL query string
         if (getDepartment() != null) {
-            joiner.add(String.format("%sdepartment%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getDepartment()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sdepartment%s=%s", prefix, suffix,
+                    URLEncoder.encode(ModelUtil.valueToString(getDepartment()), StandardCharsets.UTF_8)
+                            .replaceAll("\\+", "%20")));
         }
 
         // add `job` to the URL query string
         if (getJob() != null) {
-            joiner.add(String.format("%sjob%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getJob()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%sjob%s=%s", prefix, suffix, URLEncoder
+                    .encode(ModelUtil.valueToString(getJob()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `media_type` to the URL query string
         if (getMediaType() != null) {
-            joiner.add(String.format("%smedia_type%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getMediaType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            joiner.add(String.format("%smedia_type%s=%s", prefix, suffix, URLEncoder
+                    .encode(ModelUtil.valueToString(getMediaType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         return joiner.toString();
