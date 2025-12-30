@@ -1,0 +1,4 @@
+logging:
+    level:
+        org.kidoni: debug
+        org.springframework.data.neo4j.cypher.unrecognized: error
