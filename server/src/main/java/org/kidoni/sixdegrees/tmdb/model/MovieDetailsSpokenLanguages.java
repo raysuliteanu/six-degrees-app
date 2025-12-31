@@ -7,14 +7,13 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.StringJoiner;
-
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
 @JsonPropertyOrder({
-        MovieDetailsSpokenLanguages.JSON_PROPERTY_ENGLISH_NAME,
-        MovieDetailsSpokenLanguages.JSON_PROPERTY_ISO6391,
-        MovieDetailsSpokenLanguages.JSON_PROPERTY_NAME
+    MovieDetailsSpokenLanguages.JSON_PROPERTY_ENGLISH_NAME,
+    MovieDetailsSpokenLanguages.JSON_PROPERTY_ISO6391,
+    MovieDetailsSpokenLanguages.JSON_PROPERTY_NAME
 })
 @Node
 public class MovieDetailsSpokenLanguages {
@@ -117,8 +116,8 @@ public class MovieDetailsSpokenLanguages {
         }
         MovieDetailsSpokenLanguages movieDetails200ResponseSpokenLanguagesInner = (MovieDetailsSpokenLanguages) o;
         return Objects.equals(this.englishName, movieDetails200ResponseSpokenLanguagesInner.englishName) &&
-                Objects.equals(this.iso6391, movieDetails200ResponseSpokenLanguagesInner.iso6391) &&
-                Objects.equals(this.name, movieDetails200ResponseSpokenLanguagesInner.name);
+            Objects.equals(this.iso6391, movieDetails200ResponseSpokenLanguagesInner.iso6391) &&
+            Objects.equals(this.name, movieDetails200ResponseSpokenLanguagesInner.name);
     }
 
     @Override
@@ -170,7 +169,8 @@ public class MovieDetailsSpokenLanguages {
         if (prefix == null) {
             // style=form, explode=true, e.g. /pet?name=cat&type=manx
             prefix = "";
-        } else {
+        }
+        else {
             // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
             prefix = prefix + "[";
             suffix = "]";
@@ -183,20 +183,20 @@ public class MovieDetailsSpokenLanguages {
         // add `english_name` to the URL query string
         if (getEnglishName() != null) {
             joiner.add(String.format("%senglish_name%s=%s", prefix, suffix,
-                    URLEncoder.encode(ModelUtil.valueToString(getEnglishName()), StandardCharsets.UTF_8)
-                            .replaceAll("\\+", "%20")));
+                URLEncoder.encode(ModelUtil.valueToString(getEnglishName()), StandardCharsets.UTF_8)
+                    .replaceAll("\\+", "%20")));
         }
 
         // add `iso_639_1` to the URL query string
         if (getIso6391() != null) {
             joiner.add(String.format("%siso_639_1%s=%s", prefix, suffix, URLEncoder
-                    .encode(ModelUtil.valueToString(getIso6391()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+                .encode(ModelUtil.valueToString(getIso6391()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `name` to the URL query string
         if (getName() != null) {
             joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder
-                    .encode(ModelUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+                .encode(ModelUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         return joiner.toString();

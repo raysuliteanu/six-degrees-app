@@ -10,13 +10,13 @@ import org.testcontainers.neo4j.Neo4jContainer;
  * and shared across all test classes.
  */
 public interface SixDegreesTestContainers {
-	Neo4jContainer neo4jContainer = new Neo4jContainer("neo4j:5")
-			.withoutAuthentication()
-			.withReuse(true);
+    Neo4jContainer neo4jContainer = new Neo4jContainer("neo4j:5")
+        .withoutAuthentication()
+        .withReuse(true);
 
-	@DynamicPropertySource
-	static void neo4jProperties(DynamicPropertyRegistry registry) {
-		neo4jContainer.start();
-		registry.add("spring.neo4j.uri", neo4jContainer::getBoltUrl);
-	}
+    @DynamicPropertySource
+    static void neo4jProperties(DynamicPropertyRegistry registry) {
+        neo4jContainer.start();
+        registry.add("spring.neo4j.uri", neo4jContainer::getBoltUrl);
+    }
 }

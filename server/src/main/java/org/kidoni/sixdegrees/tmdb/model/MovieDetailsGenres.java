@@ -7,13 +7,12 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.StringJoiner;
-
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
 @JsonPropertyOrder({
-        MovieDetailsGenres.JSON_PROPERTY_ID,
-        MovieDetailsGenres.JSON_PROPERTY_NAME
+    MovieDetailsGenres.JSON_PROPERTY_ID,
+    MovieDetailsGenres.JSON_PROPERTY_NAME
 })
 @Node
 public class MovieDetailsGenres {
@@ -89,7 +88,7 @@ public class MovieDetailsGenres {
         }
         MovieDetailsGenres movieDetails200ResponseGenresInner = (MovieDetailsGenres) o;
         return Objects.equals(this.id, movieDetails200ResponseGenresInner.id) &&
-                Objects.equals(this.name, movieDetails200ResponseGenresInner.name);
+            Objects.equals(this.name, movieDetails200ResponseGenresInner.name);
     }
 
     @Override
@@ -140,7 +139,8 @@ public class MovieDetailsGenres {
         if (prefix == null) {
             // style=form, explode=true, e.g. /pet?name=cat&type=manx
             prefix = "";
-        } else {
+        }
+        else {
             // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
             prefix = prefix + "[";
             suffix = "]";
@@ -153,13 +153,13 @@ public class MovieDetailsGenres {
         // add `id` to the URL query string
         if (getId() != null) {
             joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder
-                    .encode(ModelUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+                .encode(ModelUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `name` to the URL query string
         if (getName() != null) {
             joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder
-                    .encode(ModelUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+                .encode(ModelUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         return joiner.toString();
