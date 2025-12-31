@@ -90,20 +90,23 @@ The application is configured via `server/src/main/resources/application.yaml`:
 
 ### Using Docker Compose (Recommended)
 
-The easiest way to run both frontend and backend together:
+The easiest way to run the full stack (frontend + backend + database) together:
 
 ```bash
 # Set required environment variables
 export TMDB_API_TOKEN=your_api_key_here
 export TMDB_ACCESS_TOKEN=your_access_token_here
+export NEO4J_USERNAME=neo4j
+export NEO4J_PASSWORD=your_secure_password
 
-# Start both services
+# Start all services
 docker-compose up
 ```
 
 Access the application at:
 - **Frontend**: `http://localhost`
 - **Backend API**: `http://localhost:8080`
+- **Neo4j Browser**: `http://localhost:7474` (optional, for database management)
 
 Login with default credentials: `admin` / `admin`
 

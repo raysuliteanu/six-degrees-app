@@ -268,12 +268,25 @@ server {
 
 #### Docker Compose
 
-Create `docker-compose.yml` in the root directory:
+The root `docker-compose.yml` includes Neo4j database:
 
 ```yaml
 version: '3.8'
 
 services:
+  neo4j:
+    image: neo4j:5
+    container_name: sixdegrees-neo4j
+    ports:
+      - "7474:7474"  # HTTP for Neo4j Browser
+      - "7687:7687"  # Bolt protocol
+    environment:
+      - NEO4J_AUTH=${NEO4J_USERNAME}/${NEO4J_PASSWORD}
+    volumes:
+      - neo4j_data:/data
+    networks:
+      - sixdegrees
+
   backend:
     build: ./server
     container_name: sixdegrees-backend
@@ -282,6 +295,12 @@ services:
     environment:
       - TMDB_API_TOKEN=${TMDB_API_TOKEN}
       - TMDB_ACCESS_TOKEN=${TMDB_ACCESS_TOKEN}
+      - NEO4J_URI=bolt://neo4j:7687
+      - NEO4J_USERNAME=${NEO4J_USERNAME}
+      - NEO4J_PASSWORD=${NEO4J_PASSWORD}
+    depends_on:
+      neo4j:
+        condition: service_healthy
     networks:
       - sixdegrees
 
@@ -291,18 +310,28 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     networks:
       - sixdegrees
 
 networks:
   sixdegrees:
     driver: bridge
+
+volumes:
+  neo4j_data:
 ```
 
 #### Build and Run
 
 ```bash
+# Set required environment variables
+export TMDB_API_TOKEN=your_api_token
+export TMDB_ACCESS_TOKEN=your_access_token
+export NEO4J_USERNAME=neo4j
+export NEO4J_PASSWORD=your_secure_password
+
 # Build images
 docker-compose build
 
