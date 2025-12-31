@@ -21,7 +21,7 @@ public class DefaultTmdbClient implements TmdbClient {
     private static final String SEARCH_MOVIE_PATH = "/3/search/movie";
     private static final String MOVIE_DETAIL_PATH = "/3/movie/";
 
-    RestClient restClient;
+    private final RestClient restClient;
 
     public DefaultTmdbClient(final TmdbConfigurationProperties tmdbConfigurationProperties) {
         LOG.debug("Initializing TmdbClient: URL {}", tmdbConfigurationProperties.getUrl());
