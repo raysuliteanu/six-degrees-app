@@ -132,8 +132,11 @@ export function ConnectionGraph({ actor1Id, actor2Id }: ConnectionGraphProps) {
   if (isLoading) {
     return (
       <Card className="p-8">
-        <div className="flex items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+        <div className="flex items-center justify-center" role="status" aria-live="polite">
+          <div
+            className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"
+            aria-hidden="true"
+          />
           <p className="ml-3 text-muted-foreground">
             Finding connections...
           </p>
@@ -145,7 +148,7 @@ export function ConnectionGraph({ actor1Id, actor2Id }: ConnectionGraphProps) {
   if (error) {
     return (
       <Card className="p-8">
-        <p className="text-center text-destructive">
+        <p className="text-center text-destructive" role="alert" aria-live="assertive">
           Failed to load connection data
         </p>
       </Card>
@@ -158,7 +161,7 @@ export function ConnectionGraph({ actor1Id, actor2Id }: ConnectionGraphProps) {
 
   return (
     <Card className="overflow-hidden">
-      <div className="h-[600px]">
+      <div className="h-[600px]" role="region" aria-label="Actor connection graph">
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -173,7 +176,7 @@ export function ConnectionGraph({ actor1Id, actor2Id }: ConnectionGraphProps) {
         </ReactFlow>
       </div>
       {paths.length > 0 && (
-        <div className="border-t bg-muted/50 px-4 py-3">
+        <div className="border-t bg-muted/50 px-4 py-3" role="status" aria-live="polite">
           <p className="text-sm text-muted-foreground">
             Found {paths.length} connection{paths.length > 1 ? 's' : ''} •
             Degree of separation: {paths[0].degree}

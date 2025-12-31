@@ -83,6 +83,11 @@ export function ActorSearchInput({
         ref={inputRef}
         id={`actor-search-${side}`}
         type="text"
+        role="combobox"
+        aria-expanded={isOpen}
+        aria-autocomplete="list"
+        aria-controls={`actor-listbox-${side}`}
+        aria-label={`Search for ${side} actor`}
         placeholder="Search for an actor..."
         value={searchTerm}
         onChange={handleInputChange}
@@ -95,17 +100,20 @@ export function ActorSearchInput({
       {isOpen && (
         <div
           ref={dropdownRef}
+          id={`actor-listbox-${side}`}
+          role="listbox"
+          aria-label={`Search results for ${side} actor`}
           className="absolute z-10 mt-1 w-full rounded-md border bg-popover shadow-lg"
         >
           <div className="max-h-60 overflow-auto p-1">
             {isLoading && (
-              <div className="p-3 text-sm text-muted-foreground">
+              <div className="p-3 text-sm text-muted-foreground" role="status">
                 Searching...
               </div>
             )}
 
             {!isLoading && searchResults?.results?.length === 0 && (
-              <div className="p-3 text-sm text-muted-foreground">
+              <div className="p-3 text-sm text-muted-foreground" role="status">
                 No actors found
               </div>
             )}
@@ -115,13 +123,15 @@ export function ActorSearchInput({
                 <button
                   key={actor.id}
                   type="button"
+                  role="option"
+                  aria-selected={selectedActor?.id === actor.id}
                   onClick={() => handleActorSelect(actor)}
                   className="flex w-full items-center gap-3 rounded-sm p-2 hover:bg-accent"
                   data-testid={`actor-result-${actor.id}`}
                 >
                   <img
                     src={getImageUrl(actor.profilePath, 'w92')}
-                    alt={actor.name}
+                    alt={`${actor.name} profile`}
                     className="h-12 w-12 rounded-full object-cover"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src =
