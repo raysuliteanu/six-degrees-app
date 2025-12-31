@@ -7,13 +7,12 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.StringJoiner;
-
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
 @JsonPropertyOrder({
-        MovieDetailsProductionCountries.JSON_PROPERTY_ISO31661,
-        MovieDetailsProductionCountries.JSON_PROPERTY_NAME
+    MovieDetailsProductionCountries.JSON_PROPERTY_ISO31661,
+    MovieDetailsProductionCountries.JSON_PROPERTY_NAME
 })
 @Node
 public class MovieDetailsProductionCountries {
@@ -89,7 +88,7 @@ public class MovieDetailsProductionCountries {
         }
         MovieDetailsProductionCountries movieDetails200ResponseProductionCountriesInner = (MovieDetailsProductionCountries) o;
         return Objects.equals(this.iso31661, movieDetails200ResponseProductionCountriesInner.iso31661) &&
-                Objects.equals(this.name, movieDetails200ResponseProductionCountriesInner.name);
+            Objects.equals(this.name, movieDetails200ResponseProductionCountriesInner.name);
     }
 
     @Override
@@ -140,7 +139,8 @@ public class MovieDetailsProductionCountries {
         if (prefix == null) {
             // style=form, explode=true, e.g. /pet?name=cat&type=manx
             prefix = "";
-        } else {
+        }
+        else {
             // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
             prefix = prefix + "[";
             suffix = "]";
@@ -153,13 +153,13 @@ public class MovieDetailsProductionCountries {
         // add `iso_3166_1` to the URL query string
         if (getIso31661() != null) {
             joiner.add(String.format("%siso_3166_1%s=%s", prefix, suffix, URLEncoder
-                    .encode(ModelUtil.valueToString(getIso31661()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+                .encode(ModelUtil.valueToString(getIso31661()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         // add `name` to the URL query string
         if (getName() != null) {
             joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder
-                    .encode(ModelUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+                .encode(ModelUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
 
         return joiner.toString();
