@@ -8,14 +8,25 @@ spring:
     docker:
         compose:
             lifecycle-management: start_only
+            file: compose-dev.yaml
     threads:
         virtual:
             enabled: true
+neo4j:
+    uri: ${NEO4J_URI}
+    authentication:
+        username: ${NEO4J_USERNAME}
+        password: ${NEO4J_PASSWORD}
 logging:
     level:
         org.kidoni: debug
+        org.springframework.data.neo4j.cypher.unrecognized: error
 tmdb:
     api:
         url: "https://api.themoviedb.org/"
-        api-key: ${TMDB_API_TOKEN}
         access-token: ${TMDB_ACCESS_TOKEN}
+management:
+    endpoints:
+        web:
+            exposure:
+                include: '*'
