@@ -11,6 +11,7 @@ import org.kidoni.sixdegrees.tmdb.model.Person;
 import org.kidoni.sixdegrees.tmdb.model.PersonCombinedCredits;
 import org.kidoni.sixdegrees.tmdb.model.PersonDetails;
 import org.kidoni.sixdegrees.tmdb.model.PersonSearchResult;
+import org.springframework.core.task.SyncTaskExecutor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -35,12 +36,12 @@ class TmdbSixDegreesServiceTest {
         tmdbService = new TmdbSixDegreesService(
             tmdbClient,
             personDetailsRepository,
-            movieDetailsRepository
-        );
+            movieDetailsRepository,
+            new SyncTaskExecutor());
     }
 
     @Test
-    void searchForPerson() throws InterruptedException {
+    void searchForPerson() {
         final var personSearchResult = new PersonSearchResult().page(1).results(List.of(new Person().id(666))).totalPages(1).totalResults(1);
         when(tmdbClient.searchPersonByName("smith")).thenReturn(personSearchResult);
         final var personDetails = new PersonDetails().id(666);
@@ -50,8 +51,6 @@ class TmdbSixDegreesServiceTest {
         var result = tmdbService.searchPerson("smith");
         assertNotNull(result.getResults());
         assertEquals(1, result.getResults().size());
-
-        Thread.sleep(100);
 
         verify(tmdbClient).searchPersonByName("smith");
         verify(tmdbClient).findPersonById(666);
@@ -136,7 +135,7 @@ class TmdbSixDegreesServiceTest {
     }
 
     @Test
-    void searchForMovie() throws InterruptedException {
+    void searchForMovie() {
         final var movieSearchResult = new MovieSearchResult().page(1).results(List.of(new Movie().id(999))).totalPages(1).totalResults(1);
         when(tmdbClient.searchMovieByName("matrix")).thenReturn(movieSearchResult);
         final var movieDetails = new MovieDetails().id(999);
@@ -146,8 +145,6 @@ class TmdbSixDegreesServiceTest {
         var result = tmdbService.movieSearch("matrix");
         assertNotNull(result.getResults());
         assertEquals(1, result.getResults().size());
-
-        Thread.sleep(100);
 
         verify(tmdbClient).searchMovieByName("matrix");
         verify(tmdbClient).findMovieById(999);

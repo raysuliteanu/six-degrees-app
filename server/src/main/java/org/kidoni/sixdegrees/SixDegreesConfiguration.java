@@ -8,6 +8,8 @@ import org.kidoni.sixdegrees.tmdb.TmdbConfigurationProperties;
 import org.kidoni.sixdegrees.tmdb.TmdbSixDegreesService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.core.task.VirtualThreadTaskExecutor;
 import tools.jackson.databind.ObjectMapper;
 
 @Configuration
@@ -19,8 +21,13 @@ public class SixDegreesConfiguration {
     }
 
     @Bean
-    public SixDegreesService sixDegreesService(TmdbClient tmdbClient, final PersonDetailsRepository personDetailsRepository, final MovieDetailsRepository movieDetailsRepository) {
-        return new TmdbSixDegreesService(tmdbClient, personDetailsRepository, movieDetailsRepository);
+    public SixDegreesService sixDegreesService(TmdbClient tmdbClient, final PersonDetailsRepository personDetailsRepository, final MovieDetailsRepository movieDetailsRepository, final TaskExecutor taskExecutor) {
+        return new TmdbSixDegreesService(tmdbClient, personDetailsRepository, movieDetailsRepository, taskExecutor);
+    }
+
+    @Bean
+    public TaskExecutor taskExecutor() {
+        return new VirtualThreadTaskExecutor();
     }
 
     @Bean

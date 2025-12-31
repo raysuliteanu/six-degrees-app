@@ -8,6 +8,7 @@ import org.kidoni.sixdegrees.tmdb.model.PersonDetails;
 import org.kidoni.sixdegrees.tmdb.model.PersonSearchResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.task.TaskExecutor;
 
 public class TmdbSixDegreesService implements SixDegreesService {
     private static final Logger LOG = LoggerFactory.getLogger(TmdbSixDegreesService.class);
@@ -15,11 +16,13 @@ public class TmdbSixDegreesService implements SixDegreesService {
     private final TmdbClient tmdbClient;
     private final PersonDetailsRepository personDetailsRepository;
     private final MovieDetailsRepository movieDetailsRepository;
+    private final TaskExecutor taskExecutor;
 
-    public TmdbSixDegreesService(final TmdbClient tmdbClient, final PersonDetailsRepository personDetailsRepository, final MovieDetailsRepository movieDetailsRepository) {
+    public TmdbSixDegreesService(final TmdbClient tmdbClient, final PersonDetailsRepository personDetailsRepository, final MovieDetailsRepository movieDetailsRepository, final TaskExecutor taskExecutor) {
         this.tmdbClient = tmdbClient;
         this.personDetailsRepository = personDetailsRepository;
         this.movieDetailsRepository = movieDetailsRepository;
+        this.taskExecutor = taskExecutor;
     }
 
     @Override
@@ -27,7 +30,7 @@ public class TmdbSixDegreesService implements SixDegreesService {
         final var searchResult = tmdbClient.searchPersonByName(name);
         if (searchResult.getResults() != null) {
             for (final var person : searchResult.getResults()) {
-                Thread.ofVirtual().start(() -> {
+                taskExecutor.execute(() -> {
                     var details = tmdbClient.findPersonById(person.getId());
                     if (details != null) {
                         LOG.debug("saving {} (id: {})", details.getName(), details.getId());
@@ -61,7 +64,7 @@ public class TmdbSixDegreesService implements SixDegreesService {
         final var searchResult = tmdbClient.searchMovieByName(name);
         if (searchResult.getResults() != null) {
             for (final var movie : searchResult.getResults()) {
-                Thread.ofVirtual().start(() -> {
+                taskExecutor.execute(() -> {
                     var details = tmdbClient.findMovieById(movie.getId());
                     if (details != null) {
                         LOG.debug("saving {} (id: {})", details.getTitle(), details.getId());
