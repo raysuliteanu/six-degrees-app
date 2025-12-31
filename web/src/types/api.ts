@@ -133,7 +133,7 @@ export interface MovieSearchResult {
 }
 
 // Connection types
-export interface ConnectionNode {
+export interface ConnectionNode extends Record<string, unknown> {
   id: string;
   type: 'actor' | 'movie';
   name: string;

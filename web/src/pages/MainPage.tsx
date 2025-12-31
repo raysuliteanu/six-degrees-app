@@ -6,6 +6,7 @@ import { personApi } from '@/services/api/personApi';
 import { Button } from '@/components/ui/button';
 import { ActorSearchInput } from '@/components/actor/ActorSearchInput';
 import { ActorCard } from '@/components/actor/ActorCard';
+import { ConnectionGraph } from '@/components/graph/ConnectionGraph';
 
 export function MainPage() {
   const { username, logout } = useAuthStore();
@@ -101,13 +102,11 @@ export function MainPage() {
             <ActorCard actorId={rightActorId} />
           </div>
 
-          {/* Connection Graph Placeholder */}
+          {/* Connection Graph */}
           {leftActorId && rightActorId && (
-            <div className="rounded-lg border bg-card p-8 text-center">
-              <h2 className="text-2xl font-semibold">Connection Graph</h2>
-              <p className="mt-2 text-muted-foreground">
-                Graph visualization will be implemented in Phase 4
-              </p>
+            <div>
+              <h2 className="mb-4 text-2xl font-semibold">Connection Graph</h2>
+              <ConnectionGraph actor1Id={leftActorId} actor2Id={rightActorId} />
             </div>
           )}
         </div>
