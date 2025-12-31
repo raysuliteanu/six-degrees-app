@@ -1,0 +1,72 @@
+plugins {
+    id 'java'
+}
+
+version = '1.0.2'
+group = 'org.kidoni'
+
+repositories {
+    mavenCentral()
+}
+
+// Create integrationTest source set reading from src/test/java
+def integrationTest = sourceSets.create('integrationTest') {
+    java {
+        srcDirs = ['src/test/java']
+        include '**/*ITest.java'
+    }
+    // Include test source set's compiled output for helper classes
+    compileClasspath += sourceSets.test.output
+    runtimeClasspath += sourceSets.test.output
+}
+
+// Filter main test source set to exclude integration tests
+sourceSets.test {
+    java {
+        exclude '**/*ITest.java'
+    }
+}
+
+// Wire dependency configurations so integrationTest inherits testImplementation
+configurations[integrationTest.implementationConfigurationName].extendsFrom(configurations.testImplementation)
+configurations[integrationTest.runtimeOnlyConfigurationName].extendsFrom(configurations.testRuntimeOnly)
+
+// Configure unit test task
+tasks.named('test') {
+    useJUnitPlatform()
+    // Source set filtering already excludes *ITest.java files
+    // Don't fail if no unit tests exist (all tests may be integration tests)
+    failOnNoDiscoveredTests = false
+}
+
+// Register integration test task with execution filter
+def integrationTestTask = tasks.register('integrationTest', Test) {
+    description = 'Runs integration tests'
+    group = 'verification'
+    useJUnitPlatform()
+
+    testClassesDirs = integrationTest.output.classesDirs
+    // Include test source set output for helper classes at runtime
+    classpath = configurations[integrationTest.runtimeClasspathConfigurationName] + integrationTest.output + sourceSets.test.output
+
+    filter {
+        includeTestsMatching '*ITest'
+    }
+
+    // Ensure test classes are compiled first (for helper classes)
+    dependsOn(tasks.named('testClasses'))
+    shouldRunAfter(tasks.named('test'))
+}
+
+// Wire into check task so both test types run during full build
+tasks.named('check') {
+    dependsOn(integrationTestTask)
+}
+
+// Shared test dependencies
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:6.0.1'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    integrationTestImplementation project
+}
