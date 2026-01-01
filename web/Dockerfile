@@ -12,7 +12,8 @@ RUN npm ci
 # Copy source code
 COPY . .
 
-# Build the application
+# Build the application with production API URL
+ENV VITE_API_URL=/api
 RUN npm run build
 
 # Stage 2: Production
