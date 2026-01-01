@@ -63,7 +63,7 @@ export function ActorCard({ actorId }: ActorCardProps) {
             alt={actor.name}
             className="h-24 w-24 rounded-full object-cover"
             onError={(e) => {
-              (e.target as HTMLImageElement).src = '/placeholder-avatar.png';
+              (e.target as HTMLImageElement).src = '/placeholder-avatar.svg';
             }}
           />
           <div className="flex-1">

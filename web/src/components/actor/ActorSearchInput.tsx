@@ -27,7 +27,7 @@ export function ActorSearchInput({
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const { data: searchResults, isLoading } = useQuery({
+  const { data: searchResults, isLoading, isError, error } = useQuery({
     queryKey: ['person-search', debouncedSearch],
     queryFn: () => personApi.searchByName(debouncedSearch),
     enabled: debouncedSearch.length >= 2,
@@ -112,7 +112,24 @@ export function ActorSearchInput({
               </div>
             )}
 
-            {!isLoading && searchResults?.results?.length === 0 && (
+            {isError && (
+              <div className="p-3 text-sm text-destructive" role="alert">
+                {error instanceof Error &&
+                error.message.includes('Session expired')
+                  ? 'Session expired. Please log in again.'
+                  : error instanceof Error &&
+                    (error.message.includes('401') ||
+                      error.message.includes('Unauthorized'))
+                  ? 'Authentication failed. Please log in again.'
+                  : error instanceof Error &&
+                    (error.message.includes('Network') ||
+                      error.message.includes('timeout'))
+                  ? 'Network error. Please check your connection.'
+                  : 'Failed to search for actors. Please try again.'}
+              </div>
+            )}
+
+            {!isLoading && !isError && searchResults?.results?.length === 0 && (
               <div className="p-3 text-sm text-muted-foreground" role="status">
                 No actors found
               </div>
@@ -135,7 +152,7 @@ export function ActorSearchInput({
                     className="h-12 w-12 rounded-full object-cover"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src =
-                        '/placeholder-avatar.png';
+                        '/placeholder-avatar.svg';
                     }}
                   />
                   <div className="flex-1 text-left">

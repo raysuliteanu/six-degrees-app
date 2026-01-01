@@ -9,14 +9,25 @@ const apiClient = axios.create({
   },
 });
 
-// Request interceptor: Add Basic Auth
+// Request interceptor: Add Basic Auth and validate session
 apiClient.interceptors.request.use(
   (config) => {
-    const { username, password } = useAuthStore.getState();
+    const { username, password, validateSession, refreshActivity } =
+      useAuthStore.getState();
+
+    // Validate session before making request
+    if (!validateSession()) {
+      return Promise.reject(new Error('Session expired'));
+    }
+
     if (username && password) {
       const credentials = btoa(`${username}:${password}`);
       config.headers.Authorization = `Basic ${credentials}`;
+
+      // Refresh activity timestamp on each request
+      refreshActivity();
     }
+
     return config;
   },
   (error) => {

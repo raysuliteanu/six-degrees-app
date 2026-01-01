@@ -8,7 +8,7 @@ export function getImageUrl(
   size: ImageSize = 'w185'
 ): string {
   if (!path) {
-    return '/placeholder-avatar.png';
+    return '/placeholder-avatar.svg';
   }
   return `${TMDB_IMAGE_BASE_URL}/${size}${path}`;
 }

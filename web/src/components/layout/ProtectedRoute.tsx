@@ -7,8 +7,14 @@ interface ProtectedRouteProps {
 
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const validateSession = useAuthStore((state) => state.validateSession);
 
-  if (!isAuthenticated) {
+  // Validate session on route access
+  if (isAuthenticated && !validateSession()) {
+    // Session expired, will be redirected by the next check
+  }
+
+  if (!useAuthStore.getState().isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 

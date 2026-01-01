@@ -19,7 +19,7 @@ export const ActorNode = memo(({ data }: ActorNodeProps) => {
             alt={data.name}
             className="h-16 w-16 rounded-full object-cover"
             onError={(e) => {
-              (e.target as HTMLImageElement).src = '/placeholder-avatar.png';
+              (e.target as HTMLImageElement).src = '/placeholder-avatar.svg';
             }}
           />
           <div className="flex-1">

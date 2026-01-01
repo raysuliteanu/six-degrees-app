@@ -14,7 +14,7 @@ describe('getImageUrl', () => {
 
   it('should return placeholder for null path', () => {
     const result = getImageUrl(null);
-    expect(result).toBe('/placeholder-avatar.png');
+    expect(result).toBe('/placeholder-avatar.svg');
   });
 
   it('should support different image sizes', () => {

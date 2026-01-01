@@ -1,51 +1,125 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import apiClient from '@/services/api/client';
+import { persist, createJSONStorage } from 'zustand/middleware';
+
+const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
 
 interface AuthState {
   username: string | null;
   password: string | null;
   isAuthenticated: boolean;
+  lastActivity: number | null;
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
+  validateSession: () => boolean;
+  refreshActivity: () => void;
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       username: null,
       password: null,
       isAuthenticated: false,
+      lastActivity: null,
 
       login: async (username: string, password: string) => {
-        // Test credentials with a simple API call
-        try {
-          // Temporarily set credentials to test them
-          set({ username, password });
-
-          // Make a test API call to verify credentials
-          await apiClient.get('/search/person/test');
-
-          // If successful, mark as authenticated
-          set({ isAuthenticated: true });
-        } catch (error) {
-          // If failed, clear credentials
-          set({ username: null, password: null, isAuthenticated: false });
-          throw new Error('Invalid credentials');
-        }
+        // Set credentials immediately - no test call
+        // First actual API call will validate credentials
+        // If it fails, the response interceptor will handle logout
+        set({
+          username,
+          password,
+          isAuthenticated: true,
+          lastActivity: Date.now(),
+        });
       },
 
       logout: () => {
-        set({ username: null, password: null, isAuthenticated: false });
+        set({
+          username: null,
+          password: null,
+          isAuthenticated: false,
+          lastActivity: null,
+        });
+      },
+
+      validateSession: () => {
+        const state = get();
+        if (!state.isAuthenticated) return false;
+        if (!state.lastActivity) return false;
+
+        const elapsed = Date.now() - state.lastActivity;
+        if (elapsed > SESSION_TIMEOUT) {
+          get().logout();
+          return false;
+        }
+
+        return true;
+      },
+
+      refreshActivity: () => {
+        set({ lastActivity: Date.now() });
       },
     }),
     {
       name: 'auth-storage',
-      // Only persist username and isAuthenticated, not password for security
-      partialize: (state) => ({
-        username: state.username,
-        isAuthenticated: state.isAuthenticated,
-      }),
+      storage: createJSONStorage(() => ({
+        getItem: (name: string) => {
+          const str = sessionStorage.getItem(name);
+          if (!str) return null;
+
+          try {
+            const parsed = JSON.parse(str);
+
+            // Decode credentials if they exist in storage
+            if (parsed.state?.encodedCreds) {
+              const decoded = atob(parsed.state.encodedCreds);
+              const [username, password] = decoded.split(':');
+              return JSON.stringify({
+                state: {
+                  username,
+                  password,
+                  isAuthenticated: parsed.state.isAuthenticated,
+                  lastActivity: parsed.state.lastActivity,
+                },
+              });
+            }
+
+            return str;
+          } catch {
+            return str;
+          }
+        },
+
+        setItem: (name: string, value: string) => {
+          try {
+            const parsed = JSON.parse(value);
+
+            // Encode credentials before storing
+            if (parsed.state?.username && parsed.state?.password) {
+              const encodedCreds = btoa(
+                `${parsed.state.username}:${parsed.state.password}`
+              );
+              const toStore = {
+                state: {
+                  isAuthenticated: parsed.state.isAuthenticated,
+                  lastActivity: parsed.state.lastActivity,
+                  encodedCreds,
+                },
+              };
+              sessionStorage.setItem(name, JSON.stringify(toStore));
+            } else {
+              sessionStorage.setItem(name, value);
+            }
+          } catch {
+            sessionStorage.setItem(name, value);
+          }
+        },
+
+        removeItem: (name: string) => {
+          sessionStorage.removeItem(name);
+        },
+      })),
     }
   )
 );
