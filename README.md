@@ -336,8 +336,8 @@ The project follows clean code principles with:
 
 ## Documentation
 
+- **Deployment Guide**: `DEPLOYMENT.md` - Complete deployment guide for all components
 - **Frontend README**: `web/README.md` - Detailed frontend documentation
-- **Deployment Guide**: `web/DEPLOYMENT.md` - Production deployment options
 - **Backend Guide**: `CLAUDE.md` - Development guidelines and conventions
 
 ## Roadmap
