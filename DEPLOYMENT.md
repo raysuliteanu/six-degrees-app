@@ -23,7 +23,6 @@ The fastest way to deploy the entire application:
 
 ```bash
 # Set required environment variables
-export TMDB_API_TOKEN=your_tmdb_api_token
 export TMDB_ACCESS_TOKEN=your_tmdb_access_token
 export NEO4J_USERNAME=neo4j
 export NEO4J_PASSWORD=your_secure_password
@@ -55,7 +54,6 @@ docker-compose down
 
 | Variable            | Description             | Example             |
 | ------------------- | ----------------------- | ------------------- |
-| `TMDB_API_TOKEN`    | TMDB API key            | `your-api-key`      |
 | `TMDB_ACCESS_TOKEN` | TMDB access token       | `your-access-token` |
 | `NEO4J_USERNAME`    | Neo4j database username | `neo4j`             |
 | `NEO4J_PASSWORD`    | Neo4j database password | `secure-password`   |
@@ -190,7 +188,6 @@ The `docker-compose.yml` at the project root includes:
 1. **Set environment variables:**
 
    ```bash
-   export TMDB_API_TOKEN=your_api_token
    export TMDB_ACCESS_TOKEN=your_access_token
    export NEO4J_USERNAME=neo4j
    export NEO4J_PASSWORD=your_secure_password
@@ -268,7 +265,6 @@ For production deployment:
    services:
      backend:
        secrets:
-         - tmdb_api_token
          - neo4j_password
    ```
 
@@ -344,7 +340,6 @@ Type=simple
 User=sixdegrees
 WorkingDirectory=/opt/sixdegrees
 ExecStart=/usr/bin/java -jar /opt/sixdegrees/sixdegrees-0.0.1-SNAPSHOT.jar
-Environment="TMDB_API_TOKEN=your_api_token"
 Environment="TMDB_ACCESS_TOKEN=your_access_token"
 Environment="NEO4J_URI=bolt://neo4j-server:7687"
 Environment="NEO4J_USERNAME=neo4j"
@@ -615,11 +610,6 @@ spec:
                 secretKeyRef:
                   name: neo4j-credentials
                   key: password
-            - name: TMDB_API_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: tmdb-credentials
-                  key: api-token
             - name: TMDB_ACCESS_TOKEN
               valueFrom:
                 secretKeyRef:
@@ -701,7 +691,6 @@ kubectl create secret generic neo4j-credentials \
   -n sixdegrees
 
 kubectl create secret generic tmdb-credentials \
-  --from-literal=api-token=your_api_token \
   --from-literal=access-token=your_access_token \
   -n sixdegrees
 

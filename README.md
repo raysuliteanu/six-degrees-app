@@ -9,6 +9,7 @@ This project provides both a REST API backend and a modern React web frontend fo
 ## Tech Stack
 
 ### Backend
+
 - **Java 25** (Temurin LTS)
 - **Spring Boot 4.0.1** with:
   - Spring Web MVC
@@ -20,6 +21,7 @@ This project provides both a REST API backend and a modern React web frontend fo
 - **TMDB API** for movie and person data
 
 ### Frontend
+
 - **React 19** with TypeScript 5
 - **Vite 7** for build tooling
 - **Tailwind CSS 3** + shadcn/ui
@@ -31,6 +33,7 @@ This project provides both a REST API backend and a modern React web frontend fo
 ## Features
 
 ### Backend
+
 - RESTful API for person search and connection finding
 - TMDB integration for retrieving person and credit information
 - Graph pathfinding algorithm for actor connections
@@ -40,6 +43,7 @@ This project provides both a REST API backend and a modern React web frontend fo
 - CORS configuration for frontend integration
 
 ### Frontend
+
 - Interactive actor search with autocomplete
 - Detailed actor profiles with filmography
 - Visual graph representation of actor connections
@@ -51,11 +55,13 @@ This project provides both a REST API backend and a modern React web frontend fo
 ## Prerequisites
 
 ### Backend
+
 - Java 25 or higher
 - Gradle 9.2.1 or use the included Gradle wrapper
 - TMDB API credentials (API key and access token)
 
 ### Frontend
+
 - Node.js 20 or higher
 - npm (comes with Node.js)
 
@@ -72,7 +78,6 @@ You need to obtain API credentials from [The Movie Database](https://www.themovi
 Set the following environment variables:
 
 ```bash
-export TMDB_API_TOKEN=your_api_key_here
 export TMDB_ACCESS_TOKEN=your_access_token_here
 ```
 
@@ -93,17 +98,28 @@ The application is configured via `server/src/main/resources/application.yaml`:
 The easiest way to run the full stack (frontend + backend + database) together:
 
 ```bash
-# Set required environment variables
-export TMDB_API_TOKEN=your_api_key_here
+# Copy the example environment file and edit with your credentials
+cp .env.example .env
+# Edit .env and set your TMDB API credentials
+
+# Build the backend image first
+cd server && ./gradlew bootBuildImage && cd ..
+
+# Start all services
+docker compose up
+```
+
+Alternatively, set environment variables directly:
+
+```bash
 export TMDB_ACCESS_TOKEN=your_access_token_here
 export NEO4J_USERNAME=neo4j
 export NEO4J_PASSWORD=your_secure_password
-
-# Start all services
-docker-compose up
+docker compose up
 ```
 
 Access the application at:
+
 - **Frontend**: `http://localhost`
 - **Backend API**: `http://localhost:8080`
 - **Neo4j Browser**: `http://localhost:7474` (optional, for database management)
@@ -148,6 +164,7 @@ cd server
 ```
 
 This creates a Docker image with a GraalVM native executable:
+
 - Image name: `org.kidoni/sixdegrees:0.0.1-SNAPSHOT`
 - Builder: Paketo Buildpacks with Noble Java Tiny builder
 - Startup time: ~100ms
@@ -157,7 +174,6 @@ Run the native image:
 
 ```bash
 docker run -p 8080:8080 \
-  -e TMDB_API_TOKEN=your_api_key \
   -e TMDB_ACCESS_TOKEN=your_access_token \
   org.kidoni/sixdegrees:0.0.1-SNAPSHOT
 ```
@@ -296,12 +312,14 @@ six-degrees/
 ### Running Tests
 
 **Backend:**
+
 ```bash
 cd server
 ./gradlew test
 ```
 
 **Frontend:**
+
 ```bash
 cd web
 npm test                  # Run tests in watch mode
@@ -312,6 +330,7 @@ npm run test:coverage    # Run tests with coverage report
 ### Building
 
 **Backend:**
+
 ```bash
 cd server
 ./gradlew build          # Build JAR
@@ -319,6 +338,7 @@ cd server
 ```
 
 **Frontend:**
+
 ```bash
 cd web
 npm run build            # Build for production
@@ -328,6 +348,7 @@ npm run preview          # Preview production build
 ### Code Style
 
 The project follows clean code principles with:
+
 - Descriptive naming and well-organized package structure
 - TypeScript for type safety in frontend
 - Unit tests for critical functionality
@@ -343,6 +364,7 @@ The project follows clean code principles with:
 ## Roadmap
 
 ### Completed
+
 - [x] RESTful API for person search
 - [x] TMDB integration for actor and movie data
 - [x] Graph algorithm to find connections between actors
@@ -354,6 +376,7 @@ The project follows clean code principles with:
 - [x] Comprehensive test coverage
 
 ### Future Enhancements
+
 - [ ] Neo4j integration for optimized graph queries
 - [ ] Advanced caching layer for TMDB API responses
 - [ ] User registration and account management
