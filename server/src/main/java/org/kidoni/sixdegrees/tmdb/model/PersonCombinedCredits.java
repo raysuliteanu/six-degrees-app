@@ -3,20 +3,17 @@ package org.kidoni.sixdegrees.tmdb.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.StringJoiner;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
 @JsonPropertyOrder({
-    PersonCombinedCredits.JSON_PROPERTY_CAST,
-    PersonCombinedCredits.JSON_PROPERTY_CREW,
-    PersonCombinedCredits.JSON_PROPERTY_ID
+        PersonCombinedCredits.JSON_PROPERTY_CAST,
+        PersonCombinedCredits.JSON_PROPERTY_CREW,
+        PersonCombinedCredits.JSON_PROPERTY_ID
 })
 @Node
 public class PersonCombinedCredits {
@@ -62,13 +59,11 @@ public class PersonCombinedCredits {
         return cast;
     }
 
-
     @JsonProperty(JSON_PROPERTY_CAST)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setCast(@jakarta.annotation.Nullable List<PersonCombinedCreditsCast> cast) {
         this.cast = cast;
     }
-
 
     public PersonCombinedCredits crew(@jakarta.annotation.Nullable List<PersonCombinedCreditsCrew> crew) {
         this.crew = crew;
@@ -95,13 +90,11 @@ public class PersonCombinedCredits {
         return crew;
     }
 
-
     @JsonProperty(JSON_PROPERTY_CREW)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setCrew(@jakarta.annotation.Nullable List<PersonCombinedCreditsCrew> crew) {
         this.crew = crew;
     }
-
 
     public PersonCombinedCredits id(@jakarta.annotation.Nullable Integer id) {
         this.id = id;
@@ -120,7 +113,6 @@ public class PersonCombinedCredits {
         return id;
     }
 
-
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setId(@jakarta.annotation.Nullable Integer id) {
@@ -137,8 +129,8 @@ public class PersonCombinedCredits {
         }
         PersonCombinedCredits combinedCredits = (PersonCombinedCredits) o;
         return Objects.equals(this.cast, combinedCredits.cast) &&
-            Objects.equals(this.crew, combinedCredits.crew) &&
-            Objects.equals(this.id, combinedCredits.id);
+                Objects.equals(this.crew, combinedCredits.crew) &&
+                Objects.equals(this.id, combinedCredits.id);
     }
 
     @Override
@@ -166,66 +158,5 @@ public class PersonCombinedCredits {
             return "null";
         }
         return o.toString().replace("\n", "\n    ");
-    }
-
-    /**
-     * Convert the instance into URL query string.
-     *
-     * @return URL query string
-     */
-    public String toUrlQueryString() {
-        return toUrlQueryString(null);
-    }
-
-    /**
-     * Convert the instance into URL query string.
-     *
-     * @param prefix prefix of the query string
-     * @return URL query string
-     */
-    public String toUrlQueryString(String prefix) {
-        String suffix = "";
-        String containerSuffix = "";
-        String containerPrefix = "";
-        if (prefix == null) {
-            // style=form, explode=true, e.g. /pet?name=cat&type=manx
-            prefix = "";
-        }
-        else {
-            // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
-            prefix = prefix + "[";
-            suffix = "]";
-            containerSuffix = "]";
-            containerPrefix = "[";
-        }
-
-        StringJoiner joiner = new StringJoiner("&");
-
-        // add `cast` to the URL query string
-        if (getCast() != null) {
-            for (int i = 0; i < getCast().size(); i++) {
-                if (getCast().get(i) != null) {
-                    joiner.add(getCast().get(i).toUrlQueryString(String.format("%scast%s%s", prefix, suffix,
-                        "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
-                }
-            }
-        }
-
-        // add `crew` to the URL query string
-        if (getCrew() != null) {
-            for (int i = 0; i < getCrew().size(); i++) {
-                if (getCrew().get(i) != null) {
-                    joiner.add(getCrew().get(i).toUrlQueryString(String.format("%screw%s%s", prefix, suffix,
-                        "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
-                }
-            }
-        }
-
-        // add `id` to the URL query string
-        if (getId() != null) {
-            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        return joiner.toString();
     }
 }

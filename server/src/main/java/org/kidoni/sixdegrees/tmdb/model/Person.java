@@ -4,24 +4,21 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.StringJoiner;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
 @JsonPropertyOrder({
-    Person.JSON_PROPERTY_ADULT,
-    Person.JSON_PROPERTY_GENDER,
-    Person.JSON_PROPERTY_ID,
-    Person.JSON_PROPERTY_KNOWN_FOR_DEPARTMENT,
-    Person.JSON_PROPERTY_NAME,
-    Person.JSON_PROPERTY_ORIGINAL_NAME,
-    Person.JSON_PROPERTY_POPULARITY,
-    Person.JSON_PROPERTY_PROFILE_PATH,
-    Person.JSON_PROPERTY_KNOWN_FOR
+        Person.JSON_PROPERTY_ADULT,
+        Person.JSON_PROPERTY_GENDER,
+        Person.JSON_PROPERTY_ID,
+        Person.JSON_PROPERTY_KNOWN_FOR_DEPARTMENT,
+        Person.JSON_PROPERTY_NAME,
+        Person.JSON_PROPERTY_ORIGINAL_NAME,
+        Person.JSON_PROPERTY_POPULARITY,
+        Person.JSON_PROPERTY_PROFILE_PATH,
+        Person.JSON_PROPERTY_KNOWN_FOR
 })
 public class Person {
     public static final String JSON_PROPERTY_ADULT = "adult";
@@ -293,20 +290,20 @@ public class Person {
         }
         Person searchPerson200ResponseResultsInner = (Person) o;
         return Objects.equals(this.adult, searchPerson200ResponseResultsInner.adult) &&
-            Objects.equals(this.gender, searchPerson200ResponseResultsInner.gender) &&
-            Objects.equals(this.id, searchPerson200ResponseResultsInner.id) &&
-            Objects.equals(this.knownForDepartment, searchPerson200ResponseResultsInner.knownForDepartment) &&
-            Objects.equals(this.name, searchPerson200ResponseResultsInner.name) &&
-            Objects.equals(this.originalName, searchPerson200ResponseResultsInner.originalName) &&
-            Objects.equals(this.popularity, searchPerson200ResponseResultsInner.popularity) &&
-            Objects.equals(this.profilePath, searchPerson200ResponseResultsInner.profilePath) &&
-            Objects.equals(this.knownFor, searchPerson200ResponseResultsInner.knownFor);
+                Objects.equals(this.gender, searchPerson200ResponseResultsInner.gender) &&
+                Objects.equals(this.id, searchPerson200ResponseResultsInner.id) &&
+                Objects.equals(this.knownForDepartment, searchPerson200ResponseResultsInner.knownForDepartment) &&
+                Objects.equals(this.name, searchPerson200ResponseResultsInner.name) &&
+                Objects.equals(this.originalName, searchPerson200ResponseResultsInner.originalName) &&
+                Objects.equals(this.popularity, searchPerson200ResponseResultsInner.popularity) &&
+                Objects.equals(this.profilePath, searchPerson200ResponseResultsInner.profilePath) &&
+                Objects.equals(this.knownFor, searchPerson200ResponseResultsInner.knownFor);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(adult, gender, id, knownForDepartment, name, originalName, popularity, profilePath,
-            knownFor);
+                knownFor);
     }
 
     @Override
@@ -335,103 +332,5 @@ public class Person {
             return "null";
         }
         return o.toString().replace("\n", "\n    ");
-    }
-
-    /**
-     * Convert the instance into URL query string.
-     *
-     * @return URL query string
-     */
-    public String toUrlQueryString() {
-        return toUrlQueryString(null);
-    }
-
-    /**
-     * Convert the instance into URL query string.
-     *
-     * @param prefix prefix of the query string
-     * @return URL query string
-     */
-    public String toUrlQueryString(String prefix) {
-        String suffix = "";
-        String containerSuffix = "";
-        String containerPrefix = "";
-        if (prefix == null) {
-            // style=form, explode=true, e.g. /pet?name=cat&type=manx
-            prefix = "";
-        }
-        else {
-            // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
-            prefix = prefix + "[";
-            suffix = "]";
-            containerSuffix = "]";
-            containerPrefix = "[";
-        }
-
-        StringJoiner joiner = new StringJoiner("&");
-
-        // add `adult` to the URL query string
-        if (getAdult() != null) {
-            joiner.add(String.format("%sadult%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getAdult()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `gender` to the URL query string
-        if (getGender() != null) {
-            joiner.add(String.format("%sgender%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getGender()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `id` to the URL query string
-        if (getId() != null) {
-            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `known_for_department` to the URL query string
-        if (getKnownForDepartment() != null) {
-            joiner.add(String.format("%sknown_for_department%s=%s", prefix, suffix,
-                URLEncoder.encode(ModelUtil.valueToString(getKnownForDepartment()), StandardCharsets.UTF_8)
-                    .replaceAll("\\+", "%20")));
-        }
-
-        // add `name` to the URL query string
-        if (getName() != null) {
-            joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `original_name` to the URL query string
-        if (getOriginalName() != null) {
-            joiner.add(String.format("%soriginal_name%s=%s", prefix, suffix,
-                URLEncoder.encode(ModelUtil.valueToString(getOriginalName()), StandardCharsets.UTF_8)
-                    .replaceAll("\\+", "%20")));
-        }
-
-        // add `popularity` to the URL query string
-        if (getPopularity() != null) {
-            joiner.add(String.format("%spopularity%s=%s", prefix, suffix,
-                URLEncoder.encode(ModelUtil.valueToString(getPopularity()), StandardCharsets.UTF_8)
-                    .replaceAll("\\+", "%20")));
-        }
-
-        // add `profile_path` to the URL query string
-        if (getProfilePath() != null) {
-            joiner.add(String.format("%sprofile_path%s=%s", prefix, suffix,
-                URLEncoder.encode(ModelUtil.valueToString(getProfilePath()), StandardCharsets.UTF_8)
-                    .replaceAll("\\+", "%20")));
-        }
-
-        // add `known_for` to the URL query string
-        if (getKnownFor() != null) {
-            for (int i = 0; i < getKnownFor().size(); i++) {
-                if (getKnownFor().get(i) != null) {
-                    joiner.add(getKnownFor().get(i).toUrlQueryString(String.format("%sknown_for%s%s", prefix, suffix,
-                        "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
-                }
-            }
-        }
-
-        return joiner.toString();
     }
 }

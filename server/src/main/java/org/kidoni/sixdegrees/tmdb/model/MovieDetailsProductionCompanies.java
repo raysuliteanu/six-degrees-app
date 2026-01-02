@@ -3,18 +3,15 @@ package org.kidoni.sixdegrees.tmdb.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Objects;
-import java.util.StringJoiner;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
 @JsonPropertyOrder({
-    MovieDetailsProductionCompanies.JSON_PROPERTY_ID,
-    MovieDetailsProductionCompanies.JSON_PROPERTY_LOGO_PATH,
-    MovieDetailsProductionCompanies.JSON_PROPERTY_NAME,
-    MovieDetailsProductionCompanies.JSON_PROPERTY_ORIGIN_COUNTRY
+        MovieDetailsProductionCompanies.JSON_PROPERTY_ID,
+        MovieDetailsProductionCompanies.JSON_PROPERTY_LOGO_PATH,
+        MovieDetailsProductionCompanies.JSON_PROPERTY_NAME,
+        MovieDetailsProductionCompanies.JSON_PROPERTY_ORIGIN_COUNTRY
 })
 @Node
 public class MovieDetailsProductionCompanies {
@@ -144,9 +141,9 @@ public class MovieDetailsProductionCompanies {
         }
         MovieDetailsProductionCompanies movieDetails200ResponseProductionCompaniesInner = (MovieDetailsProductionCompanies) o;
         return Objects.equals(this.id, movieDetails200ResponseProductionCompaniesInner.id) &&
-            Objects.equals(this.logoPath, movieDetails200ResponseProductionCompaniesInner.logoPath) &&
-            Objects.equals(this.name, movieDetails200ResponseProductionCompaniesInner.name) &&
-            Objects.equals(this.originCountry, movieDetails200ResponseProductionCompaniesInner.originCountry);
+                Objects.equals(this.logoPath, movieDetails200ResponseProductionCompaniesInner.logoPath) &&
+                Objects.equals(this.name, movieDetails200ResponseProductionCompaniesInner.name) &&
+                Objects.equals(this.originCountry, movieDetails200ResponseProductionCompaniesInner.originCountry);
     }
 
     @Override
@@ -175,66 +172,5 @@ public class MovieDetailsProductionCompanies {
             return "null";
         }
         return o.toString().replace("\n", "\n    ");
-    }
-
-    /**
-     * Convert the instance into URL query string.
-     *
-     * @return URL query string
-     */
-    public String toUrlQueryString() {
-        return toUrlQueryString(null);
-    }
-
-    /**
-     * Convert the instance into URL query string.
-     *
-     * @param prefix prefix of the query string
-     * @return URL query string
-     */
-    public String toUrlQueryString(String prefix) {
-        String suffix = "";
-        String containerSuffix = "";
-        String containerPrefix = "";
-        if (prefix == null) {
-            // style=form, explode=true, e.g. /pet?name=cat&type=manx
-            prefix = "";
-        }
-        else {
-            // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
-            prefix = prefix + "[";
-            suffix = "]";
-            containerSuffix = "]";
-            containerPrefix = "[";
-        }
-
-        StringJoiner joiner = new StringJoiner("&");
-
-        // add `id` to the URL query string
-        if (getId() != null) {
-            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `logo_path` to the URL query string
-        if (getLogoPath() != null) {
-            joiner.add(String.format("%slogo_path%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getLogoPath()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `name` to the URL query string
-        if (getName() != null) {
-            joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `origin_country` to the URL query string
-        if (getOriginCountry() != null) {
-            joiner.add(String.format("%sorigin_country%s=%s", prefix, suffix,
-                URLEncoder.encode(ModelUtil.valueToString(getOriginCountry()), StandardCharsets.UTF_8)
-                    .replaceAll("\\+", "%20")));
-        }
-
-        return joiner.toString();
     }
 }

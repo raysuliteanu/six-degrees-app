@@ -4,30 +4,27 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.StringJoiner;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
 @JsonPropertyOrder({
-    PersonDetails.JSON_PROPERTY_ADULT,
-    PersonDetails.JSON_PROPERTY_ALSO_KNOWN_AS,
-    PersonDetails.JSON_PROPERTY_BIOGRAPHY,
-    PersonDetails.JSON_PROPERTY_BIRTHDAY,
-    PersonDetails.JSON_PROPERTY_DEATHDAY,
-    PersonDetails.JSON_PROPERTY_GENDER,
-    PersonDetails.JSON_PROPERTY_HOMEPAGE,
-    PersonDetails.JSON_PROPERTY_ID,
-    PersonDetails.JSON_PROPERTY_IMDB_ID,
-    PersonDetails.JSON_PROPERTY_KNOWN_FOR_DEPARTMENT,
-    PersonDetails.JSON_PROPERTY_NAME,
-    PersonDetails.JSON_PROPERTY_PLACE_OF_BIRTH,
-    PersonDetails.JSON_PROPERTY_POPULARITY,
-    PersonDetails.JSON_PROPERTY_PROFILE_PATH
+        PersonDetails.JSON_PROPERTY_ADULT,
+        PersonDetails.JSON_PROPERTY_ALSO_KNOWN_AS,
+        PersonDetails.JSON_PROPERTY_BIOGRAPHY,
+        PersonDetails.JSON_PROPERTY_BIRTHDAY,
+        PersonDetails.JSON_PROPERTY_DEATHDAY,
+        PersonDetails.JSON_PROPERTY_GENDER,
+        PersonDetails.JSON_PROPERTY_HOMEPAGE,
+        PersonDetails.JSON_PROPERTY_ID,
+        PersonDetails.JSON_PROPERTY_IMDB_ID,
+        PersonDetails.JSON_PROPERTY_KNOWN_FOR_DEPARTMENT,
+        PersonDetails.JSON_PROPERTY_NAME,
+        PersonDetails.JSON_PROPERTY_PLACE_OF_BIRTH,
+        PersonDetails.JSON_PROPERTY_POPULARITY,
+        PersonDetails.JSON_PROPERTY_PROFILE_PATH
 })
 @Node
 public class PersonDetails {
@@ -430,25 +427,25 @@ public class PersonDetails {
         }
         PersonDetails personDetails = (PersonDetails) o;
         return Objects.equals(this.adult, personDetails.adult) &&
-            Objects.equals(this.alsoKnownAs, personDetails.alsoKnownAs) &&
-            Objects.equals(this.biography, personDetails.biography) &&
-            Objects.equals(this.birthday, personDetails.birthday) &&
-            Objects.equals(this.deathday, personDetails.deathday) &&
-            Objects.equals(this.gender, personDetails.gender) &&
-            Objects.equals(this.homepage, personDetails.homepage) &&
-            Objects.equals(this.id, personDetails.id) &&
-            Objects.equals(this.imdbId, personDetails.imdbId) &&
-            Objects.equals(this.knownForDepartment, personDetails.knownForDepartment) &&
-            Objects.equals(this.name, personDetails.name) &&
-            Objects.equals(this.placeOfBirth, personDetails.placeOfBirth) &&
-            Objects.equals(this.popularity, personDetails.popularity) &&
-            Objects.equals(this.profilePath, personDetails.profilePath);
+                Objects.equals(this.alsoKnownAs, personDetails.alsoKnownAs) &&
+                Objects.equals(this.biography, personDetails.biography) &&
+                Objects.equals(this.birthday, personDetails.birthday) &&
+                Objects.equals(this.deathday, personDetails.deathday) &&
+                Objects.equals(this.gender, personDetails.gender) &&
+                Objects.equals(this.homepage, personDetails.homepage) &&
+                Objects.equals(this.id, personDetails.id) &&
+                Objects.equals(this.imdbId, personDetails.imdbId) &&
+                Objects.equals(this.knownForDepartment, personDetails.knownForDepartment) &&
+                Objects.equals(this.name, personDetails.name) &&
+                Objects.equals(this.placeOfBirth, personDetails.placeOfBirth) &&
+                Objects.equals(this.popularity, personDetails.popularity) &&
+                Objects.equals(this.profilePath, personDetails.profilePath);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(adult, alsoKnownAs, biography, birthday, deathday, gender, homepage, id, imdbId,
-            knownForDepartment, name, placeOfBirth, popularity, profilePath);
+                knownForDepartment, name, placeOfBirth, popularity, profilePath);
     }
 
     @Override
@@ -482,133 +479,5 @@ public class PersonDetails {
             return "null";
         }
         return o.toString().replace("\n", "\n    ");
-    }
-
-    /**
-     * Convert the instance into URL query string.
-     *
-     * @return URL query string
-     */
-    public String toUrlQueryString() {
-        return toUrlQueryString(null);
-    }
-
-    /**
-     * Convert the instance into URL query string.
-     *
-     * @param prefix prefix of the query string
-     * @return URL query string
-     */
-    public String toUrlQueryString(String prefix) {
-        String suffix = "";
-        String containerSuffix = "";
-        String containerPrefix = "";
-        if (prefix == null) {
-            // style=form, explode=true, e.g. /pet?name=cat&type=manx
-            prefix = "";
-        }
-        else {
-            // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
-            prefix = prefix + "[";
-            suffix = "]";
-            containerSuffix = "]";
-            containerPrefix = "[";
-        }
-
-        StringJoiner joiner = new StringJoiner("&");
-
-        // add `adult` to the URL query string
-        if (getAdult() != null) {
-            joiner.add(String.format("%sadult%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getAdult()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `also_known_as` to the URL query string
-        if (getAlsoKnownAs() != null) {
-            for (int i = 0; i < getAlsoKnownAs().size(); i++) {
-                joiner.add(String.format("%salso_known_as%s%s=%s", prefix, suffix,
-                    "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-                    URLEncoder.encode(ModelUtil.valueToString(getAlsoKnownAs().get(i)), StandardCharsets.UTF_8)
-                        .replaceAll("\\+", "%20")));
-            }
-        }
-
-        // add `biography` to the URL query string
-        if (getBiography() != null) {
-            joiner.add(String.format("%sbiography%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getBiography()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `birthday` to the URL query string
-        if (getBirthday() != null) {
-            joiner.add(String.format("%sbirthday%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getBirthday()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `deathday` to the URL query string
-        if (getDeathday() != null) {
-            joiner.add(String.format("%sdeathday%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getDeathday()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `gender` to the URL query string
-        if (getGender() != null) {
-            joiner.add(String.format("%sgender%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getGender()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `homepage` to the URL query string
-        if (getHomepage() != null) {
-            joiner.add(String.format("%shomepage%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getHomepage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `id` to the URL query string
-        if (getId() != null) {
-            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `imdb_id` to the URL query string
-        if (getImdbId() != null) {
-            joiner.add(String.format("%simdb_id%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getImdbId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `known_for_department` to the URL query string
-        if (getKnownForDepartment() != null) {
-            joiner.add(String.format("%sknown_for_department%s=%s", prefix, suffix,
-                URLEncoder.encode(ModelUtil.valueToString(getKnownForDepartment()), StandardCharsets.UTF_8)
-                    .replaceAll("\\+", "%20")));
-        }
-
-        // add `name` to the URL query string
-        if (getName() != null) {
-            joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `place_of_birth` to the URL query string
-        if (getPlaceOfBirth() != null) {
-            joiner.add(String.format("%splace_of_birth%s=%s", prefix, suffix,
-                URLEncoder.encode(ModelUtil.valueToString(getPlaceOfBirth()), StandardCharsets.UTF_8)
-                    .replaceAll("\\+", "%20")));
-        }
-
-        // add `popularity` to the URL query string
-        if (getPopularity() != null) {
-            joiner.add(String.format("%spopularity%s=%s", prefix, suffix,
-                URLEncoder.encode(ModelUtil.valueToString(getPopularity()), StandardCharsets.UTF_8)
-                    .replaceAll("\\+", "%20")));
-        }
-
-        // add `profile_path` to the URL query string
-        if (getProfilePath() != null) {
-            joiner.add(String.format("%sprofile_path%s=%s", prefix, suffix,
-                URLEncoder.encode(ModelUtil.valueToString(getProfilePath()), StandardCharsets.UTF_8)
-                    .replaceAll("\\+", "%20")));
-        }
-
-        return joiner.toString();
     }
 }

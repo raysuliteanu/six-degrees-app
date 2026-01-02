@@ -4,31 +4,28 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.StringJoiner;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
 @JsonPropertyOrder({
-    KnownFor.JSON_PROPERTY_ADULT,
-    KnownFor.JSON_PROPERTY_BACKDROP_PATH,
-    KnownFor.JSON_PROPERTY_ID,
-    KnownFor.JSON_PROPERTY_TITLE,
-    KnownFor.JSON_PROPERTY_ORIGINAL_LANGUAGE,
-    KnownFor.JSON_PROPERTY_ORIGINAL_TITLE,
-    KnownFor.JSON_PROPERTY_OVERVIEW,
-    KnownFor.JSON_PROPERTY_POSTER_PATH,
-    KnownFor.JSON_PROPERTY_MEDIA_TYPE,
-    KnownFor.JSON_PROPERTY_GENRE_IDS,
-    KnownFor.JSON_PROPERTY_POPULARITY,
-    KnownFor.JSON_PROPERTY_RELEASE_DATE,
-    KnownFor.JSON_PROPERTY_VIDEO,
-    KnownFor.JSON_PROPERTY_VOTE_AVERAGE,
-    KnownFor.JSON_PROPERTY_VOTE_COUNT
+        KnownFor.JSON_PROPERTY_ADULT,
+        KnownFor.JSON_PROPERTY_BACKDROP_PATH,
+        KnownFor.JSON_PROPERTY_ID,
+        KnownFor.JSON_PROPERTY_TITLE,
+        KnownFor.JSON_PROPERTY_ORIGINAL_LANGUAGE,
+        KnownFor.JSON_PROPERTY_ORIGINAL_TITLE,
+        KnownFor.JSON_PROPERTY_OVERVIEW,
+        KnownFor.JSON_PROPERTY_POSTER_PATH,
+        KnownFor.JSON_PROPERTY_MEDIA_TYPE,
+        KnownFor.JSON_PROPERTY_GENRE_IDS,
+        KnownFor.JSON_PROPERTY_POPULARITY,
+        KnownFor.JSON_PROPERTY_RELEASE_DATE,
+        KnownFor.JSON_PROPERTY_VIDEO,
+        KnownFor.JSON_PROPERTY_VOTE_AVERAGE,
+        KnownFor.JSON_PROPERTY_VOTE_COUNT
 })
 @Node
 public class KnownFor {
@@ -463,27 +460,27 @@ public class KnownFor {
         }
         KnownFor searchPerson200ResponseResultsInnerKnownForInner = (KnownFor) o;
         return Objects.equals(this.adult, searchPerson200ResponseResultsInnerKnownForInner.adult) &&
-            Objects.equals(this.backdropPath, searchPerson200ResponseResultsInnerKnownForInner.backdropPath) &&
-            Objects.equals(this.id, searchPerson200ResponseResultsInnerKnownForInner.id) &&
-            Objects.equals(this.title, searchPerson200ResponseResultsInnerKnownForInner.title) &&
-            Objects.equals(this.originalLanguage, searchPerson200ResponseResultsInnerKnownForInner.originalLanguage)
-            &&
-            Objects.equals(this.originalTitle, searchPerson200ResponseResultsInnerKnownForInner.originalTitle) &&
-            Objects.equals(this.overview, searchPerson200ResponseResultsInnerKnownForInner.overview) &&
-            Objects.equals(this.posterPath, searchPerson200ResponseResultsInnerKnownForInner.posterPath) &&
-            Objects.equals(this.mediaType, searchPerson200ResponseResultsInnerKnownForInner.mediaType) &&
-            Objects.equals(this.genreIds, searchPerson200ResponseResultsInnerKnownForInner.genreIds) &&
-            Objects.equals(this.popularity, searchPerson200ResponseResultsInnerKnownForInner.popularity) &&
-            Objects.equals(this.releaseDate, searchPerson200ResponseResultsInnerKnownForInner.releaseDate) &&
-            Objects.equals(this.video, searchPerson200ResponseResultsInnerKnownForInner.video) &&
-            Objects.equals(this.voteAverage, searchPerson200ResponseResultsInnerKnownForInner.voteAverage) &&
-            Objects.equals(this.voteCount, searchPerson200ResponseResultsInnerKnownForInner.voteCount);
+                Objects.equals(this.backdropPath, searchPerson200ResponseResultsInnerKnownForInner.backdropPath) &&
+                Objects.equals(this.id, searchPerson200ResponseResultsInnerKnownForInner.id) &&
+                Objects.equals(this.title, searchPerson200ResponseResultsInnerKnownForInner.title) &&
+                Objects.equals(this.originalLanguage, searchPerson200ResponseResultsInnerKnownForInner.originalLanguage)
+                &&
+                Objects.equals(this.originalTitle, searchPerson200ResponseResultsInnerKnownForInner.originalTitle) &&
+                Objects.equals(this.overview, searchPerson200ResponseResultsInnerKnownForInner.overview) &&
+                Objects.equals(this.posterPath, searchPerson200ResponseResultsInnerKnownForInner.posterPath) &&
+                Objects.equals(this.mediaType, searchPerson200ResponseResultsInnerKnownForInner.mediaType) &&
+                Objects.equals(this.genreIds, searchPerson200ResponseResultsInnerKnownForInner.genreIds) &&
+                Objects.equals(this.popularity, searchPerson200ResponseResultsInnerKnownForInner.popularity) &&
+                Objects.equals(this.releaseDate, searchPerson200ResponseResultsInnerKnownForInner.releaseDate) &&
+                Objects.equals(this.video, searchPerson200ResponseResultsInnerKnownForInner.video) &&
+                Objects.equals(this.voteAverage, searchPerson200ResponseResultsInnerKnownForInner.voteAverage) &&
+                Objects.equals(this.voteCount, searchPerson200ResponseResultsInnerKnownForInner.voteCount);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(adult, backdropPath, id, title, originalLanguage, originalTitle, overview, posterPath,
-            mediaType, genreIds, popularity, releaseDate, video, voteAverage, voteCount);
+                mediaType, genreIds, popularity, releaseDate, video, voteAverage, voteCount);
     }
 
     @Override
@@ -518,142 +515,5 @@ public class KnownFor {
             return "null";
         }
         return o.toString().replace("\n", "\n    ");
-    }
-
-    /**
-     * Convert the instance into URL query string.
-     *
-     * @return URL query string
-     */
-    public String toUrlQueryString() {
-        return toUrlQueryString(null);
-    }
-
-    /**
-     * Convert the instance into URL query string.
-     *
-     * @param prefix prefix of the query string
-     * @return URL query string
-     */
-    public String toUrlQueryString(String prefix) {
-        String suffix = "";
-        String containerSuffix = "";
-        String containerPrefix = "";
-        if (prefix == null) {
-            // style=form, explode=true, e.g. /pet?name=cat&type=manx
-            prefix = "";
-        }
-        else {
-            // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
-            prefix = prefix + "[";
-            suffix = "]";
-            containerSuffix = "]";
-            containerPrefix = "[";
-        }
-
-        StringJoiner joiner = new StringJoiner("&");
-
-        // add `adult` to the URL query string
-        if (getAdult() != null) {
-            joiner.add(String.format("%sadult%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getAdult()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `backdrop_path` to the URL query string
-        if (getBackdropPath() != null) {
-            joiner.add(String.format("%sbackdrop_path%s=%s", prefix, suffix,
-                URLEncoder.encode(ModelUtil.valueToString(getBackdropPath()), StandardCharsets.UTF_8)
-                    .replaceAll("\\+", "%20")));
-        }
-
-        // add `id` to the URL query string
-        if (getId() != null) {
-            joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `title` to the URL query string
-        if (getTitle() != null) {
-            joiner.add(String.format("%stitle%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getTitle()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `original_language` to the URL query string
-        if (getOriginalLanguage() != null) {
-            joiner.add(String.format("%soriginal_language%s=%s", prefix, suffix,
-                URLEncoder.encode(ModelUtil.valueToString(getOriginalLanguage()), StandardCharsets.UTF_8)
-                    .replaceAll("\\+", "%20")));
-        }
-
-        // add `original_title` to the URL query string
-        if (getOriginalTitle() != null) {
-            joiner.add(String.format("%soriginal_title%s=%s", prefix, suffix,
-                URLEncoder.encode(ModelUtil.valueToString(getOriginalTitle()), StandardCharsets.UTF_8)
-                    .replaceAll("\\+", "%20")));
-        }
-
-        // add `overview` to the URL query string
-        if (getOverview() != null) {
-            joiner.add(String.format("%soverview%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getOverview()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `poster_path` to the URL query string
-        if (getPosterPath() != null) {
-            joiner.add(String.format("%sposter_path%s=%s", prefix, suffix,
-                URLEncoder.encode(ModelUtil.valueToString(getPosterPath()), StandardCharsets.UTF_8)
-                    .replaceAll("\\+", "%20")));
-        }
-
-        // add `media_type` to the URL query string
-        if (getMediaType() != null) {
-            joiner.add(String.format("%smedia_type%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getMediaType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `genre_ids` to the URL query string
-        if (getGenreIds() != null) {
-            for (int i = 0; i < getGenreIds().size(); i++) {
-                joiner.add(String.format("%sgenre_ids%s%s=%s", prefix, suffix,
-                    "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-                    URLEncoder.encode(ModelUtil.valueToString(getGenreIds().get(i)), StandardCharsets.UTF_8)
-                        .replaceAll("\\+", "%20")));
-            }
-        }
-
-        // add `popularity` to the URL query string
-        if (getPopularity() != null) {
-            joiner.add(String.format("%spopularity%s=%s", prefix, suffix,
-                URLEncoder.encode(ModelUtil.valueToString(getPopularity()), StandardCharsets.UTF_8)
-                    .replaceAll("\\+", "%20")));
-        }
-
-        // add `release_date` to the URL query string
-        if (getReleaseDate() != null) {
-            joiner.add(String.format("%srelease_date%s=%s", prefix, suffix,
-                URLEncoder.encode(ModelUtil.valueToString(getReleaseDate()), StandardCharsets.UTF_8)
-                    .replaceAll("\\+", "%20")));
-        }
-
-        // add `video` to the URL query string
-        if (getVideo() != null) {
-            joiner.add(String.format("%svideo%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getVideo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `vote_average` to the URL query string
-        if (getVoteAverage() != null) {
-            joiner.add(String.format("%svote_average%s=%s", prefix, suffix,
-                URLEncoder.encode(ModelUtil.valueToString(getVoteAverage()), StandardCharsets.UTF_8)
-                    .replaceAll("\\+", "%20")));
-        }
-
-        // add `vote_count` to the URL query string
-        if (getVoteCount() != null) {
-            joiner.add(String.format("%svote_count%s=%s", prefix, suffix, URLEncoder
-                .encode(ModelUtil.valueToString(getVoteCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        return joiner.toString();
     }
 }
