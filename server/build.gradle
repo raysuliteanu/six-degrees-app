@@ -71,7 +71,7 @@ openApiGenerate {
     inputSpec = "${projectDir}/tmdb-api.json"
     outputDir = "${layout.buildDirectory.get()}/generated/openapi"
     apiPackage = 'org.kidoni.sixdegrees.tmdb.api'
-    modelPackage = 'org.kidoni.sixdegrees.tmdb.model'
+    modelPackage = 'org.kidoni.sixdegrees.tmdb.api.model'
     invokerPackage = 'org.kidoni.sixdegrees.tmdb.client'
     configOptions = [
         useJakartaEe           : 'true',
@@ -129,9 +129,21 @@ tasks.register('fixGeneratedModels') {
     dependsOn tasks.openApiGenerate
     def buildDir = layout.buildDirectory
     doLast {
-        def file = new File(buildDir.get().asFile, "generated/openapi/src/main/java/org/kidoni/sixdegrees/tmdb/model/TvSeasonDetails200Response.java")
+        def file = new File(buildDir.get().asFile, "generated/openapi/src/main/java/org/kidoni/sixdegrees/tmdb/api/model/TvSeasonDetails200Response.java")
         if (file.exists()) {
             file.delete()
         }
     }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir "${layout.buildDirectory.get()}/generated/openapi/src/main/java"
+        }
+    }
+}
+
+tasks.named('compileJava') {
+    dependsOn tasks.fixGeneratedModels
 }
