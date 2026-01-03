@@ -3,12 +3,10 @@ package org.kidoni.sixdegrees;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.kidoni.sixdegrees.tmdb.model.Actor;
+import org.kidoni.sixdegrees.tmdb.model.Credit;
 import org.kidoni.sixdegrees.tmdb.model.Movie;
-import org.kidoni.sixdegrees.tmdb.model.MovieDetails;
 import org.kidoni.sixdegrees.tmdb.model.MovieSearchResult;
-import org.kidoni.sixdegrees.tmdb.model.Person;
-import org.kidoni.sixdegrees.tmdb.model.PersonCombinedCredits;
-import org.kidoni.sixdegrees.tmdb.model.PersonDetails;
 import org.kidoni.sixdegrees.tmdb.model.PersonSearchResult;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,9 +29,13 @@ class SixDegreesControllerTest {
 
     @Test
     void searchPerson() {
+        Actor actor = new Actor();
+        actor.setId(123);
+        actor.setName("Tom Hanks");
+
         final var expected = new PersonSearchResult()
             .page(1)
-            .results(List.of(new Person().id(123).name("Tom Hanks")))
+            .results(List.of(actor))
             .totalPages(1)
             .totalResults(1);
         when(sixDegreesService.searchPerson("hanks")).thenReturn(expected);
@@ -43,7 +45,7 @@ class SixDegreesControllerTest {
         assertSame(expected, result);
         assertNotNull(result.getResults());
         assertEquals(1, result.getResults().size());
-        assertEquals("Tom Hanks", result.getResults().get(0).getName());
+        assertEquals("Tom Hanks", result.getResults().get(0).name());
 
         verify(sixDegreesService).searchPerson("hanks");
         verifyNoMoreInteractions(sixDegreesService);
@@ -69,18 +71,18 @@ class SixDegreesControllerTest {
 
     @Test
     void findPerson() {
-        final var expected = new PersonDetails()
-            .id(456)
-            .name("Meryl Streep")
-            .biography("Award-winning actress");
-        when(sixDegreesService.findPerson(456)).thenReturn(expected);
+        final var actor = new Actor();
+        actor.setId(456);
+        actor.setName("Meryl Streep");
+        actor.setBiography("Award-winning actress");
+        when(sixDegreesService.findPerson(456)).thenReturn(actor);
 
         var result = controller.findPerson(456);
 
-        assertSame(expected, result);
-        assertEquals(456, result.getId());
-        assertEquals("Meryl Streep", result.getName());
-        assertEquals("Award-winning actress", result.getBiography());
+        assertSame(actor, result);
+        assertEquals(456, result.id());
+        assertEquals("Meryl Streep", result.name());
+        assertEquals("Award-winning actress", result.biography());
 
         verify(sixDegreesService).findPerson(456);
         verifyNoMoreInteractions(sixDegreesService);
@@ -88,13 +90,17 @@ class SixDegreesControllerTest {
 
     @Test
     void getPersonCredits() {
-        final var expected = new PersonCombinedCredits().id(789);
+        final Movie movie = new Movie();
+        movie.setId(111);
+        movie.setTitle("The Matrix");
+        final List<Credit> expected = List.of(movie);
         when(sixDegreesService.getPersonCredits(789)).thenReturn(expected);
 
         var result = controller.getPersonCredits(789);
 
         assertSame(expected, result);
-        assertEquals(789, result.getId());
+        assertEquals(1, result.size());
+        assertEquals(111, result.get(0).id());
 
         verify(sixDegreesService).getPersonCredits(789);
         verifyNoMoreInteractions(sixDegreesService);
@@ -102,9 +108,13 @@ class SixDegreesControllerTest {
 
     @Test
     void movieSearch() {
+        Movie movie = new Movie();
+        movie.setId(999);
+        movie.setTitle("The Matrix");
+
         final var expected = new MovieSearchResult()
             .page(1)
-            .results(List.of(new Movie().id(999).title("The Matrix")))
+            .results(List.of(movie))
             .totalPages(1)
             .totalResults(1);
         when(sixDegreesService.movieSearch("matrix")).thenReturn(expected);
@@ -114,7 +124,7 @@ class SixDegreesControllerTest {
         assertSame(expected, result);
         assertNotNull(result.getResults());
         assertEquals(1, result.getResults().size());
-        assertEquals("The Matrix", result.getResults().get(0).getTitle());
+        assertEquals("The Matrix", result.getResults().get(0).title());
 
         verify(sixDegreesService).movieSearch("matrix");
         verifyNoMoreInteractions(sixDegreesService);
@@ -140,18 +150,18 @@ class SixDegreesControllerTest {
 
     @Test
     void findMovie() {
-        final var expected = new MovieDetails()
-            .id(111)
-            .title("Inception")
-            .overview("A mind-bending thriller");
-        when(sixDegreesService.findMovie(111)).thenReturn(expected);
+        final var movie = new Movie();
+        movie.setId(111);
+        movie.setTitle("Inception");
+        movie.setOverview("A mind-bending thriller");
+        when(sixDegreesService.findMovie(111)).thenReturn(movie);
 
         var result = controller.findMovie(111);
 
-        assertSame(expected, result);
-        assertEquals(111, result.getId());
-        assertEquals("Inception", result.getTitle());
-        assertEquals("A mind-bending thriller", result.getOverview());
+        assertSame(movie, result);
+        assertEquals(111, result.id());
+        assertEquals("Inception", result.title());
+        assertEquals("A mind-bending thriller", result.overview());
 
         verify(sixDegreesService).findMovie(111);
         verifyNoMoreInteractions(sixDegreesService);

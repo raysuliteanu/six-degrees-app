@@ -38,11 +38,6 @@ public class MovieSearchResult {
         return this;
     }
 
-    /**
-     * Get page
-     *
-     * @return page
-     */
     @jakarta.annotation.Nullable
     @JsonProperty(JSON_PROPERTY_PAGE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -69,12 +64,7 @@ public class MovieSearchResult {
         return this;
     }
 
-    /**
-     * Get results
-     *
-     * @return results
-     */
-    @jakarta.annotation.Nullable
+   @jakarta.annotation.Nullable
     @JsonProperty(JSON_PROPERTY_RESULTS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public List<Movie> getResults() {
@@ -92,12 +82,7 @@ public class MovieSearchResult {
         return this;
     }
 
-    /**
-     * Get totalPages
-     *
-     * @return totalPages
-     */
-    @jakarta.annotation.Nullable
+   @jakarta.annotation.Nullable
     @JsonProperty(JSON_PROPERTY_TOTAL_PAGES)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getTotalPages() {
@@ -115,12 +100,7 @@ public class MovieSearchResult {
         return this;
     }
 
-    /**
-     * Get totalResults
-     *
-     * @return totalResults
-     */
-    @jakarta.annotation.Nullable
+   @jakarta.annotation.Nullable
     @JsonProperty(JSON_PROPERTY_TOTAL_RESULTS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getTotalResults() {
@@ -133,10 +113,7 @@ public class MovieSearchResult {
         this.totalResults = totalResults;
     }
 
-    /**
-     * Return true if this search_movie_200_response object is equal to o.
-     */
-    @Override
+   @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -168,11 +145,7 @@ public class MovieSearchResult {
         return sb.toString();
     }
 
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     */
-    private String toIndentedString(Object o) {
+   private String toIndentedString(Object o) {
         if (o == null) {
             return "null";
         }

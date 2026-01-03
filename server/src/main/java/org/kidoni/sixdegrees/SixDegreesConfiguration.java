@@ -1,11 +1,12 @@
 package org.kidoni.sixdegrees;
 
+import org.kidoni.sixdegrees.tmdb.ActorRepository;
 import org.kidoni.sixdegrees.tmdb.DefaultTmdbClient;
-import org.kidoni.sixdegrees.tmdb.MovieDetailsRepository;
-import org.kidoni.sixdegrees.tmdb.PersonDetailsRepository;
+import org.kidoni.sixdegrees.tmdb.MovieRepository;
 import org.kidoni.sixdegrees.tmdb.TmdbClient;
 import org.kidoni.sixdegrees.tmdb.TmdbConfigurationProperties;
 import org.kidoni.sixdegrees.tmdb.TmdbSixDegreesService;
+import org.kidoni.sixdegrees.tmdb.TvShowRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
@@ -23,8 +24,9 @@ public class SixDegreesConfiguration {
     }
 
     @Bean
-    public SixDegreesService sixDegreesService(TmdbClient tmdbClient, final PersonDetailsRepository personDetailsRepository, final MovieDetailsRepository movieDetailsRepository, final TaskExecutor taskExecutor) {
-        return new TmdbSixDegreesService(tmdbClient, personDetailsRepository, movieDetailsRepository, taskExecutor);
+    public SixDegreesService sixDegreesService(TmdbClient tmdbClient, final ActorRepository actorRepository,
+            final MovieRepository movieRepository, final TvShowRepository tvShowRepository, final TaskExecutor taskExecutor) {
+        return new TmdbSixDegreesService(tmdbClient, actorRepository, movieRepository, tvShowRepository, taskExecutor);
     }
 
     @Bean
@@ -43,13 +45,13 @@ public class SixDegreesConfiguration {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                    .allowedOrigins(
-                        "http://localhost:5173",  // Vite dev server
-                        "http://localhost:3000"   // Alternative port
-                    )
-                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                    .allowedHeaders("*")
-                    .allowCredentials(true);
+                        .allowedOrigins(
+                                "http://localhost:5173", // Vite dev server
+                                "http://localhost:3000" // Alternative port
+                )
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
             }
         };
     }

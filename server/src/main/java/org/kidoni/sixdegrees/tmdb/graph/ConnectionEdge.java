@@ -1,4 +1,4 @@
-package org.kidoni.sixdegrees.tmdb.model;
+package org.kidoni.sixdegrees.tmdb.graph;
 
 public record ConnectionEdge(
     String from,

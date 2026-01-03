@@ -1,9 +1,15 @@
 package org.kidoni.sixdegrees.tmdb;
 
-import org.kidoni.sixdegrees.tmdb.model.MovieDetails;
+import java.util.List;
+import org.kidoni.sixdegrees.tmdb.api.model.MovieDetails200Response;
+import org.kidoni.sixdegrees.tmdb.api.model.PersonCombinedCredits200Response;
+import org.kidoni.sixdegrees.tmdb.api.model.PersonDetails200Response;
+import org.kidoni.sixdegrees.tmdb.api.model.SearchMovie200Response;
+import org.kidoni.sixdegrees.tmdb.api.model.SearchPerson200Response;
+import org.kidoni.sixdegrees.tmdb.model.Credit;
+import org.kidoni.sixdegrees.tmdb.model.Movie;
 import org.kidoni.sixdegrees.tmdb.model.MovieSearchResult;
-import org.kidoni.sixdegrees.tmdb.model.PersonCombinedCredits;
-import org.kidoni.sixdegrees.tmdb.model.PersonDetails;
+import org.kidoni.sixdegrees.tmdb.model.Person;
 import org.kidoni.sixdegrees.tmdb.model.PersonSearchResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,65 +32,98 @@ public class DefaultTmdbClient implements TmdbClient {
     public DefaultTmdbClient(final TmdbConfigurationProperties tmdbConfigurationProperties) {
         LOG.debug("Initializing TmdbClient: URL {}", tmdbConfigurationProperties.getUrl());
         this.restClient = RestClient.builder()
-            .baseUrl(tmdbConfigurationProperties.getUrl())
-            .requestFactory(new JdkClientHttpRequestFactory())
-            .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + tmdbConfigurationProperties.getAccessToken())
-            .build();
+                .baseUrl(tmdbConfigurationProperties.getUrl())
+                .requestFactory(new JdkClientHttpRequestFactory())
+                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + tmdbConfigurationProperties.getAccessToken())
+                .build();
     }
 
     @Override
     public PersonSearchResult searchPersonByName(String name) {
         LOG.debug("Finding people with name {}", name);
-        return restClient.method(HttpMethod.GET)
-            .uri((uriBuilder -> uriBuilder
-                .path(SEARCH_PERSON_PATH)
-                .queryParam("query", name)
-                .build()))
-            .accept(MediaType.APPLICATION_JSON)
-            .retrieve()
-            .body(PersonSearchResult.class);
+        SearchPerson200Response result = restClient.method(HttpMethod.GET)
+                .uri((uriBuilder -> uriBuilder
+                        .path(SEARCH_PERSON_PATH)
+                        .queryParam("query", name)
+                        .build()))
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(SearchPerson200Response.class);
+
+        if (result != null) {
+            var personSearchResult = new PersonSearchResult()
+                    .page(result.getPage())
+                    .totalPages(result.getTotalPages())
+                    .totalResults(result.getTotalResults());
+            if (result.getResults() != null) {
+                List<Person> mappedPersons = result.getResults().stream()
+                        .map(TmdbApiMapper::mapSearchResultToPerson)
+                        .toList();
+                personSearchResult.results(mappedPersons);
+            }
+            return personSearchResult;
+        }
+        return null;
     }
 
     @Override
-    public PersonDetails findPersonById(Integer id) {
+    public Person findPersonById(Integer id) {
         LOG.debug("fetching person by id {}", id);
-        return restClient.method(HttpMethod.GET)
-            .uri(PERSON_DETAIL_PATH + id)
-            .accept(MediaType.APPLICATION_JSON)
-            .retrieve()
-            .body(PersonDetails.class);
+        PersonDetails200Response apiPerson = restClient.method(HttpMethod.GET)
+                .uri(PERSON_DETAIL_PATH + id)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(PersonDetails200Response.class);
+        return TmdbApiMapper.mapToPerson(apiPerson);
     }
 
     @Override
-    public PersonCombinedCredits getPersonCombinedCredits(final Integer id) {
+    public List<Credit> getPersonCombinedCredits(final Integer id) {
         LOG.debug("fetching credits for person by id {}", id);
-        return restClient.method(HttpMethod.GET)
-            .uri(PERSON_DETAIL_PATH + id + "/combined_credits")
-            .accept(MediaType.APPLICATION_JSON)
-            .retrieve()
-            .body(PersonCombinedCredits.class);
+        PersonCombinedCredits200Response apiCredits = restClient.method(HttpMethod.GET)
+                .uri(PERSON_DETAIL_PATH + id + "/combined_credits")
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(PersonCombinedCredits200Response.class);
+        return TmdbApiMapper.mapToCreditsList(apiCredits);
     }
 
     @Override
     public MovieSearchResult searchMovieByName(final String name) {
         LOG.debug("Finding movies with name {}", name);
-        return restClient.method(HttpMethod.GET)
-            .uri((uriBuilder -> uriBuilder
-                .path(SEARCH_MOVIE_PATH)
-                .queryParam("query", name)
-                .build()))
-            .accept(MediaType.APPLICATION_JSON)
-            .retrieve()
-            .body(MovieSearchResult.class);
+        SearchMovie200Response result = restClient.method(HttpMethod.GET)
+                .uri((uriBuilder -> uriBuilder
+                        .path(SEARCH_MOVIE_PATH)
+                        .queryParam("query", name)
+                        .build()))
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(SearchMovie200Response.class);
+
+        if (result != null) {
+            var movieSearchResult = new MovieSearchResult()
+                    .page(result.getPage())
+                    .totalPages(result.getTotalPages())
+                    .totalResults(result.getTotalResults());
+            if (result.getResults() != null) {
+                List<Movie> mappedMovies = result.getResults().stream()
+                        .map(TmdbApiMapper::mapSearchResultToMovie)
+                        .toList();
+                movieSearchResult.results(mappedMovies);
+            }
+            return movieSearchResult;
+        }
+        return null;
     }
 
     @Override
-    public MovieDetails findMovieById(final Integer id) {
+    public Movie findMovieById(final Integer id) {
         LOG.debug("fetching movie by id {}", id);
-        return restClient.method(HttpMethod.GET)
-            .uri(MOVIE_DETAIL_PATH + id)
-            .accept(MediaType.APPLICATION_JSON)
-            .retrieve()
-            .body(MovieDetails.class);
+        MovieDetails200Response apiMovie = restClient.method(HttpMethod.GET)
+                .uri(MOVIE_DETAIL_PATH + id)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(MovieDetails200Response.class);
+        return TmdbApiMapper.mapToMovie(apiMovie);
     }
 }

@@ -1,4 +1,4 @@
-package org.kidoni.sixdegrees.tmdb.model;
+package org.kidoni.sixdegrees.tmdb.graph;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.neo4j.core.schema.Id;
