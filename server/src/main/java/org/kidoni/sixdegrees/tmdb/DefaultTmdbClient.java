@@ -80,12 +80,18 @@ public class DefaultTmdbClient implements TmdbClient {
     @Override
     public List<Credit> getPersonCombinedCredits(final Integer id) {
         LOG.debug("fetching credits for person by id {}", id);
-        PersonCombinedCredits200Response apiCredits = restClient.method(HttpMethod.GET)
+        PersonCombinedCredits200Response apiCredits = getPersonCombinedCreditsRaw(id);
+        return TmdbApiMapper.mapToCreditsList(apiCredits);
+    }
+
+    @Override
+    public PersonCombinedCredits200Response getPersonCombinedCreditsRaw(final Integer id) {
+        LOG.debug("fetching raw combined credits for person by id {}", id);
+        return restClient.method(HttpMethod.GET)
                 .uri(PERSON_DETAIL_PATH + id + "/combined_credits")
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body(PersonCombinedCredits200Response.class);
-        return TmdbApiMapper.mapToCreditsList(apiCredits);
     }
 
     @Override

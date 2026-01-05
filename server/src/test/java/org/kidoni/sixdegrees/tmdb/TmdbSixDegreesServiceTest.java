@@ -10,9 +10,11 @@ import org.kidoni.sixdegrees.tmdb.model.Movie;
 import org.kidoni.sixdegrees.tmdb.model.MovieSearchResult;
 import org.kidoni.sixdegrees.tmdb.model.PersonSearchResult;
 import org.springframework.core.task.SyncTaskExecutor;
+import org.springframework.data.neo4j.core.Neo4jClient;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -26,6 +28,7 @@ class TmdbSixDegreesServiceTest {
     MovieRepository movieRepository;
     TvShowRepository tvShowRepository;
     TmdbSixDegreesService tmdbService;
+    Neo4jClient neo4jClient;
 
     @BeforeEach
     void setUp() {
@@ -33,12 +36,14 @@ class TmdbSixDegreesServiceTest {
         actorRepository = mock(ActorRepository.class);
         movieRepository = mock(MovieRepository.class);
         tvShowRepository = mock(TvShowRepository.class);
+        neo4jClient = mock(Neo4jClient.class);
         tmdbService = new TmdbSixDegreesService(
             tmdbClient,
             actorRepository,
             movieRepository,
             tvShowRepository,
-            new SyncTaskExecutor());
+            new SyncTaskExecutor(),
+            neo4jClient);
     }
 
     @Test
@@ -48,10 +53,10 @@ class TmdbSixDegreesServiceTest {
         actor.setName("John Smith");
 
         final var personSearchResult = new PersonSearchResult()
-                .page(1)
-                .results(List.of(actor))
-                .totalPages(1)
-                .totalResults(1);
+            .page(1)
+            .results(List.of(actor))
+            .totalPages(1)
+            .totalResults(1);
         when(tmdbClient.searchPersonByName("smith")).thenReturn(personSearchResult);
 
         final var actorDetails = new Actor();
@@ -74,14 +79,14 @@ class TmdbSixDegreesServiceTest {
     @Test
     void searchForPersonWithNullResults() {
         final var personSearchResult = new PersonSearchResult()
-                .page(1)
-                .results(null)
-                .totalPages(0)
-                .totalResults(0);
+            .page(1)
+            .results(null)
+            .totalPages(0)
+            .totalResults(0);
         when(tmdbClient.searchPersonByName("unknown")).thenReturn(personSearchResult);
 
         var result = tmdbService.searchPerson("unknown");
-        assertEquals(null, result.getResults());
+        assertNull(result.getResults());
 
         verify(tmdbClient).searchPersonByName("unknown");
         verifyNoMoreInteractions(tmdbClient);
@@ -91,10 +96,10 @@ class TmdbSixDegreesServiceTest {
     @Test
     void searchForPersonWithEmptyResults() {
         final var personSearchResult = new PersonSearchResult()
-                .page(1)
-                .results(List.of())
-                .totalPages(0)
-                .totalResults(0);
+            .page(1)
+            .results(List.of())
+            .totalPages(0)
+            .totalResults(0);
         when(tmdbClient.searchPersonByName("nobody")).thenReturn(personSearchResult);
 
         var result = tmdbService.searchPerson("nobody");
@@ -156,7 +161,7 @@ class TmdbSixDegreesServiceTest {
         var result = tmdbService.getPersonCredits(789);
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals(111, result.get(0).id());
+        assertEquals(111, result.getFirst().id());
 
         verify(tmdbClient).getPersonCombinedCredits(789);
         verifyNoMoreInteractions(tmdbClient);
@@ -170,10 +175,10 @@ class TmdbSixDegreesServiceTest {
         movie.setTitle("The Matrix");
 
         final var movieSearchResult = new MovieSearchResult()
-                .page(1)
-                .results(List.of(movie))
-                .totalPages(1)
-                .totalResults(1);
+            .page(1)
+            .results(List.of(movie))
+            .totalPages(1)
+            .totalResults(1);
         when(tmdbClient.searchMovieByName("matrix")).thenReturn(movieSearchResult);
 
         final var movieDetails = new Movie();
@@ -196,14 +201,14 @@ class TmdbSixDegreesServiceTest {
     @Test
     void searchForMovieWithNullResults() {
         final var movieSearchResult = new MovieSearchResult()
-                .page(1)
-                .results(null)
-                .totalPages(0)
-                .totalResults(0);
+            .page(1)
+            .results(null)
+            .totalPages(0)
+            .totalResults(0);
         when(tmdbClient.searchMovieByName("unknown")).thenReturn(movieSearchResult);
 
         var result = tmdbService.movieSearch("unknown");
-        assertEquals(null, result.getResults());
+        assertNull(result.getResults());
 
         verify(tmdbClient).searchMovieByName("unknown");
         verifyNoMoreInteractions(tmdbClient);
@@ -213,10 +218,10 @@ class TmdbSixDegreesServiceTest {
     @Test
     void searchForMovieWithEmptyResults() {
         final var movieSearchResult = new MovieSearchResult()
-                .page(1)
-                .results(List.of())
-                .totalPages(0)
-                .totalResults(0);
+            .page(1)
+            .results(List.of())
+            .totalPages(0)
+            .totalResults(0);
         when(tmdbClient.searchMovieByName("nomovie")).thenReturn(movieSearchResult);
 
         var result = tmdbService.movieSearch("nomovie");

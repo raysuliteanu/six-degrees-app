@@ -31,9 +31,9 @@ public class Movie implements Credit {
     @JsonProperty("release_date")
     private Date releaseDate;
 
-    @Relationship
+    @Relationship(type = "CAST", direction = Relationship.Direction.OUTGOING)
     @JsonProperty("cast")
-    private List<Person> cast;
+    private List<CastRelationship> castRelationships;
 
     @Override
     public Integer id() {
@@ -62,7 +62,15 @@ public class Movie implements Credit {
 
     @Override
     public List<Person> cast() {
-        return Collections.unmodifiableList(cast);
+        // Extract actors from relationships for interface compatibility
+        if (castRelationships == null) {
+            return Collections.emptyList();
+        }
+        return Collections.unmodifiableList(
+            castRelationships.stream()
+                .map(CastRelationship::getActor)
+                .toList()
+        );
     }
 
     @Override
@@ -96,7 +104,23 @@ public class Movie implements Credit {
     }
 
     public void setCast(List<Person> cast) {
-        this.cast = cast;
+        // Convert to relationships for backward compatibility
+        if (cast == null) {
+            this.castRelationships = null;
+            return;
+        }
+        this.castRelationships = cast.stream()
+            .filter(p -> p instanceof Actor)
+            .map(p -> new CastRelationship((Actor) p, null, null))
+            .toList();
+    }
+
+    public List<CastRelationship> getCastRelationships() {
+        return castRelationships;
+    }
+
+    public void setCastRelationships(List<CastRelationship> castRelationships) {
+        this.castRelationships = castRelationships;
     }
 
     public void setReleaseDate(Date releaseDate) {

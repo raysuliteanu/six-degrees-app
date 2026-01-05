@@ -38,9 +38,9 @@ public class Actor implements Person {
     @JsonProperty("deathday")
     private Date deathday;
 
-    @Relationship
+    @Relationship(type = "ACTED_IN", direction = Relationship.Direction.OUTGOING)
     @JsonProperty("credits")
-    private List<Credit> credits;
+    private List<ActedInRelationship> actedInRelationships;
 
     @Override
     public Integer id() {
@@ -54,7 +54,13 @@ public class Actor implements Person {
 
     @Override
     public List<Credit> credits() {
-        return credits;
+        // Extract credits from relationships for interface compatibility
+        if (actedInRelationships == null) {
+            return null;
+        }
+        return actedInRelationships.stream()
+            .map(ActedInRelationship::getCredit)
+            .toList();
     }
 
     @Override
@@ -129,6 +135,21 @@ public class Actor implements Person {
     }
 
     public void setCredits(List<Credit> credits) {
-        this.credits = credits;
+        // Convert credits to relationships for backward compatibility
+        if (credits == null) {
+            this.actedInRelationships = null;
+            return;
+        }
+        this.actedInRelationships = credits.stream()
+            .map(credit -> new ActedInRelationship(credit, null, null))
+            .toList();
+    }
+
+    public List<ActedInRelationship> getActedInRelationships() {
+        return actedInRelationships;
+    }
+
+    public void setActedInRelationships(List<ActedInRelationship> actedInRelationships) {
+        this.actedInRelationships = actedInRelationships;
     }
 }

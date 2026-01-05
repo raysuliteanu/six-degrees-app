@@ -13,6 +13,7 @@ import org.kidoni.sixdegrees.tmdb.api.model.PersonCombinedCredits200ResponseCast
 import org.kidoni.sixdegrees.tmdb.api.model.PersonDetails200Response;
 import org.kidoni.sixdegrees.tmdb.api.model.SearchMovie200ResponseResultsInner;
 import org.kidoni.sixdegrees.tmdb.api.model.SearchPerson200ResponseResultsInner;
+import org.kidoni.sixdegrees.tmdb.model.ActedInRelationship;
 import org.kidoni.sixdegrees.tmdb.model.Actor;
 import org.kidoni.sixdegrees.tmdb.model.Credit;
 import org.kidoni.sixdegrees.tmdb.model.Director;
@@ -115,6 +116,27 @@ public class TmdbApiMapper {
         }
 
         return credits;
+    }
+
+    public static List<ActedInRelationship> mapToActedInRelationships(PersonCombinedCredits200Response apiCredits) {
+        List<ActedInRelationship> relationships = new ArrayList<>();
+        if (apiCredits == null) {
+            return relationships;
+        }
+
+        if (apiCredits.getCast() != null) {
+            for (var castItem : apiCredits.getCast()) {
+                Credit credit = mapCastItemToCredit(castItem);
+                if (credit != null) {
+                    String character = castItem.getCharacter();
+                    String creditId = castItem.getCreditId();
+                    ActedInRelationship relationship = new ActedInRelationship(credit, character, creditId);
+                    relationships.add(relationship);
+                }
+            }
+        }
+
+        return relationships;
     }
 
     private static Credit mapCastItemToCredit(PersonCombinedCredits200ResponseCastInner castItem) {
