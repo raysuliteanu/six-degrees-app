@@ -149,8 +149,9 @@ public class TmdbSixDegreesService implements SixDegreesService {
         // Query for shortest paths using Neo4jClient to get raw Path objects
         String cypherQuery = """
             MATCH (a1:Actor {id: $actor1Id}), (a2:Actor {id: $actor2Id})
-            MATCH paths = allShortestPaths((a1)-[:ACTED_IN*]-(a2))
+            MATCH paths = allShortestPaths((a1)-[:ACTED_IN|CAST*]-(a2))
             WHERE length(paths) <= $maxHops
+              AND length(paths) % 2 = 0
             WITH paths, length(paths) as pathLen
             WITH collect({path: paths, len: pathLen}) as allPaths, min(pathLen) as minLen
             UNWIND allPaths as pathData
