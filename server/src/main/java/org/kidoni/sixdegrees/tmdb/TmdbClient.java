@@ -1,19 +1,27 @@
 package org.kidoni.sixdegrees.tmdb;
 
-import org.kidoni.sixdegrees.tmdb.model.MovieDetails;
+import java.util.List;
+import org.kidoni.sixdegrees.tmdb.api.model.PersonCombinedCredits200Response;
+import org.kidoni.sixdegrees.tmdb.model.Credit;
+import org.kidoni.sixdegrees.tmdb.model.Movie;
 import org.kidoni.sixdegrees.tmdb.model.MovieSearchResult;
-import org.kidoni.sixdegrees.tmdb.model.PersonCombinedCredits;
-import org.kidoni.sixdegrees.tmdb.model.PersonDetails;
+import org.kidoni.sixdegrees.tmdb.model.Person;
 import org.kidoni.sixdegrees.tmdb.model.PersonSearchResult;
 
 public interface TmdbClient {
     PersonSearchResult searchPersonByName(String name);
 
-    PersonDetails findPersonById(Integer id);
+    Person findPersonById(Integer id);
 
-    PersonCombinedCredits getPersonCombinedCredits(Integer id);
+    List<Credit> getPersonCombinedCredits(Integer id);
+
+    /**
+     * Gets the raw TMDB API response for a person's combined credits.
+     * This includes character names and other relationship properties.
+     */
+    PersonCombinedCredits200Response getPersonCombinedCreditsRaw(Integer id);
 
     MovieSearchResult searchMovieByName(String name);
 
-    MovieDetails findMovieById(Integer id);
+    Movie findMovieById(Integer id);
 }

@@ -4,14 +4,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Node
-public class Movie implements Credit {
+public class TvShow implements Credit {
     @Id
     @JsonProperty("id")
     private Integer id;
@@ -28,12 +27,12 @@ public class Movie implements Credit {
     @JsonProperty("popularity")
     private Float popularity;
 
-    @JsonProperty("release_date")
-    private Date releaseDate;
-
     @Relationship(type = "CAST", direction = Relationship.Direction.OUTGOING)
     @JsonProperty("cast")
     private List<CastRelationship> castRelationships;
+
+    @JsonProperty("first_air_date")
+    private Date firstAirDate;
 
     @Override
     public Integer id() {
@@ -75,12 +74,12 @@ public class Movie implements Credit {
 
     @Override
     public Optional<Date> releaseDate() {
-        return Optional.of(releaseDate);
+        return Optional.empty();
     }
 
     @Override
     public Optional<Date> firstAirDate() {
-        return Optional.empty();
+        return Optional.of(firstAirDate);
     }
 
     public void setId(Integer id) {
@@ -123,7 +122,7 @@ public class Movie implements Credit {
         this.castRelationships = castRelationships;
     }
 
-    public void setReleaseDate(Date releaseDate) {
-        this.releaseDate = releaseDate;
+    public void setFirstAirDate(Date firstAirDate) {
+        this.firstAirDate = firstAirDate;
     }
 }

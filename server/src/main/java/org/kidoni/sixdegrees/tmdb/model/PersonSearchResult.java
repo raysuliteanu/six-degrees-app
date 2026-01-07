@@ -3,18 +3,15 @@ package org.kidoni.sixdegrees.tmdb.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.StringJoiner;
 
 @JsonPropertyOrder({
-    PersonSearchResult.JSON_PROPERTY_PAGE,
-    PersonSearchResult.JSON_PROPERTY_RESULTS,
-    PersonSearchResult.JSON_PROPERTY_TOTAL_PAGES,
-    PersonSearchResult.JSON_PROPERTY_TOTAL_RESULTS
+        PersonSearchResult.JSON_PROPERTY_PAGE,
+        PersonSearchResult.JSON_PROPERTY_RESULTS,
+        PersonSearchResult.JSON_PROPERTY_TOTAL_PAGES,
+        PersonSearchResult.JSON_PROPERTY_TOTAL_RESULTS
 })
 public class PersonSearchResult {
 
@@ -54,13 +51,11 @@ public class PersonSearchResult {
         return page;
     }
 
-
     @JsonProperty(JSON_PROPERTY_PAGE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setPage(@jakarta.annotation.Nullable Integer page) {
         this.page = page;
     }
-
 
     public PersonSearchResult results(@jakarta.annotation.Nullable List<Person> results) {
         this.results = results;
@@ -87,13 +82,11 @@ public class PersonSearchResult {
         return results;
     }
 
-
     @JsonProperty(JSON_PROPERTY_RESULTS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setResults(@jakarta.annotation.Nullable List<Person> results) {
         this.results = results;
     }
-
 
     public PersonSearchResult totalPages(@jakarta.annotation.Nullable Integer totalPages) {
         this.totalPages = totalPages;
@@ -112,13 +105,11 @@ public class PersonSearchResult {
         return totalPages;
     }
 
-
     @JsonProperty(JSON_PROPERTY_TOTAL_PAGES)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setTotalPages(@jakarta.annotation.Nullable Integer totalPages) {
         this.totalPages = totalPages;
     }
-
 
     public PersonSearchResult totalResults(@jakarta.annotation.Nullable Integer totalResults) {
         this.totalResults = totalResults;
@@ -137,7 +128,6 @@ public class PersonSearchResult {
         return totalResults;
     }
 
-
     @JsonProperty(JSON_PROPERTY_TOTAL_RESULTS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setTotalResults(@jakarta.annotation.Nullable Integer totalResults) {
@@ -154,9 +144,9 @@ public class PersonSearchResult {
         }
         PersonSearchResult personSearchResult = (PersonSearchResult) o;
         return Objects.equals(this.page, personSearchResult.page) &&
-            Objects.equals(this.results, personSearchResult.results) &&
-            Objects.equals(this.totalPages, personSearchResult.totalPages) &&
-            Objects.equals(this.totalResults, personSearchResult.totalResults);
+                Objects.equals(this.results, personSearchResult.results) &&
+                Objects.equals(this.totalPages, personSearchResult.totalPages) &&
+                Objects.equals(this.totalResults, personSearchResult.totalResults);
     }
 
     @Override
@@ -185,66 +175,5 @@ public class PersonSearchResult {
             return "null";
         }
         return o.toString().replace("\n", "\n    ");
-    }
-
-    /**
-     * Convert the instance into URL query string.
-     *
-     * @return URL query string
-     */
-    public String toUrlQueryString() {
-        return toUrlQueryString(null);
-    }
-
-    /**
-     * Convert the instance into URL query string.
-     *
-     * @param prefix prefix of the query string
-     * @return URL query string
-     */
-    public String toUrlQueryString(String prefix) {
-        String suffix = "";
-        String containerSuffix = "";
-        String containerPrefix = "";
-        if (prefix == null) {
-            // style=form, explode=true, e.g. /pet?name=cat&type=manx
-            prefix = "";
-        }
-        else {
-            // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
-            prefix = prefix + "[";
-            suffix = "]";
-            containerSuffix = "]";
-            containerPrefix = "[";
-        }
-
-        StringJoiner joiner = new StringJoiner("&");
-
-        // add `page` to the URL query string
-        if (getPage() != null) {
-            joiner.add(String.format("%spage%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getPage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `results` to the URL query string
-        if (getResults() != null) {
-            for (int i = 0; i < getResults().size(); i++) {
-                if (getResults().get(i) != null) {
-                    joiner.add(getResults().get(i).toUrlQueryString(String.format("%sresults%s%s", prefix, suffix,
-                        "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
-                }
-            }
-        }
-
-        // add `total_pages` to the URL query string
-        if (getTotalPages() != null) {
-            joiner.add(String.format("%stotal_pages%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getTotalPages()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        // add `total_results` to the URL query string
-        if (getTotalResults() != null) {
-            joiner.add(String.format("%stotal_results%s=%s", prefix, suffix, URLEncoder.encode(ModelUtil.valueToString(getTotalResults()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-
-        return joiner.toString();
     }
 }

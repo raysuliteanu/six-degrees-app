@@ -1,4 +1,4 @@
-package org.kidoni.sixdegrees.tmdb.model;
+package org.kidoni.sixdegrees.tmdb.graph;
 
 import java.util.List;
 

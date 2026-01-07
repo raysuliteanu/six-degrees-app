@@ -4,17 +4,17 @@ import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.kidoni.sixdegrees.tmdb.model.Actor;
+import org.kidoni.sixdegrees.tmdb.model.Credit;
 import org.kidoni.sixdegrees.tmdb.model.Movie;
-import org.kidoni.sixdegrees.tmdb.model.MovieDetails;
 import org.kidoni.sixdegrees.tmdb.model.MovieSearchResult;
-import org.kidoni.sixdegrees.tmdb.model.Person;
-import org.kidoni.sixdegrees.tmdb.model.PersonCombinedCredits;
-import org.kidoni.sixdegrees.tmdb.model.PersonDetails;
 import org.kidoni.sixdegrees.tmdb.model.PersonSearchResult;
 import org.springframework.core.task.SyncTaskExecutor;
+import org.springframework.data.neo4j.core.Neo4jClient;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -24,29 +24,46 @@ import static org.mockito.Mockito.when;
 
 class TmdbSixDegreesServiceTest {
     TmdbClient tmdbClient;
-    PersonDetailsRepository personDetailsRepository;
-    MovieDetailsRepository movieDetailsRepository;
+    ActorRepository actorRepository;
+    MovieRepository movieRepository;
+    TvShowRepository tvShowRepository;
     TmdbSixDegreesService tmdbService;
+    Neo4jClient neo4jClient;
 
     @BeforeEach
     void setUp() {
         tmdbClient = mock(TmdbClient.class);
-        personDetailsRepository = mock(PersonDetailsRepository.class);
-        movieDetailsRepository = mock(MovieDetailsRepository.class);
+        actorRepository = mock(ActorRepository.class);
+        movieRepository = mock(MovieRepository.class);
+        tvShowRepository = mock(TvShowRepository.class);
+        neo4jClient = mock(Neo4jClient.class);
         tmdbService = new TmdbSixDegreesService(
             tmdbClient,
-            personDetailsRepository,
-            movieDetailsRepository,
-            new SyncTaskExecutor());
+            actorRepository,
+            movieRepository,
+            tvShowRepository,
+            new SyncTaskExecutor(),
+            neo4jClient);
     }
 
     @Test
     void searchForPerson() {
-        final var personSearchResult = new PersonSearchResult().page(1).results(List.of(new Person().id(666))).totalPages(1).totalResults(1);
+        Actor actor = new Actor();
+        actor.setId(666);
+        actor.setName("John Smith");
+
+        final var personSearchResult = new PersonSearchResult()
+            .page(1)
+            .results(List.of(actor))
+            .totalPages(1)
+            .totalResults(1);
         when(tmdbClient.searchPersonByName("smith")).thenReturn(personSearchResult);
-        final var personDetails = new PersonDetails().id(666);
-        when(tmdbClient.findPersonById(666)).thenReturn(personDetails);
-        when(personDetailsRepository.save(any(PersonDetails.class))).thenReturn(personDetails);
+
+        final var actorDetails = new Actor();
+        actorDetails.setId(666);
+        actorDetails.setName("John Smith");
+        when(tmdbClient.findPersonById(666)).thenReturn(actorDetails);
+        when(actorRepository.save(any(Actor.class))).thenReturn(actorDetails);
 
         var result = tmdbService.searchPerson("smith");
         assertNotNull(result.getResults());
@@ -54,27 +71,35 @@ class TmdbSixDegreesServiceTest {
 
         verify(tmdbClient).searchPersonByName("smith");
         verify(tmdbClient).findPersonById(666);
-        verify(personDetailsRepository).save(any(PersonDetails.class));
-        verifyNoInteractions(movieDetailsRepository);
-        verifyNoMoreInteractions(tmdbClient, personDetailsRepository);
+        verify(actorRepository).save(any(Actor.class));
+        verifyNoInteractions(movieRepository, tvShowRepository);
+        verifyNoMoreInteractions(tmdbClient, actorRepository);
     }
 
     @Test
     void searchForPersonWithNullResults() {
-        final var personSearchResult = new PersonSearchResult().page(1).results(null).totalPages(0).totalResults(0);
+        final var personSearchResult = new PersonSearchResult()
+            .page(1)
+            .results(null)
+            .totalPages(0)
+            .totalResults(0);
         when(tmdbClient.searchPersonByName("unknown")).thenReturn(personSearchResult);
 
         var result = tmdbService.searchPerson("unknown");
-        assertEquals(null, result.getResults());
+        assertNull(result.getResults());
 
         verify(tmdbClient).searchPersonByName("unknown");
         verifyNoMoreInteractions(tmdbClient);
-        verifyNoInteractions(personDetailsRepository, movieDetailsRepository);
+        verifyNoInteractions(actorRepository, movieRepository, tvShowRepository);
     }
 
     @Test
     void searchForPersonWithEmptyResults() {
-        final var personSearchResult = new PersonSearchResult().page(1).results(List.of()).totalPages(0).totalResults(0);
+        final var personSearchResult = new PersonSearchResult()
+            .page(1)
+            .results(List.of())
+            .totalPages(0)
+            .totalResults(0);
         when(tmdbClient.searchPersonByName("nobody")).thenReturn(personSearchResult);
 
         var result = tmdbService.searchPerson("nobody");
@@ -83,64 +108,84 @@ class TmdbSixDegreesServiceTest {
 
         verify(tmdbClient).searchPersonByName("nobody");
         verifyNoMoreInteractions(tmdbClient);
-        verifyNoInteractions(personDetailsRepository, movieDetailsRepository);
+        verifyNoInteractions(actorRepository, movieRepository, tvShowRepository);
     }
 
     @Test
     void findPersonWhenExistsInRepository() {
-        final var personDetails = new PersonDetails().id(123).name("John Doe");
-        when(personDetailsRepository.findById(123)).thenReturn(Optional.of(personDetails));
+        final var actor = new Actor();
+        actor.setId(123);
+        actor.setName("John Doe");
+        when(actorRepository.findById(123)).thenReturn(Optional.of(actor));
 
         var result = tmdbService.findPerson(123);
         assertNotNull(result);
-        assertEquals(123, result.getId());
-        assertEquals("John Doe", result.getName());
+        assertEquals(123, result.id());
+        assertEquals("John Doe", result.name());
 
-        verify(personDetailsRepository).findById(123);
-        verifyNoMoreInteractions(personDetailsRepository);
-        verifyNoInteractions(tmdbClient, movieDetailsRepository);
+        verify(actorRepository).findById(123);
+        verifyNoMoreInteractions(actorRepository);
+        verifyNoInteractions(tmdbClient, movieRepository, tvShowRepository);
     }
 
     @Test
     void findPersonWhenNotInRepository() {
-        final var personDetails = new PersonDetails().id(456).name("Jane Smith");
-        when(personDetailsRepository.findById(456)).thenReturn(Optional.empty());
-        when(tmdbClient.findPersonById(456)).thenReturn(personDetails);
-        when(personDetailsRepository.save(personDetails)).thenReturn(personDetails);
+        final var actor = new Actor();
+        actor.setId(456);
+        actor.setName("Jane Smith");
+        when(actorRepository.findById(456)).thenReturn(Optional.empty());
+        when(tmdbClient.findPersonById(456)).thenReturn(actor);
+        when(actorRepository.save(actor)).thenReturn(actor);
 
         var result = tmdbService.findPerson(456);
         assertNotNull(result);
-        assertEquals(456, result.getId());
-        assertEquals("Jane Smith", result.getName());
+        assertEquals(456, result.id());
+        assertEquals("Jane Smith", result.name());
 
-        verify(personDetailsRepository).findById(456);
+        verify(actorRepository).findById(456);
         verify(tmdbClient).findPersonById(456);
-        verify(personDetailsRepository).save(personDetails);
-        verifyNoMoreInteractions(personDetailsRepository, tmdbClient);
-        verifyNoInteractions(movieDetailsRepository);
+        verify(actorRepository).save(actor);
+        verifyNoMoreInteractions(actorRepository, tmdbClient);
+        verifyNoInteractions(movieRepository, tvShowRepository);
     }
 
     @Test
     void getPersonCredits() {
-        final var credits = new PersonCombinedCredits().id(789);
+        final Movie movie = new Movie();
+        movie.setId(111);
+        movie.setTitle("Test Movie");
+        final List<Credit> credits = List.of(movie);
+
         when(tmdbClient.getPersonCombinedCredits(789)).thenReturn(credits);
 
         var result = tmdbService.getPersonCredits(789);
         assertNotNull(result);
-        assertEquals(789, result.getId());
+        assertEquals(1, result.size());
+        assertEquals(111, result.getFirst().id());
 
         verify(tmdbClient).getPersonCombinedCredits(789);
         verifyNoMoreInteractions(tmdbClient);
-        verifyNoInteractions(personDetailsRepository, movieDetailsRepository);
+        verifyNoInteractions(actorRepository, movieRepository, tvShowRepository);
     }
 
     @Test
     void searchForMovie() {
-        final var movieSearchResult = new MovieSearchResult().page(1).results(List.of(new Movie().id(999))).totalPages(1).totalResults(1);
+        Movie movie = new Movie();
+        movie.setId(999);
+        movie.setTitle("The Matrix");
+
+        final var movieSearchResult = new MovieSearchResult()
+            .page(1)
+            .results(List.of(movie))
+            .totalPages(1)
+            .totalResults(1);
         when(tmdbClient.searchMovieByName("matrix")).thenReturn(movieSearchResult);
-        final var movieDetails = new MovieDetails().id(999);
+
+        final var movieDetails = new Movie();
+        movieDetails.setId(999);
+        movieDetails.setTitle("The Matrix");
         when(tmdbClient.findMovieById(999)).thenReturn(movieDetails);
-        when(movieDetailsRepository.save(any(MovieDetails.class))).thenReturn(movieDetails);
+        when(movieRepository.save(any(Movie.class))).thenReturn(movieDetails);
 
         var result = tmdbService.movieSearch("matrix");
         assertNotNull(result.getResults());
@@ -148,27 +193,35 @@ class TmdbSixDegreesServiceTest {
 
         verify(tmdbClient).searchMovieByName("matrix");
         verify(tmdbClient).findMovieById(999);
-        verify(movieDetailsRepository).save(any(MovieDetails.class));
-        verifyNoInteractions(personDetailsRepository);
-        verifyNoMoreInteractions(tmdbClient, movieDetailsRepository);
+        verify(movieRepository).save(any(Movie.class));
+        verifyNoInteractions(actorRepository, tvShowRepository);
+        verifyNoMoreInteractions(tmdbClient, movieRepository);
     }
 
     @Test
     void searchForMovieWithNullResults() {
-        final var movieSearchResult = new MovieSearchResult().page(1).results(null).totalPages(0).totalResults(0);
+        final var movieSearchResult = new MovieSearchResult()
+            .page(1)
+            .results(null)
+            .totalPages(0)
+            .totalResults(0);
         when(tmdbClient.searchMovieByName("unknown")).thenReturn(movieSearchResult);
 
         var result = tmdbService.movieSearch("unknown");
-        assertEquals(null, result.getResults());
+        assertNull(result.getResults());
 
         verify(tmdbClient).searchMovieByName("unknown");
         verifyNoMoreInteractions(tmdbClient);
-        verifyNoInteractions(personDetailsRepository, movieDetailsRepository);
+        verifyNoInteractions(actorRepository, movieRepository, tvShowRepository);
     }
 
     @Test
     void searchForMovieWithEmptyResults() {
-        final var movieSearchResult = new MovieSearchResult().page(1).results(List.of()).totalPages(0).totalResults(0);
+        final var movieSearchResult = new MovieSearchResult()
+            .page(1)
+            .results(List.of())
+            .totalPages(0)
+            .totalResults(0);
         when(tmdbClient.searchMovieByName("nomovie")).thenReturn(movieSearchResult);
 
         var result = tmdbService.movieSearch("nomovie");
@@ -177,41 +230,44 @@ class TmdbSixDegreesServiceTest {
 
         verify(tmdbClient).searchMovieByName("nomovie");
         verifyNoMoreInteractions(tmdbClient);
-        verifyNoInteractions(personDetailsRepository, movieDetailsRepository);
+        verifyNoInteractions(actorRepository, movieRepository, tvShowRepository);
     }
 
     @Test
     void findMovieWhenExistsInRepository() {
-        final var movieDetails = new MovieDetails().id(111).title("The Matrix");
-        when(movieDetailsRepository.findById(111)).thenReturn(Optional.of(movieDetails));
+        final var movie = new Movie();
+        movie.setId(111);
+        movie.setTitle("The Matrix");
+        when(movieRepository.findById(111)).thenReturn(Optional.of(movie));
 
         var result = tmdbService.findMovie(111);
         assertNotNull(result);
-        assertEquals(111, result.getId());
-        assertEquals("The Matrix", result.getTitle());
+        assertEquals(111, result.id());
+        assertEquals("The Matrix", result.title());
 
-        verify(movieDetailsRepository).findById(111);
-        verifyNoMoreInteractions(movieDetailsRepository);
-        verifyNoInteractions(tmdbClient, personDetailsRepository);
+        verify(movieRepository).findById(111);
+        verifyNoMoreInteractions(movieRepository);
+        verifyNoInteractions(tmdbClient, actorRepository, tvShowRepository);
     }
 
     @Test
     void findMovieWhenNotInRepository() {
-        final var movieDetails = new MovieDetails().id(222).title("Inception");
-        when(movieDetailsRepository.findById(222)).thenReturn(Optional.empty());
-        when(tmdbClient.findMovieById(222)).thenReturn(movieDetails);
-        when(movieDetailsRepository.save(movieDetails)).thenReturn(movieDetails);
+        final var movie = new Movie();
+        movie.setId(222);
+        movie.setTitle("Inception");
+        when(movieRepository.findById(222)).thenReturn(Optional.empty());
+        when(tmdbClient.findMovieById(222)).thenReturn(movie);
+        when(movieRepository.save(movie)).thenReturn(movie);
 
         var result = tmdbService.findMovie(222);
         assertNotNull(result);
-        assertEquals(222, result.getId());
-        assertEquals("Inception", result.getTitle());
+        assertEquals(222, result.id());
+        assertEquals("Inception", result.title());
 
-        verify(movieDetailsRepository).findById(222);
+        verify(movieRepository).findById(222);
         verify(tmdbClient).findMovieById(222);
-        verify(movieDetailsRepository).save(movieDetails);
-        verifyNoMoreInteractions(movieDetailsRepository, tmdbClient);
-        verifyNoInteractions(personDetailsRepository);
+        verify(movieRepository).save(movie);
+        verifyNoMoreInteractions(movieRepository, tmdbClient);
+        verifyNoInteractions(actorRepository, tvShowRepository);
     }
-
 }

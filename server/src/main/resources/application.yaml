@@ -7,7 +7,7 @@ spring:
             password: admin
     docker:
         compose:
-            lifecycle-management: start_only
+            lifecycle-management: start_and_stop
             file: compose-dev.yaml
     threads:
         virtual:

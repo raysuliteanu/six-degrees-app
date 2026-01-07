@@ -1,4 +1,4 @@
-package org.kidoni.sixdegrees.tmdb.model;
+package org.kidoni.sixdegrees.tmdb.client;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
  * Note: Only valueToString() is actually used (3008+ times across models).
  * We don't generate API clients - those are manually implemented.
  */
-public abstract class ModelUtil {
+public abstract class ApiClient {
     /**
      * Convert the given value to a string suitable for use as a URL query parameter value.
      * Used by generated model classes for serializing fields to query strings.
