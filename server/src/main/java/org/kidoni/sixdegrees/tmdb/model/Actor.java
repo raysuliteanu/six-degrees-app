@@ -1,5 +1,6 @@
 package org.kidoni.sixdegrees.tmdb.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class Actor implements Person {
 
     @Relationship(type = "ACTED_IN", direction = Relationship.Direction.OUTGOING)
     @JsonProperty("credits")
-    private List<ActedInRelationship> actedInRelationships;
+    private List<ActedInRelationship> actedInRelationships = new ArrayList<>();
 
     @Override
     public Integer id() {
@@ -54,10 +55,6 @@ public class Actor implements Person {
 
     @Override
     public List<Credit> credits() {
-        // Extract credits from relationships for interface compatibility
-        if (actedInRelationships == null) {
-            return null;
-        }
         return actedInRelationships.stream()
             .map(ActedInRelationship::getCredit)
             .toList();
@@ -137,12 +134,12 @@ public class Actor implements Person {
     public void setCredits(List<Credit> credits) {
         // Convert credits to relationships for backward compatibility
         if (credits == null) {
-            this.actedInRelationships = null;
+            this.actedInRelationships.clear();
             return;
         }
-        this.actedInRelationships = credits.stream()
+        this.actedInRelationships.addAll(credits.stream()
             .map(credit -> new ActedInRelationship(credit, null, null))
-            .toList();
+            .toList());
     }
 
     public List<ActedInRelationship> getActedInRelationships() {
@@ -150,6 +147,7 @@ public class Actor implements Person {
     }
 
     public void setActedInRelationships(List<ActedInRelationship> actedInRelationships) {
-        this.actedInRelationships = actedInRelationships;
+        this.actedInRelationships.clear();
+        this.actedInRelationships.addAll(actedInRelationships);
     }
 }

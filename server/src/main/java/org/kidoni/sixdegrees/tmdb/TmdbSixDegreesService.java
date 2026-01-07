@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.kidoni.sixdegrees.SixDegreesService;
-import org.springframework.data.neo4j.core.Neo4jClient;
 import org.kidoni.sixdegrees.tmdb.api.model.PersonCombinedCredits200Response;
 import org.kidoni.sixdegrees.tmdb.graph.ConnectionEdge;
 import org.kidoni.sixdegrees.tmdb.graph.ConnectionNode;
@@ -25,6 +24,7 @@ import org.neo4j.driver.types.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.data.neo4j.core.Neo4jClient;
 
 public class TmdbSixDegreesService implements SixDegreesService {
     private static final Logger LOG = LoggerFactory.getLogger(TmdbSixDegreesService.class);
@@ -37,8 +37,8 @@ public class TmdbSixDegreesService implements SixDegreesService {
     private final Neo4jClient neo4jClient;
 
     public TmdbSixDegreesService(final TmdbClient tmdbClient, final ActorRepository actorRepository,
-            final MovieRepository movieRepository, final TvShowRepository tvShowRepository,
-            final TaskExecutor taskExecutor, final Neo4jClient neo4jClient) {
+        final MovieRepository movieRepository, final TvShowRepository tvShowRepository,
+        final TaskExecutor taskExecutor, final Neo4jClient neo4jClient) {
         this.tmdbClient = tmdbClient;
         this.actorRepository = actorRepository;
         this.movieRepository = movieRepository;
@@ -53,13 +53,7 @@ public class TmdbSixDegreesService implements SixDegreesService {
         if (searchResult.getResults() != null) {
             for (final var person : searchResult.getResults()) {
                 taskExecutor.execute(() -> {
-                    var details = tmdbClient.findPersonById(person.id());
-                    if (details instanceof Actor actor) {
-                        LOG.debug("saving actor {} (id: {})", actor.name(), actor.id());
-                        actorRepository.save(actor);
-                    } else {
-                        LOG.debug("skipping non-actor {} (id: {})", details.name(), details.id());
-                    }
+                    doFindPerson(person.id());
                 });
             }
         }
@@ -69,25 +63,31 @@ public class TmdbSixDegreesService implements SixDegreesService {
     @Override
     public Person findPerson(final int id) {
         LOG.debug("looking for person id: {}", id);
-        var existingActor = actorRepository.findById(id);
-        if (existingActor.isPresent()) {
-            return existingActor.get();
-        }
+        return actorRepository.findById(id)
+            .orElseGet(() -> (Actor) doFindPerson(id));
+    }
 
+    public Person doFindPerson(final int id) {
         var person = tmdbClient.findPersonById(id);
         if (person instanceof Actor actor) {
-            LOG.debug("saving actor {} (id: {})", actor.name(), actor.id());
+            var credits = tmdbClient.getPersonCombinedCredits(actor.id());
+            actor.setCredits(credits);
+            LOG.debug("saving actor {} (id: {}) with {} credits", actor.name(), actor.id(), credits.size());
             actorRepository.save(actor);
-        } else {
+        }
+        else {
             LOG.debug("person {} (id: {}) is not an actor, not persisting", person.name(), person.id());
         }
         return person;
     }
 
+    // TODO: do we even need to expose this since we're grabbing credits on search or find of the person?
     @Override
     public List<Credit> getPersonCredits(final int id) {
         LOG.debug("looking for credits for person id: {}", id);
-        return tmdbClient.getPersonCombinedCredits(id);
+        return actorRepository.findById(id)
+            .map(Actor::credits)
+            .orElseGet(() -> tmdbClient.getPersonCombinedCredits(id));
     }
 
     @Override
@@ -121,7 +121,7 @@ public class TmdbSixDegreesService implements SixDegreesService {
     @Override
     public List<ConnectionPath> findConnections(Integer actor1Id, Integer actor2Id, Integer maxDegrees) {
         LOG.debug("Finding connections between actor {} and actor {} (max degrees: {})",
-                  actor1Id, actor2Id, maxDegrees);
+            actor1Id, actor2Id, maxDegrees);
 
         // Validate inputs
         if (actor1Id == null || actor2Id == null) {
@@ -138,7 +138,8 @@ public class TmdbSixDegreesService implements SixDegreesService {
         try {
             ensureActorLoaded(actor1Id);
             ensureActorLoaded(actor2Id);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             LOG.error("Failed to load actors from TMDB", e);
             throw new RuntimeException("Actor not found: " + e.getMessage(), e);
         }
@@ -175,7 +176,7 @@ public class TmdbSixDegreesService implements SixDegreesService {
 
         if (paths.isEmpty()) {
             LOG.info("No connection found between {} and {} within {} degrees",
-                     actor1Id, actor2Id, maxDegrees);
+                actor1Id, actor2Id, maxDegrees);
             return Collections.emptyList();
         }
 
@@ -201,8 +202,25 @@ public class TmdbSixDegreesService implements SixDegreesService {
         // Fetch credits with character names
         PersonCombinedCredits200Response rawCredits = tmdbClient.getPersonCombinedCreditsRaw(actorId);
         List<ActedInRelationship> relationships = TmdbApiMapper.mapToActedInRelationships(rawCredits);
-        actor.setActedInRelationships(relationships);
 
+        // Save all movies/TV shows first to ensure they exist in the graph
+        for (ActedInRelationship rel : relationships) {
+            Credit credit = rel.getCredit();
+            if (credit instanceof Movie movie) {
+                // Check if movie already exists, if not save it
+                if (!movieRepository.existsById(movie.id())) {
+                    movieRepository.save(movie);
+                }
+            }
+            else if (credit instanceof TvShow tvShow) {
+                // Check if TV show already exists, if not save it
+                if (!tvShowRepository.existsById(tvShow.id())) {
+                    tvShowRepository.save(tvShow);
+                }
+            }
+        }
+
+        actor.setActedInRelationships(relationships);
         actorRepository.save(actor);
         LOG.debug("Loaded actor {} with {} credits", actor.name(), relationships.size());
     }
@@ -231,7 +249,8 @@ public class TmdbSixDegreesService implements SixDegreesService {
                 if (rel.containsKey("character")) {
                     character = rel.get("character").asString(null);
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 // Character property might not exist, that's okay
                 LOG.debug("No character property in relationship", e);
             }
@@ -240,7 +259,8 @@ public class TmdbSixDegreesService implements SixDegreesService {
             String label;
             if (character != null && !character.trim().isEmpty()) {
                 label = "as " + character;
-            } else {
+            }
+            else {
                 label = "appeared in";
             }
 
@@ -266,7 +286,8 @@ public class TmdbSixDegreesService implements SixDegreesService {
         Map<String, Object> metadata = new HashMap<>();
         if (isActor) {
             metadata.put("popularity", Float.parseFloat(node.get("popularity").asString("0.0")));
-        } else {
+        }
+        else {
             metadata.put("releaseDate", node.get(isMovie ? "releaseDate" : "firstAirDate").asString(null));
         }
 

@@ -63,6 +63,13 @@ class TmdbSixDegreesServiceTest {
         actorDetails.setId(666);
         actorDetails.setName("John Smith");
         when(tmdbClient.findPersonById(666)).thenReturn(actorDetails);
+
+        final Movie movie = new Movie();
+        movie.setId(111);
+        movie.setTitle("Test Movie");
+        final List<Credit> credits = List.of(movie);
+        when(tmdbClient.getPersonCombinedCredits(666)).thenReturn(credits);
+
         when(actorRepository.save(any(Actor.class))).thenReturn(actorDetails);
 
         var result = tmdbService.searchPerson("smith");
@@ -71,6 +78,7 @@ class TmdbSixDegreesServiceTest {
 
         verify(tmdbClient).searchPersonByName("smith");
         verify(tmdbClient).findPersonById(666);
+        verify(tmdbClient).getPersonCombinedCredits(666);
         verify(actorRepository).save(any(Actor.class));
         verifyNoInteractions(movieRepository, tvShowRepository);
         verifyNoMoreInteractions(tmdbClient, actorRepository);
@@ -135,6 +143,13 @@ class TmdbSixDegreesServiceTest {
         actor.setName("Jane Smith");
         when(actorRepository.findById(456)).thenReturn(Optional.empty());
         when(tmdbClient.findPersonById(456)).thenReturn(actor);
+
+        final Movie movie = new Movie();
+        movie.setId(222);
+        movie.setTitle("Test Movie");
+        final List<Credit> credits = List.of(movie);
+        when(tmdbClient.getPersonCombinedCredits(456)).thenReturn(credits);
+
         when(actorRepository.save(actor)).thenReturn(actor);
 
         var result = tmdbService.findPerson(456);
@@ -144,6 +159,7 @@ class TmdbSixDegreesServiceTest {
 
         verify(actorRepository).findById(456);
         verify(tmdbClient).findPersonById(456);
+        verify(tmdbClient).getPersonCombinedCredits(456);
         verify(actorRepository).save(actor);
         verifyNoMoreInteractions(actorRepository, tmdbClient);
         verifyNoInteractions(movieRepository, tvShowRepository);
@@ -156,6 +172,7 @@ class TmdbSixDegreesServiceTest {
         movie.setTitle("Test Movie");
         final List<Credit> credits = List.of(movie);
 
+        when(actorRepository.findById(789)).thenReturn(Optional.empty());
         when(tmdbClient.getPersonCombinedCredits(789)).thenReturn(credits);
 
         var result = tmdbService.getPersonCredits(789);
@@ -163,9 +180,10 @@ class TmdbSixDegreesServiceTest {
         assertEquals(1, result.size());
         assertEquals(111, result.getFirst().id());
 
+        verify(actorRepository).findById(789);
         verify(tmdbClient).getPersonCombinedCredits(789);
-        verifyNoMoreInteractions(tmdbClient);
-        verifyNoInteractions(actorRepository, movieRepository, tvShowRepository);
+        verifyNoMoreInteractions(tmdbClient, actorRepository);
+        verifyNoInteractions(movieRepository, tvShowRepository);
     }
 
     @Test
