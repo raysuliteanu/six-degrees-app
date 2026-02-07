@@ -1,10 +1,10 @@
 package org.kidoni.sixdegrees;
 
 import org.kidoni.sixdegrees.tmdb.graph.ConnectionPath;
-import org.kidoni.sixdegrees.tmdb.model.Credit;
 import org.kidoni.sixdegrees.tmdb.model.Movie;
 import org.kidoni.sixdegrees.tmdb.model.MovieSearchResult;
 import org.kidoni.sixdegrees.tmdb.model.Person;
+import org.kidoni.sixdegrees.tmdb.model.PersonCreditsResponse;
 import org.kidoni.sixdegrees.tmdb.model.PersonSearchResult;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +33,7 @@ public class SixDegreesController {
     }
 
     @GetMapping(path = "/person/{id}/credits", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Credit> getPersonCredits(@PathVariable final int id) {
+    public PersonCreditsResponse getPersonCredits(@PathVariable final int id) {
         return sixDegreesService.getPersonCredits(id);
     }
 

@@ -7,40 +7,45 @@ import java.util.List;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 @Node
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class Actor implements Person {
     @Id
-    @JsonProperty("id")
     private Integer id;
 
-    @JsonProperty("name")
     private String name;
 
-    @JsonProperty("biography")
+    private String originalName;
+
+    private Boolean adult;
+
     private String biography;
 
-    @JsonProperty("place_of_birth")
     private String placeOfBirth;
 
-    @JsonProperty("homepage")
     private String homepage;
 
-    @JsonProperty("popularity")
     private Float popularity;
 
-    @JsonProperty("gender")
     private Integer gender;
 
-    @JsonProperty("birthday")
     private Date birthday;
 
-    @JsonProperty("deathday")
     private Date deathday;
 
+    private String profilePath;
+
+    private String knownForDepartment;
+
+    private String imdbId;
+
+    private List<String> alsoKnownAs = new ArrayList<>();
+
+    private List<KnownFor> knownFor = new ArrayList<>();
+
     @Relationship(type = "ACTED_IN", direction = Relationship.Direction.OUTGOING)
-    @JsonProperty("credits")
     private List<ActedInRelationship> actedInRelationships = new ArrayList<>();
 
     @Override
@@ -51,6 +56,16 @@ public class Actor implements Person {
     @Override
     public String name() {
         return name;
+    }
+
+    @Override
+    public String originalName() {
+        return originalName;
+    }
+
+    @Override
+    public Boolean adult() {
+        return adult;
     }
 
     @Override
@@ -95,12 +110,45 @@ public class Actor implements Person {
         return deathday;
     }
 
+    @Override
+    public String profilePath() {
+        return profilePath;
+    }
+
+    @Override
+    public String knownForDepartment() {
+        return knownForDepartment;
+    }
+
+    @Override
+    public String imdbId() {
+        return imdbId;
+    }
+
+    @Override
+    public List<String> alsoKnownAs() {
+        return alsoKnownAs;
+    }
+
+    @Override
+    public List<KnownFor> knownFor() {
+        return knownFor;
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setOriginalName(String originalName) {
+        this.originalName = originalName;
+    }
+
+    public void setAdult(Boolean adult) {
+        this.adult = adult;
     }
 
     public void setBiography(String biography) {
@@ -131,8 +179,27 @@ public class Actor implements Person {
         this.deathday = deathday;
     }
 
+    public void setProfilePath(String profilePath) {
+        this.profilePath = profilePath;
+    }
+
+    public void setKnownForDepartment(String knownForDepartment) {
+        this.knownForDepartment = knownForDepartment;
+    }
+
+    public void setImdbId(String imdbId) {
+        this.imdbId = imdbId;
+    }
+
+    public void setAlsoKnownAs(List<String> alsoKnownAs) {
+        this.alsoKnownAs = alsoKnownAs;
+    }
+
+    public void setKnownFor(List<KnownFor> knownFor) {
+        this.knownFor = knownFor;
+    }
+
     public void setCredits(List<Credit> credits) {
-        // Convert credits to relationships for backward compatibility
         if (credits == null) {
             this.actedInRelationships.clear();
             return;

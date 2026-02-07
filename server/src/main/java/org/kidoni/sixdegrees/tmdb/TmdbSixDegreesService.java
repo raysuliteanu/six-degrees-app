@@ -17,6 +17,7 @@ import org.kidoni.sixdegrees.tmdb.model.Credit;
 import org.kidoni.sixdegrees.tmdb.model.Movie;
 import org.kidoni.sixdegrees.tmdb.model.MovieSearchResult;
 import org.kidoni.sixdegrees.tmdb.model.Person;
+import org.kidoni.sixdegrees.tmdb.model.PersonCreditsResponse;
 import org.kidoni.sixdegrees.tmdb.model.PersonSearchResult;
 import org.kidoni.sixdegrees.tmdb.model.TvShow;
 import org.neo4j.driver.types.Node;
@@ -81,13 +82,11 @@ public class TmdbSixDegreesService implements SixDegreesService {
         return person;
     }
 
-    // TODO: do we even need to expose this since we're grabbing credits on search or find of the person?
     @Override
-    public List<Credit> getPersonCredits(final int id) {
+    public PersonCreditsResponse getPersonCredits(final int id) {
         LOG.debug("looking for credits for person id: {}", id);
-        return actorRepository.findById(id)
-            .map(Actor::credits)
-            .orElseGet(() -> tmdbClient.getPersonCombinedCredits(id));
+        var rawCredits = tmdbClient.getPersonCombinedCreditsRaw(id);
+        return TmdbApiMapper.mapToCreditsResponse(id, rawCredits);
     }
 
     @Override

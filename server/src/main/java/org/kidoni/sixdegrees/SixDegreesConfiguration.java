@@ -16,6 +16,11 @@ import org.springframework.data.neo4j.core.Neo4jClient;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.PropertyNamingStrategies;
+import tools.jackson.databind.cfg.DateTimeFeature;
+import tools.jackson.databind.json.JsonMapper;
+
+import java.text.SimpleDateFormat;
 
 @Configuration
 public class SixDegreesConfiguration {
@@ -38,7 +43,11 @@ public class SixDegreesConfiguration {
 
     @Bean
     public ObjectMapper objectMapper() {
-        return new ObjectMapper();
+        return JsonMapper.builder()
+            .propertyNamingStrategy(PropertyNamingStrategies.LOWER_CAMEL_CASE)
+            .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
+            .defaultDateFormat(new SimpleDateFormat("yyyy-MM-dd"))
+            .build();
     }
 
     @Bean

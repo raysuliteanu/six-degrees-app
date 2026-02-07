@@ -1,38 +1,44 @@
 package org.kidoni.sixdegrees.tmdb.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class Director implements Person {
-    @JsonProperty("id")
     private Integer id;
 
-    @JsonProperty("name")
     private String name;
 
-    @JsonProperty("biography")
+    private String originalName;
+
+    private Boolean adult;
+
     private String biography;
 
-    @JsonProperty("place_of_birth")
     private String placeOfBirth;
 
-    @JsonProperty("homepage")
     private String homepage;
 
-    @JsonProperty("popularity")
     private Float popularity;
 
-    @JsonProperty("gender")
     private Integer gender;
 
-    @JsonProperty("birthday")
     private Date birthday;
 
-    @JsonProperty("deathday")
     private Date deathday;
 
-    @JsonProperty("credits")
+    private String profilePath;
+
+    private String knownForDepartment;
+
+    private String imdbId;
+
+    private List<String> alsoKnownAs = new ArrayList<>();
+
+    private List<KnownFor> knownFor = new ArrayList<>();
+
     private List<Credit> credits;
 
     @Override
@@ -43,6 +49,16 @@ public class Director implements Person {
     @Override
     public String name() {
         return name;
+    }
+
+    @Override
+    public String originalName() {
+        return originalName;
+    }
+
+    @Override
+    public Boolean adult() {
+        return adult;
     }
 
     @Override
@@ -85,12 +101,45 @@ public class Director implements Person {
         return deathday;
     }
 
+    @Override
+    public String profilePath() {
+        return profilePath;
+    }
+
+    @Override
+    public String knownForDepartment() {
+        return knownForDepartment;
+    }
+
+    @Override
+    public String imdbId() {
+        return imdbId;
+    }
+
+    @Override
+    public List<String> alsoKnownAs() {
+        return alsoKnownAs;
+    }
+
+    @Override
+    public List<KnownFor> knownFor() {
+        return knownFor;
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setOriginalName(String originalName) {
+        this.originalName = originalName;
+    }
+
+    public void setAdult(Boolean adult) {
+        this.adult = adult;
     }
 
     public void setBiography(String biography) {
@@ -119,6 +168,26 @@ public class Director implements Person {
 
     public void setDeathday(Date deathday) {
         this.deathday = deathday;
+    }
+
+    public void setProfilePath(String profilePath) {
+        this.profilePath = profilePath;
+    }
+
+    public void setKnownForDepartment(String knownForDepartment) {
+        this.knownForDepartment = knownForDepartment;
+    }
+
+    public void setImdbId(String imdbId) {
+        this.imdbId = imdbId;
+    }
+
+    public void setAlsoKnownAs(List<String> alsoKnownAs) {
+        this.alsoKnownAs = alsoKnownAs;
+    }
+
+    public void setKnownFor(List<KnownFor> knownFor) {
+        this.knownFor = knownFor;
     }
 
     public void setCredits(List<Credit> credits) {

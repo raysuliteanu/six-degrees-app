@@ -1,10 +1,10 @@
 package org.kidoni.sixdegrees;
 
 import org.kidoni.sixdegrees.tmdb.graph.ConnectionPath;
-import org.kidoni.sixdegrees.tmdb.model.Credit;
 import org.kidoni.sixdegrees.tmdb.model.Movie;
 import org.kidoni.sixdegrees.tmdb.model.MovieSearchResult;
 import org.kidoni.sixdegrees.tmdb.model.Person;
+import org.kidoni.sixdegrees.tmdb.model.PersonCreditsResponse;
 import org.kidoni.sixdegrees.tmdb.model.PersonSearchResult;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public interface SixDegreesService {
 
     Person findPerson(final int id);
 
-    List<Credit> getPersonCredits(final int id);
+    PersonCreditsResponse getPersonCredits(final int id);
 
     MovieSearchResult movieSearch(final String name);
 

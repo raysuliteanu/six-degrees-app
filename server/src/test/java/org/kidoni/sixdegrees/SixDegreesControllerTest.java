@@ -4,9 +4,10 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.kidoni.sixdegrees.tmdb.model.Actor;
-import org.kidoni.sixdegrees.tmdb.model.Credit;
+import org.kidoni.sixdegrees.tmdb.model.CreditWithRole;
 import org.kidoni.sixdegrees.tmdb.model.Movie;
 import org.kidoni.sixdegrees.tmdb.model.MovieSearchResult;
+import org.kidoni.sixdegrees.tmdb.model.PersonCreditsResponse;
 import org.kidoni.sixdegrees.tmdb.model.PersonSearchResult;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -90,17 +91,20 @@ class SixDegreesControllerTest {
 
     @Test
     void getPersonCredits() {
-        final Movie movie = new Movie();
-        movie.setId(111);
-        movie.setTitle("The Matrix");
-        final List<Credit> expected = List.of(movie);
+        CreditWithRole credit = new CreditWithRole(
+            111, "The Matrix", "A hacker discovers reality", "1999-03-31",
+            "/poster.jpg", "/backdrop.jpg", "Neo", "abc123", 0, "movie",
+            8.7f, 20000, 99.0f, null, null
+        );
+        PersonCreditsResponse expected = new PersonCreditsResponse(789, List.of(credit), List.of());
         when(sixDegreesService.getPersonCredits(789)).thenReturn(expected);
 
         var result = controller.getPersonCredits(789);
 
         assertSame(expected, result);
-        assertEquals(1, result.size());
-        assertEquals(111, result.get(0).id());
+        assertEquals(789, result.id());
+        assertEquals(1, result.cast().size());
+        assertEquals(111, result.cast().getFirst().id());
 
         verify(sixDegreesService).getPersonCredits(789);
         verifyNoMoreInteractions(sixDegreesService);

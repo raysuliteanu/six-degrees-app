@@ -1,9 +1,12 @@
 package org.kidoni.sixdegrees.tmdb;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.kidoni.sixdegrees.tmdb.api.model.PersonCombinedCredits200Response;
+import org.kidoni.sixdegrees.tmdb.api.model.PersonCombinedCredits200ResponseCastInner;
 import org.kidoni.sixdegrees.tmdb.model.Actor;
 import org.kidoni.sixdegrees.tmdb.model.Credit;
 import org.kidoni.sixdegrees.tmdb.model.Movie;
@@ -167,23 +170,28 @@ class TmdbSixDegreesServiceTest {
 
     @Test
     void getPersonCredits() {
-        final Movie movie = new Movie();
-        movie.setId(111);
-        movie.setTitle("Test Movie");
-        final List<Credit> credits = List.of(movie);
+        PersonCombinedCredits200ResponseCastInner castItem = new PersonCombinedCredits200ResponseCastInner();
+        castItem.setId(111);
+        castItem.setTitle("Test Movie");
+        castItem.setMediaType("movie");
+        castItem.setCharacter("Test Character");
 
-        when(actorRepository.findById(789)).thenReturn(Optional.empty());
-        when(tmdbClient.getPersonCombinedCredits(789)).thenReturn(credits);
+        PersonCombinedCredits200Response rawCredits = new PersonCombinedCredits200Response();
+        rawCredits.setId(789);
+        rawCredits.setCast(new ArrayList<>(List.of(castItem)));
+        rawCredits.setCrew(new ArrayList<>());
+
+        when(tmdbClient.getPersonCombinedCreditsRaw(789)).thenReturn(rawCredits);
 
         var result = tmdbService.getPersonCredits(789);
         assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals(111, result.getFirst().id());
+        assertEquals(789, result.id());
+        assertEquals(1, result.cast().size());
+        assertEquals(111, result.cast().getFirst().id());
 
-        verify(actorRepository).findById(789);
-        verify(tmdbClient).getPersonCombinedCredits(789);
-        verifyNoMoreInteractions(tmdbClient, actorRepository);
-        verifyNoInteractions(movieRepository, tvShowRepository);
+        verify(tmdbClient).getPersonCombinedCreditsRaw(789);
+        verifyNoMoreInteractions(tmdbClient);
+        verifyNoInteractions(actorRepository, movieRepository, tvShowRepository);
     }
 
     @Test

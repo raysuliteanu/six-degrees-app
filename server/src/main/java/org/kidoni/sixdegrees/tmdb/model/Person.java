@@ -17,6 +17,10 @@ public interface Person {
 
     String name();
 
+    String originalName();
+
+    Boolean adult();
+
     String biography();
 
     String placeOfBirth();
@@ -30,6 +34,16 @@ public interface Person {
     Date birthday();
 
     Date deathday();
+
+    String profilePath();
+
+    String knownForDepartment();
+
+    String imdbId();
+
+    List<String> alsoKnownAs();
+
+    List<KnownFor> knownFor();
 
     List<Credit> credits();
 }

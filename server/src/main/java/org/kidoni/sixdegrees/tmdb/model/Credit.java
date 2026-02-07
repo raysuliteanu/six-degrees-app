@@ -20,7 +20,13 @@ public interface Credit {
 
     String posterPath();
 
+    String backdropPath();
+
     Float popularity();
+
+    Float voteAverage();
+
+    Integer voteCount();
 
     List<Person> cast();
 

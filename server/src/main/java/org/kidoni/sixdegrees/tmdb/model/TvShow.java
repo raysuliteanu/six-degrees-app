@@ -7,31 +7,31 @@ import java.util.Optional;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 @Node
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class TvShow implements Credit {
     @Id
-    @JsonProperty("id")
     private Integer id;
 
-    @JsonProperty("title")
     private String title;
 
-    @JsonProperty("overview")
     private String overview;
 
-    @JsonProperty("poster_path")
     private String posterPath;
 
-    @JsonProperty("popularity")
+    private String backdropPath;
+
     private Float popularity;
 
+    private Float voteAverage;
+
+    private Integer voteCount;
+
     @Relationship(type = "CAST", direction = Relationship.Direction.OUTGOING)
-    @JsonProperty("cast")
     private List<CastRelationship> castRelationships;
 
-    @JsonProperty("first_air_date")
     private Date firstAirDate;
 
     @Override
@@ -55,13 +55,27 @@ public class TvShow implements Credit {
     }
 
     @Override
+    public String backdropPath() {
+        return backdropPath;
+    }
+
+    @Override
     public Float popularity() {
         return popularity;
     }
 
     @Override
+    public Float voteAverage() {
+        return voteAverage;
+    }
+
+    @Override
+    public Integer voteCount() {
+        return voteCount;
+    }
+
+    @Override
     public List<Person> cast() {
-        // Extract actors from relationships for interface compatibility
         if (castRelationships == null) {
             return Collections.emptyList();
         }
@@ -79,7 +93,7 @@ public class TvShow implements Credit {
 
     @Override
     public Optional<Date> firstAirDate() {
-        return Optional.of(firstAirDate);
+        return Optional.ofNullable(firstAirDate);
     }
 
     public void setId(Integer id) {
@@ -98,12 +112,23 @@ public class TvShow implements Credit {
         this.posterPath = posterPath;
     }
 
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
+    }
+
     public void setPopularity(Float popularity) {
         this.popularity = popularity;
     }
 
+    public void setVoteAverage(Float voteAverage) {
+        this.voteAverage = voteAverage;
+    }
+
+    public void setVoteCount(Integer voteCount) {
+        this.voteCount = voteCount;
+    }
+
     public void setCast(List<Person> cast) {
-        // Convert to relationships for backward compatibility
         if (cast == null) {
             this.castRelationships = null;
             return;
