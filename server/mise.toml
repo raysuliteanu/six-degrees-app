@@ -1,0 +1,6 @@
+[tools]
+gradle = "latest"
+java = "temurin-25"
+
+[env]
+_.file = ".env"
